@@ -1,31 +1,79 @@
 <!doctype html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta
-            name="description"
-            content="Mueblería Hermanos Jota — Muebles de calidad para transformar tu hogar."
-        />
-        <title>Inicio | Hermanos Jota</title>
-        <link rel="stylesheet" href="css/styles.css" />
-    </head>
-    <body>
-        <main>
-            <section class="hero" aria-label="Banner principal">
-                <div class="hero__overlay"></div>
-                <div class="hero__content">
-                    <p class="hero__eyebrow">Mueblería Hermanos Jota</p>
-                    <h1 class="hero__title">
-                        Diseño y confort para tu hogar
-                    </h1>
-                    <p class="hero__subtitle">
-                        Descubrí muebles hechos con dedicación, materiales
-                        seleccionados y estilo atemporal para cada ambiente.
-                    </p>
-                    <a href="productos.html" class="hero__cta">Ver productos</a>
-                </div>
-            </section>
-        </main>
-    </body>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+        name="description"
+        content="Mueblería Hermanos Jota — Muebles de calidad para transformar tu hogar."
+    />
+    <title>Inicio | Hermanos Jota</title>
+    <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+    <header class="header">
+        <div class="header__container">
+            <div class="header__brand">
+                <a href="index.html" class="header__logo">
+                    <img src="Imagenes/logo.svg" alt="Logo Hermanos Jota" class="logo-img" />
+                    <span>Hermanos Jota</span>
+                </a>
+            </div>
+            <nav class="nav">
+                <ul class="nav__list">
+                    <li><a href="index.html" class="nav__link active">Inicio</a></li>
+                    <li><a href="productos.html" class="nav__link">Productos</a></li>
+                    <li><a href="contacto.html" class="nav__link">Contacto</a></li>
+                </ul>
+            </nav>
+            <div class="header__cart">
+                <span>Carrito:</span>
+                <span id="cart-count" class="cart-count">0</span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" aria-label="Banner principal">
+            <div class="hero__overlay"></div>
+            <div class="hero__content">
+                <p class="hero__eyebrow">Mueblería Hermanos Jota</p>
+                <h1 class="hero__title">Diseño y confort para tu hogar</h1>
+                <p class="hero__subtitle">
+                    Descubrí muebles hechos con dedicación, materiales seleccionados y estilo atemporal para cada ambiente.
+                </p>
+                <a href="productos.html" class="hero__cta">Ver productos</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer__container">
+            <div class="footer__brand">
+                <img src="Imagenes/logo.svg" alt="Logo Hermanos Jota" class="footer__logo-img" />
+            </div>
+            <div class="footer__links">
+                <h4>Navegación</h4>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="productos.html">Productos</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer__contact">
+                <h4>Contacto</h4>
+                <p>Av. San Juan 2847, CABA</p>
+                <p>info@hermanosjota.com.ar</p>
+                <p>WhatsApp: +54 11 4567-8900</p>
+                <p>Instagram: @hermanosjota_ba</p>
+            </div>
+        </div>
+        <div class="footer__bottom">
+            <p>&copy; 2026 Hermanos Jota. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="js/cart.js"></script>
+</body>
 </html>
