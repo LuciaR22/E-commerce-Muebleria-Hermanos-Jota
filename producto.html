@@ -1,9 +1,32 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Producto</title>
-    </head>
-    <body></body>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Producto | Hermanos Jota</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="productos.html">Productos</a>
+            <a href="contacto.html">Contacto</a>
+            <span class="cart-status">🛒 Carrito: <strong id="cart-count">0</strong></span>
+        </nav>
+    </header>
+
+    <main>
+        <section class="detalle-producto">
+            <h1>Mesa Comedor Pampa</h1>
+            <p>Precio: $20.000</p>
+            <p>Mesa de comedor fabricada en madera maciza de paraiso con terminacion natural.</p>
+            
+            <button id="btn-agregar-carrito" data-id="1" data-nombre="Mesa Comedor Pampa" data-precio="20000">
+                Agregar al carrito
+            </button>
+        </section>
+    </main>
+
+    <script src="js/cart.js"></script>
+</body>
 </html>
