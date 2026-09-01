@@ -1,3 +1,62 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Playfair+Display:wght@400;700&display=swap");
+
+:root {
+    /* Colores principales */
+    --titulo-siena: #a0522d; /*Siena Tostado : Para titulos principales (color principal de marca)*/
+    --acento-verde: #87a96b; /*Verde Salvia : Para acentos secundarios*/
+    --fondo-alabastro: #f5e6d3; /*Alabastro Cálido: para fondos principales*/
+    --acento-oro: #d4a437; /*Vara de oro: para detalles premium y acentos*/
+    --acento-rosa: #c47a6d; /*Rosa polvoriento: para acentos y detalles femeninos*/
+
+    /* Neutros y texto */
+    --color-texto: #2c2416;
+    --color-blanco: #fafafa;
+
+    /* Tipografías */
+    --font-body:
+        "Inter", "Segoe UI", system-ui, -apple-system, sans-serif; /* Para el texto del cuerpo y elementos UI */
+    --font-display:
+        "Playfair Display", Georgia, "Times New Roman", serif; /* Para titulos editoriales, citas destacadas y contenido premium */
+
+    /* Pesos */
+    --font-light: 300; /* Inter: para textos secundarios y leyendas */
+    --font-regular: 400; /* Inter: para texto principal | Playfair Display: para titulos elegantes */
+    --font-medium: 500; /* Inter: para énfasis y subtitulos*/
+    --font-bold: 700; /* Inter: para titulos y CTAs | Playfair Display: para énfasis editorial*/
+
+    /* Espaciados y tamaños */
+    --letter-spacing-text: 0.01em;
+    --letter-spacing-caption: 0.02em;
+    --letter-spacing-cta: 0.08em;
+    --body-size: 1rem;
+    --body-line-height: 1.6;
+    --caption-size: 0.5625rem;
+    --small-size: 0.75rem;
+}
+
+/* =============================================
+    Estilos manual de marca
+   ============================================= */
+.titulo-principal {
+    font-family: var(--font-display);
+    font-weight: var(--font-bold);
+    color: var(--titulo-siena);
+    text-transform: uppercase;
+}
+
+.leyenda {
+    font-weight: var(--font-light);
+    color: var(--color-texto);
+    letter-spacing: var(--letter-spacing-caption);
+    font-size: var(--caption-size);
+}
+
+.boton-texto {
+    font-weight: var(--font-medium);
+    letter-spacing: var(--letter-spacing-cta);
+    text-transform: uppercase;
+}
+
 /* =============================================
     Reset basico
    ============================================= */
@@ -15,14 +74,13 @@ html {
 }
 
 body {
-    font-family:
-        "Segoe UI",
-        system-ui,
-        -apple-system,
-        sans-serif;
-    line-height: 1.6;
-    color: #2c2416;
-    background-color: #faf8f5;
+    font-family: var(--font-body);
+    font-size: var(--body-size);
+    font-weight: var(--font-regular);
+    line-height: var(--body-line-height);
+    letter-spacing: var(--letter-spacing-text);
+    color: var(--color-texto);
+    background-color: var(--color-fondo);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
