@@ -8,6 +8,9 @@
     --acento-oro: #d4a437; /*Vara de oro: para detalles premium y acentos*/
     --acento-rosa: #c47a6d; /*Rosa polvoriento: para acentos y detalles femeninos*/
 
+    /* Logo */
+    --min-width-logo: 120px; /* Tamaño minimo (digital) de logo para garantizar legibilidad e impacto visual */
+
     /* Neutros y texto */
     --color-texto: #2c2416;
     --color-blanco: #fafafa;
@@ -132,8 +135,7 @@ main {
     align-items: center;
     gap: 0.5rem;
     font-size: 1.25rem;
-    font-weight: 700;
-    color: #2c2416;
+    font-weight: var(--font-bold);
 }
 
 .logo-img {
@@ -149,38 +151,34 @@ main {
 
 .nav__link {
     font-size: 0.95rem;
-    font-weight: 500;
-    color: #5a4a3a;
+    font-weight: var(--font-regular);
     padding: 0.25rem 0;
     position: relative;
     transition: color 0.2s ease;
 }
 
+/* TODO: con el color elegido no se nota el cambio en el hover 
 .nav__link:hover {
     color: #2c2416;
-}
+} */
 
 .nav__link.active {
-    color: #a0522d;
+    color: var(--titulo-siena);
     font-weight: 700;
-    border-bottom: 2px solid #a0522d;
+    border-bottom: 2px solid var(--titulo-siena);
 }
 
 .header__cart {
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    background-color: #f4efe9;
+    background-color: var(--color-fondo);
     padding: 0.4rem 0.85rem;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #2c2416;
 }
 
 .cart-count {
-    background-color: #a0522d;
-    color: #ffffff;
+    background-color: var(--titulo-siena);
+    color: var(--color-blanco);
     font-size: 0.75rem;
     min-width: 1.25rem;
     height: 1.25rem;
@@ -199,19 +197,9 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 80vh;
+    min-height: 94vh;
     padding: 3rem 1.25rem;
-    background:
-        linear-gradient(135deg, rgba(44, 36, 22, 0.82) 0%, rgba(74, 55, 40, 0.75) 50%, rgba(107, 78, 55, 0.7) 100%),
-        linear-gradient(160deg, #3d2b1f 0%, #6b4e37 40%, #8b7355 100%);
-    overflow: hidden;
-}
-
-.hero__overlay {
-    position: absolute;
-    inset: 0;
-    background-image: radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.06) 0%, transparent 50%);
-    pointer-events: none;
+    background: linear-gradient(135deg, rgba(44, 36, 22, 1) 0%, rgba(74, 55, 40, 1) 50%, #6b4e37);
 }
 
 .hero__content {
@@ -227,35 +215,33 @@ main {
 
 .hero__eyebrow {
     font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.15em;
+    font-weight: var(--font-bold);
+    letter-spacing: var(--letter-spacing-cta);
     text-transform: uppercase;
-    color: #d4a437;
+    color: var(--acento-oro);
 }
 
 .hero__title {
+    font-family: var(--font-display);
+    font-weight: var(--font-bold);
     font-size: clamp(1.75rem, 5vw, 3rem);
-    font-weight: 700;
+    font-weight: var(--font-bold);
     line-height: 1.2;
-    color: #ffffff;
+    color: var(--color-blanco);
 }
 
 .hero__subtitle {
     font-size: clamp(0.95rem, 2.5vw, 1.125rem);
-    line-height: 1.7;
-    color: rgba(255, 255, 255, 0.88);
+    color: #fafafae0;
     max-width: 32ch;
 }
 
 .hero__cta {
     display: inline-block;
-    margin-top: 0.75rem;
     padding: 0.875rem 2rem;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #2c2416;
-    background-color: #d4a437;
-    border: 2px solid #d4a437;
+    font-weight: var(--font-bold);
+    background-color: var(--acento-oro);
+    border: 2px solid var(--acento-oro);
     border-radius: 0.375rem;
     transition:
         background-color 0.2s ease,
@@ -266,12 +252,12 @@ main {
 .hero__cta:hover,
 .hero__cta:focus-visible {
     background-color: transparent;
-    color: #d4a437;
+    color: var(--acento-oro);
     transform: translateY(-2px);
 }
 
 .hero__cta:focus-visible {
-    outline: 2px solid #ffffff;
+    outline: 2px solid var(--color-blanco);
     outline-offset: 3px;
 }
 
@@ -284,7 +270,7 @@ main {
    ============================================= */
 .footer {
     background-color: #2c2416;
-    color: #e8e2d9;
+    color: var(--color-blanco);
     padding: 3rem 1.25rem 1.5rem;
     margin-top: 3rem;
 }
@@ -303,21 +289,22 @@ main {
     gap: 0.5rem;
 }
 
+/* TODO: Ajustar el color del logo para apegarse al manual de marca  */
 .footer__logo-img {
-    height: 65px;
-    width: auto;
+    height: auto;
+    width: var(--min-width-logo);
     align-self: flex-start;
     filter: brightness(0) invert(1);
 }
 
 .footer__brand h3 {
-    color: #ffffff;
+    color: var(--color-blanco);
     font-size: 1.25rem;
 }
 
 .footer__links h4,
 .footer__contact h4 {
-    color: #d4a437;
+    color: var(--acento-oro);
     font-size: 0.95rem;
     margin-bottom: 0.75rem;
     text-transform: uppercase;
@@ -410,7 +397,6 @@ main {
 .contact-container h1 {
     font-size: 1.8rem;
     margin-bottom: 0.5rem;
-    color: #2c2416;
 }
 
 .contact-form {
@@ -427,8 +413,7 @@ main {
 
 .form-group label {
     font-size: 0.9rem;
-    font-weight: 600;
-    color: #2c2416;
+    font-weight: var(--font-bold);
 }
 
 .form-group input,
@@ -447,7 +432,7 @@ main {
 .form-group input:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: #a0522d;
+    border-color: var(--titulo-siena);
     background-color: #ffffff;
 }
 
@@ -466,11 +451,11 @@ main {
 
 .btn-submit {
     padding: 0.8rem;
-    background-color: #a0522d;
+    background-color: var(--titulo-siena);
     color: #ffffff;
     border: none;
     border-radius: 5px;
-    font-weight: 600;
+    font-weight: var(--font-bold);
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.2s;
@@ -478,7 +463,7 @@ main {
 }
 
 .btn-submit:hover {
-    background-color: #8b3e1c;
+    background-color: var(--titulo-siena);
 }
 
 .success-alert {
@@ -488,6 +473,6 @@ main {
     padding: 1rem;
     border-radius: 5px;
     margin-bottom: 1.5rem;
-    font-weight: 500;
+    font-weight: var(--font-medium);
     text-align: center;
 }
