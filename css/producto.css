@@ -8,6 +8,12 @@
     --product-radius-sm: 1rem;
 }
 
+.product-detail[hidden],
+.product-specs[hidden],
+.product-empty[hidden] {
+    display: none !important;
+}
+
 body {
     background:
         radial-gradient(circle at top left, rgba(196, 122, 109, 0.16), transparent 28%),
@@ -20,6 +26,27 @@ main.product-page {
     padding: 1rem 0 3rem;
     display: grid;
     gap: 1rem;
+}
+
+.product-empty {
+    display: grid;
+    place-items: center;
+    min-height: 280px;
+    padding: 2rem 1.5rem;
+    border: 1px solid var(--product-border);
+    border-radius: var(--product-radius-lg);
+    background: var(--product-surface);
+    box-shadow: var(--product-shadow);
+    text-align: center;
+}
+
+.product-empty__message {
+    margin: 0;
+    color: var(--titulo-siena);
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 5vw, 2.6rem);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
 }
 
 .product-detail {

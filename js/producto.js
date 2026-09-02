@@ -1,10 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
     const productId = getProductIdFromUrl();
     const productList = getAvailableProducts();
-    const selectedProduct = findProductById(productList, productId) || productList[0];
+    const selectedProduct = findProductById(productList, productId);
 
     if (!selectedProduct) {
-        console.warn("No se encontró el producto para el id:", productId);
+        showProductNotFound();
+        console.error("Producto no encontrado para el id:", productId);
         return;
     }
 
@@ -16,6 +17,29 @@ document.addEventListener("DOMContentLoaded", () => {
     renderProductSpecifications(selectedProduct);
     configureAddToCartButton(selectedProduct);
 });
+
+function showProductNotFound() {
+    const productDetail = document.querySelector(".product-detail");
+    const productSpecs = document.querySelector(".product-specs");
+    const productEmpty = document.querySelector(".product-empty");
+    const productEmptyMessage = document.querySelector(".product-empty__message");
+
+    if (productDetail) {
+        productDetail.hidden = true;
+    }
+
+    if (productSpecs) {
+        productSpecs.hidden = true;
+    }
+
+    if (productEmpty) {
+        productEmpty.hidden = false;
+    }
+
+    if (productEmptyMessage) {
+        productEmptyMessage.textContent = "Producto no encontrado";
+    }
+}
 
 function getProductIdFromUrl() {
     const searchParams = new URLSearchParams(window.location.search);
