@@ -37,3 +37,12 @@ const productos = [
         confort: "Espuma alta densidad",
     },
 ];
+
+// Permite usar el mock tanto en Node (para pruebas) como en el navegador (como variable global).
+if (typeof module !== "undefined") {
+    module.exports = { productos };
+}
+
+if (typeof window !== "undefined") {
+    window.productos = productos;
+}
