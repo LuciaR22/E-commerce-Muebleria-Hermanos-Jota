@@ -43,7 +43,7 @@ function showProductNotFound() {
 
 function getProductIdFromUrl() {
     const searchParams = new URLSearchParams(window.location.search);
-    return searchParams.get("id") || "aparador-uspallata";
+    return searchParams.get("id");
 }
 
 function getAvailableProducts() {
