@@ -118,6 +118,17 @@ main.product-page {
     font-weight: var(--font-bold);
 }
 
+.product-detail__price-note {
+    display: inline-flex;
+    align-self: flex-start;
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+    background: rgba(212, 164, 55, 0.12);
+    color: var(--titulo-siena);
+    font-size: 0.9rem;
+    font-weight: var(--font-medium);
+}
+
 .product-detail__cta {
     display: inline-flex;
     align-items: center;

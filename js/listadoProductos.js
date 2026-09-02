@@ -6,6 +6,7 @@ const productos = [
         descripcion:
             "Aparador de seis puertas fabricado en nogal sostenible con tiradores metálicos en acabado latón. Su silueta minimalista realza el veteado natural de la madera, creando una pieza que combina funcionalidad y elegancia atemporal para espacios contemporáneos.",
         imagen: "Imagenes/Aparador%20Uspallata.png",
+        precio: 0,
         medidas: "180 × 45 × 75 cm",
         materiales: "Nogal macizo FSC®, herrajes de latón",
         acabado: "Aceite natural ecológico",
@@ -18,6 +19,7 @@ const productos = [
         descripcion:
             "Sistema modular de estantes abierto que combina estructura de acero Sage Green y repisas en roble claro. Perfecta para colecciones y objetos de diseño, su diseño versátil se adapta a cualquier espacio contemporáneo con elegancia funcional.",
         imagen: "Imagenes/Biblioteca%20Recoleta.png",
+        precio: 52000,
         medidas: "100 × 35 × 200 cm",
         materiales: "Estructura de acero, estantes de roble",
         acabado: "Laca mate ecológica",
@@ -30,6 +32,7 @@ const productos = [
         descripcion:
             "Butaca tapizada en bouclé Dusty Rose con base de madera de guatambú. El respaldo curvo abraza el cuerpo y ofrece máximo confort, mientras que su diseño orgánico aporta calidez y sofisticación a cualquier ambiente contemporáneo.",
         imagen: "Imagenes/Butaca%20Mendoza.png",
+        precio: 38000,
         medidas: "80 × 75 × 85 cm",
         materiales: "Guatambú macizo, tela bouclé",
         acabado: "Cera vegetal, tapizado premium",

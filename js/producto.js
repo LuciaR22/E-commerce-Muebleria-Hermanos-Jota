@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderProductImage(selectedProduct);
     renderProductHeader(selectedProduct);
     renderProductDescription(selectedProduct);
+    renderProductPrice(selectedProduct);
     renderProductHighlights(selectedProduct);
     renderProductSpecifications(selectedProduct);
     configureAddToCartButton(selectedProduct);
@@ -61,11 +62,38 @@ function renderProductDescription(product) {
     }
 }
 
+function renderProductPrice(product) {
+    const priceElement = document.querySelector(".product-detail__price-note");
+    if (!priceElement) return;
+
+    const numericPrice = Number(product.precio || 0);
+
+    if (!Number.isFinite(numericPrice) || numericPrice <= 0) {
+        priceElement.textContent = "Precio a consultar";
+        return;
+    }
+
+    priceElement.textContent = new Intl.NumberFormat("es-AR", {
+        style: "currency",
+        currency: "ARS",
+        maximumFractionDigits: 0,
+    }).format(numericPrice);
+}
+
 function renderProductHighlights(product) {
     const highlightList = document.querySelector(".product-detail__highlights");
     if (!highlightList) return;
 
-    const excludedFields = new Set(["id", "nombre", "descripcion", "imagen", "medidas", "materiales", "acabado"]);
+    const excludedFields = new Set([
+        "id",
+        "nombre",
+        "descripcion",
+        "imagen",
+        "medidas",
+        "materiales",
+        "acabado",
+        "precio",
+    ]);
 
     const extraFields = Object.entries(product).filter(([fieldName]) => !excludedFields.has(fieldName));
     highlightList.innerHTML = "";
@@ -118,9 +146,10 @@ function configureAddToCartButton(product) {
     const addToCartButton = document.getElementById("btn-agregar-carrito");
     if (!addToCartButton) return;
 
+    const numericPrice = Number(product.precio || 0);
     addToCartButton.dataset.id = product.id;
     addToCartButton.dataset.nombre = product.nombre;
-    addToCartButton.dataset.precio = "0";
+    addToCartButton.dataset.precio = String(Number.isFinite(numericPrice) && numericPrice > 0 ? numericPrice : 0);
 }
 
 function getProductCategory(productName) {
