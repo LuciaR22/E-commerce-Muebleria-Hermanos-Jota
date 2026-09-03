@@ -90,60 +90,72 @@ const productos = [
 ];
 
 const catalogo = document.getElementById("catalogo");
+const input = document.getElementById("input");
+const noResultado = document.getElementById("no-resultado");
 
-if (catalogo) {
+function filtrarProductos(productos) { // O puedes llamarla renderCatalogo
+    if (!catalogo) return;
+
+    catalogo.innerHTML = "";
+
+    // 1. "If" con mayúscula da error, debe ser "if" minúscula
+    if (productos.length === 0) {
+        // 2. Decía "noresultsmessage" pero la variable se llama "noResultado"
+        if (noResultado) noResultado.style.display = "block";
+        return;
+    }
+
+    if (noResultado) noResultado.style.display = "none";
+
+    // 3. Decía "arraydeproductos" pero el parámetro de arriba se llama "productos"
     productos.forEach(producto => {
         const tarjeta = document.createElement("article");
-
         tarjeta.innerHTML = `
             <img src="${producto.imagen}" alt="${producto.nombre}">
             <h2>${producto.nombre}</h2>
             <p>$${producto.precio}</p>
             <a href="producto.html?id=${producto.id}">Ver producto</a>
         `;
-
         catalogo.appendChild(tarjeta);
     });
+}      
+
+if (catalogo)   {
+    // 4. Cuidado aquí: la función arriba se llama "filtrarProductos", 
+    // asegúrate de llamarla igual o cambiarle el nombre a la función.
+    filtrarProductos(productos);
 }
 
-const detalle = document.getElementById("detalle-producto");
+// 5. Arriba declaraste la variable como "const input", 
+// así que el escuchador debe apuntar a "input", no a "searchInput"
+if (input) {
+    input.addEventListener("input", (e) => {
+        const textoBusqueda = e.target.value.toLowerCase().trim();
 
-if (detalle) {
-    const parametros = new URLSearchParams(window.location.search);
-    const id = parametros.get("id");
+        const productosFiltrados = productos.filter(producto =>
+            producto.nombre.toLowerCase().includes(textoBusqueda)
+        );
 
-    const producto = productos.find(producto => producto.id == id);
-
-    if (producto) {
-        detalle.innerHTML = `
-            <div class="detalle-imagen">
-                <img src="${producto.imagen}" alt="${producto.nombre}">
-            </div>
-
-            <div class="detalle-info">
-                <h1>${producto.nombre}</h1>
-                <p class="precio">$${producto.precio}</p>
-                <p>${producto.descripcion}</p>
-                <p>${producto.detalles}</p>
-                <button>Añadir al carrito</button>
-            </div>
-        `;
-    }
-}
-
-const destacados = document.getElementById("productos-destacados");
-
-if (destacados) {
-    productos.slice(0, 4).forEach(producto => {
-        const tarjeta = document.createElement("article");
-
-        tarjeta.innerHTML = `
-            <img src="${producto.imagen}" alt="${producto.nombre}">
-            <h3>${producto.nombre}</h3>
-            <p>$${producto.precio}</p>
-            <a href="producto.html?id=${producto.id}">Ver producto</a>
-        `;
-
-        destacados.appendChild(tarjeta);
+        filtrarProductos(productosFiltrados);
     });
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
