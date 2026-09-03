@@ -1,9 +1,132 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="es">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Producto</title>
+        <meta name="description" content="Detalle de producto - Mueblería Hermanos Jota." />
+        <title>Detalle de Producto | Hermanos Jota</title>
+        <link rel="stylesheet" href="css/styles.css" />
+        <link rel="stylesheet" href="css/producto.css" />
     </head>
-    <body></body>
+    <body>
+        <header class="header">
+            <div class="header__container">
+                <div class="header__brand">
+                    <a href="index.html" class="header__logo">
+                        <img src="Imagenes/logo.svg" alt="Logo Hermanos Jota" class="logo-img" />
+                        <span>Hermanos Jota</span>
+                    </a>
+                </div>
+                <nav class="nav">
+                    <ul class="nav__list">
+                        <li><a href="index.html" class="nav__link">Inicio</a></li>
+                        <li><a href="productos.html" class="nav__link active">Productos</a></li>
+                        <li><a href="contacto.html" class="nav__link">Contacto</a></li>
+                    </ul>
+                </nav>
+                <div class="header__cart">
+                    <span>Carrito:</span>
+                    <span id="cart-count" class="cart-count">0</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="product-page">
+            <aside class="product-empty" aria-live="polite" hidden>
+                <p class="product-empty__message">Producto no encontrado</p>
+            </aside>
+
+            <section class="product-detail" aria-labelledby="product-title">
+                <figure class="product-detail__media">
+                    <div class="product-detail__image-shell">
+                        <img
+                            src="Imagenes/Mesa%20Comedor%20Pampa.png"
+                            alt="Mesa Comedor Pampa de roble macizo con tablero biselado y diseño extensible"
+                            class="product-detail__image"
+                        />
+                    </div>
+                </figure>
+
+                <div class="product-detail__content">
+                    <h1 class="product-detail__title" id="product-title">Mesa Comedor Pampa</h1>
+                    <p class="product-detail__lead">
+                        La Mesa Comedor Pampa combina la nobleza del roble macizo FSC® con un mecanismo alemán de
+                        apertura suave. Su presencia sólida y su acabado natural aportan equilibrio visual, mientras la
+                        extensión central permite adaptarla a momentos cotidianos o celebraciones más amplias.
+                    </p>
+
+                    <dl class="product-detail__highlights" aria-label="Datos destacados">
+                        <div class="product-detail__highlight">
+                            <dt>Capacidad</dt>
+                            <dd>6-10 comensales</dd>
+                        </div>
+                        <div class="product-detail__highlight">
+                            <dt>Extensión</dt>
+                            <dd>Sistema de mariposa central</dd>
+                        </div>
+                    </dl>
+                    <p class="product-detail__price-note">Precio a consultar</p>
+
+                    <button
+                        id="btn-agregar-carrito"
+                        class="boton-texto product-detail__cta"
+                        data-id="mesa-comedor-pampa"
+                        data-nombre="Mesa Comedor Pampa"
+                        data-precio="0"
+                    >
+                        Agregar al carrito
+                    </button>
+                </div>
+            </section>
+
+            <section class="product-specs" aria-labelledby="product-specs-title">
+                <article class="product-card">
+                    <p class="product-specs__kicker">Ficha técnica</p>
+                    <ul class="product-specs__list">
+                        <li class="product-specs__item">
+                            <span class="product-specs__label">Medidas</span>
+                            <span class="product-specs__value">160-240 × 90 × 75 cm</span>
+                        </li>
+                        <li class="product-specs__item">
+                            <span class="product-specs__label">Materiales</span>
+                            <span class="product-specs__value">Roble macizo FSC®, mecanismo alemán</span>
+                        </li>
+                        <li class="product-specs__item">
+                            <span class="product-specs__label">Acabado</span>
+                            <span class="product-specs__value">Aceite-cera natural</span>
+                        </li>
+                    </ul>
+                </article>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="footer__container">
+                <div class="footer__brand">
+                    <img src="Imagenes/logo.svg" alt="Logo Hermanos Jota" class="footer__logo-img" />
+                </div>
+                <div class="footer__links">
+                    <h4>Navegación</h4>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="productos.html">Productos</a></li>
+                        <li><a href="contacto.html">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer__contact">
+                    <h4>Contacto</h4>
+                    <p>Av. San Juan 2847, CABA</p>
+                    <p>info@hermanosjota.com.ar</p>
+                    <p>WhatsApp: +54 11 4567-8900</p>
+                    <p>Instagram: @hermanosjota_ba</p>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p>&copy; 2026 Hermanos Jota. Todos los derechos reservados.</p>
+            </div>
+        </footer>
+        <script src="js/productos.js"></script>
+        <script src="js/cart.js"></script>
+        <script src="js/producto.js"></script>
+    </body>
 </html>
