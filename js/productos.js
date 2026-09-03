@@ -195,10 +195,14 @@ if (catalogo)   {
 // así que el escuchador debe apuntar a "input", no a "searchInput"
 if (input) {
     input.addEventListener("input", (e) => {
-        const textoBusqueda = e.target.value.toLowerCase().trim();
+        // Función para quitar acentos
+        const normalizar = (texto) => 
+            texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+            
+        const textoBusqueda = normalizar(e.target.value.trim());
 
         const productosFiltrados = productos.filter(producto =>
-            producto.nombre.toLowerCase().includes(textoBusqueda)
+            normalizar(producto.nombre).includes(textoBusqueda)
         );
 
         filtrarProductos(productosFiltrados);
