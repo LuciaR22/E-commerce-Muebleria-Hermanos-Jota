@@ -118,7 +118,7 @@ const productos = [
     },
 ];
 
-// Permite usar el mock tanto en Node (para pruebas) como en el navegador (como variable global).
+
 if (typeof module !== "undefined") {
     module.exports = { productos };
 }
@@ -129,20 +129,60 @@ if (typeof window !== "undefined") {
 
 const catalogo = document.getElementById("catalogo");
 
-if (catalogo) {
+function crearTarjeta(producto) {
+    const tarjeta = document.createElement("article");
+
+    tarjeta.innerHTML = `
+        <img src="${producto.imagen}" alt="${producto.nombre}">
+        <h2>${producto.nombre}</h2>
+        <p>$${producto.precio}</p>
+        <a href="producto.html?id=${producto.id}">Ver producto</a>
+    `;
+
+    return tarjeta;
+}
+
+
+function renderizarCatalogo() {
+    const catalogo = document.getElementById("catalogo");
+
+    if (!catalogo) {
+        return;
+    }
+
+    if (productos.length === 0) {
+        catalogo.innerHTML = "<p>No hay productos disponibles.</p>";
+        return;
+    }
+
     productos.forEach(producto => {
-        const tarjeta = document.createElement("article");
-
-        tarjeta.innerHTML = `
-            <img src="${producto.imagen}" alt="${producto.nombre}">
-            <h2>${producto.nombre}</h2>
-            <p>$${producto.precio}</p>
-            <a href="producto.html?id=${producto.id}">Ver producto</a>
-        `;
-
-        catalogo.appendChild(tarjeta);
+        catalogo.appendChild(crearTarjeta(producto));
     });
 }
+
+
+function renderizarDestacados() {
+    const destacados = document.getElementById("productos-destacados");
+
+    if (!destacados) {
+        return;
+    }
+
+    const productosDestacados = productos.slice(0, 4);
+
+    if (productosDestacados.length === 0) {
+        destacados.innerHTML = "<p>No hay productos destacados.</p>";
+        return;
+    }
+
+    productosDestacados.forEach(producto => {
+        destacados.appendChild(crearTarjeta(producto));
+    });
+}
+
+
+renderizarCatalogo();
+renderizarDestacados();
 
 const detalle = document.getElementById("detalle-producto");
 
