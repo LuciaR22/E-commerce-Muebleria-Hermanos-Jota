@@ -261,3 +261,10 @@ main.product-page {
         padding: 1.25rem;
     }
 }
+
+main > h1 {
+    text-align: center;
+    font-size: 36px;
+    margin: 40px 0;
+    width: 100%;
+}
