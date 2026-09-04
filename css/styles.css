@@ -1,3 +1,65 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Playfair+Display:wght@400;700&display=swap");
+
+:root {
+    /* Colores principales */
+    --titulo-siena: #a0522d; /*Siena Tostado : Para titulos principales (color principal de marca)*/
+    --acento-verde: #87a96b; /*Verde Salvia : Para acentos secundarios*/
+    --fondo-alabastro: #f5e6d3; /*Alabastro Cálido: para fondos principales*/
+    --acento-oro: #d4a437; /*Vara de oro: para detalles premium y acentos*/
+    --acento-rosa: #c47a6d; /*Rosa polvoriento: para acentos y detalles femeninos*/
+
+    /* Logo */
+    --min-width-logo: 120px; /* Tamaño minimo (digital) de logo para garantizar legibilidad e impacto visual */
+
+    /* Neutros y texto */
+    --color-texto: #2c2416;
+    --color-blanco: #fafafa;
+
+    /* Tipografías */
+    --font-body:
+        "Inter", "Segoe UI", system-ui, -apple-system, sans-serif; /* Para el texto del cuerpo y elementos UI */
+    --font-display:
+        "Playfair Display", Georgia, "Times New Roman", serif; /* Para titulos editoriales, citas destacadas y contenido premium */
+
+    /* Pesos */
+    --font-light: 300; /* Inter: para textos secundarios y leyendas */
+    --font-regular: 400; /* Inter: para texto principal | Playfair Display: para titulos elegantes */
+    --font-medium: 500; /* Inter: para énfasis y subtitulos*/
+    --font-bold: 700; /* Inter: para titulos y CTAs | Playfair Display: para énfasis editorial*/
+
+    /* Espaciados y tamaños */
+    --letter-spacing-text: 0.01em;
+    --letter-spacing-caption: 0.02em;
+    --letter-spacing-cta: 0.08em;
+    --body-size: 1rem;
+    --body-line-height: 1.6;
+    --caption-size: 0.5625rem;
+    --small-size: 0.75rem;
+}
+
+/* =============================================
+    Estilos manual de marca
+   ============================================= */
+.titulo-principal {
+    font-family: var(--font-display);
+    font-weight: var(--font-bold);
+    color: var(--titulo-siena);
+    text-transform: uppercase;
+}
+
+.leyenda {
+    font-weight: var(--font-light);
+    color: var(--color-texto);
+    letter-spacing: var(--letter-spacing-caption);
+    font-size: var(--caption-size);
+}
+
+.boton-texto {
+    font-weight: var(--font-medium);
+    letter-spacing: var(--letter-spacing-cta);
+    text-transform: uppercase;
+}
+
 /* =============================================
    Reset básico
    ============================================= */
@@ -15,7 +77,11 @@ html {
 }
 
 body {
-    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    font-family:
+        "Segoe UI",
+        system-ui,
+        -apple-system,
+        sans-serif;
     line-height: 1.6;
     color: #2c2416;
     background-color: #faf8f5;
@@ -42,12 +108,7 @@ a {
     min-height: 100svh;
     padding: 2rem 1.25rem;
     background:
-        linear-gradient(
-            135deg,
-            rgba(44, 36, 22, 0.82) 0%,
-            rgba(74, 55, 40, 0.75) 50%,
-            rgba(107, 78, 55, 0.7) 100%
-        ),
+        linear-gradient(135deg, rgba(44, 36, 22, 0.82) 0%, rgba(74, 55, 40, 0.75) 50%, rgba(107, 78, 55, 0.7) 100%),
         linear-gradient(160deg, #3d2b1f 0%, #6b4e37 40%, #8b7355 100%);
     overflow: hidden;
 }
@@ -55,11 +116,7 @@ a {
 .hero__overlay {
     position: absolute;
     inset: 0;
-    background-image: radial-gradient(
-        circle at 20% 80%,
-        rgba(255, 255, 255, 0.06) 0%,
-        transparent 50%
-    );
+    background-image: radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.06) 0%, transparent 50%);
     pointer-events: none;
 }
 
@@ -157,7 +214,6 @@ a {
         max-width: 48rem;
     }
 }
-
 
 /* =============================================
    Catalogo
@@ -361,7 +417,9 @@ a {
     border-radius: 8px;
     font-size: 16px;
     box-sizing: border-box;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
     outline: none;
 }
 
@@ -547,7 +605,9 @@ main {
     position: relative;
     white-space: nowrap;
     border-bottom: 2px solid transparent;
-    transition: color 0.2s ease, border-color 0.2s ease;
+    transition:
+        color 0.2s ease,
+        border-color 0.2s ease;
 }
 
 .nav__link:hover {
@@ -747,7 +807,6 @@ main {
         padding: 0.35rem 0.5rem;
     }
 }
-
 
 /* =============================================
    Catalogo
