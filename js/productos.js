@@ -155,106 +155,43 @@ const productos = [
 ];
 
 const catalogo = document.getElementById("catalogo");
-const input = document.getElementById("input");
-const noResultado = document.getElementById("no-resultado");
+const inputBusqueda = document.getElementById("input");
+const mensajeSinResultados = document.getElementById("no-resultado");
 
-function filtrarProductos(productos) { // O puedes llamarla renderCatalogo
+function renderizarCatalogo(listaProductos) {
     if (!catalogo) return;
 
     catalogo.innerHTML = "";
 
-    // 1. "If" con mayúscula da error, debe ser "if" minúscula
-    if (productos.length === 0) {
-        // 2. Decía "noresultsmessage" pero la variable se llama "noResultado"
-        if (noResultado) noResultado.style.display = "block";
+    if (listaProductos.length === 0) {
+        if (mensajeSinResultados) {
+            mensajeSinResultados.style.display = "block";
+        }
         return;
     }
 
-    if (noResultado) noResultado.style.display = "none";
+    if (mensajeSinResultados) {
+        mensajeSinResultados.style.display = "none";
+    }
 
-    // 3. Decía "arraydeproductos" pero el parámetro de arriba se llama "productos"
-    productos.forEach(producto => {
+    listaProductos.forEach(producto => {
         const tarjeta = document.createElement("article");
+
         tarjeta.innerHTML = `
             <img src="${producto.imagen}" alt="${producto.nombre}">
             <h2>${producto.nombre}</h2>
             <p>$${producto.precio}</p>
             <a href="producto.html?id=${producto.id}">Ver producto</a>
         `;
+
         catalogo.appendChild(tarjeta);
-    });
-}      
-
-if (catalogo)   {
-    // 4. Cuidado aquí: la función arriba se llama "filtrarProductos", 
-    // asegúrate de llamarla igual o cambiarle el nombre a la función.
-    filtrarProductos(productos);
-}
-
-// 5. Arriba declaraste la variable como "const input", 
-// así que el escuchador debe apuntar a "input", no a "searchInput"
-if (input) {
-    input.addEventListener("input", (e) => {
-        // Función para quitar acentos
-        const normalizar = (texto) => 
-            texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-            
-        const textoBusqueda = normalizar(e.target.value.trim());
-
-        const productosFiltrados = productos.filter(producto =>
-            normalizar(producto.nombre).includes(textoBusqueda)
-        );
-
-        filtrarProductos(productosFiltrados);
-    });
-}
-
-if (typeof module !== "undefined") {
-    module.exports = { productos };
-}
-
-if (typeof window !== "undefined") {
-    window.productos = productos;
-}
-
-function crearTarjeta(producto) {
-    const tarjeta = document.createElement("article");
-
-    tarjeta.innerHTML = `
-        <img src="${producto.imagen}" alt="${producto.nombre}">
-        <h2>${producto.nombre}</h2>
-        <p>$${producto.precio}</p>
-        <a href="producto.html?id=${producto.id}">Ver producto</a>
-    `;
-
-    return tarjeta;
-}
-
-function renderizarCatalogo() {
-    const catalogo = document.getElementById("catalogo");
-
-    if (!catalogo) {
-        return;
-    }
-
-    catalogo.innerHTML = "";
-
-    if (productos.length === 0) {
-        catalogo.innerHTML = "<p>No hay productos disponibles.</p>";
-        return;
-    }
-
-    productos.forEach(producto => {
-        catalogo.appendChild(crearTarjeta(producto));
     });
 }
 
 function renderizarDestacados() {
     const destacados = document.getElementById("productos-destacados");
 
-    if (!destacados) {
-        return;
-    }
+    if (!destacados) return;
 
     destacados.innerHTML = "";
 
@@ -266,9 +203,58 @@ function renderizarDestacados() {
     }
 
     productosDestacados.forEach(producto => {
-        destacados.appendChild(crearTarjeta(producto));
+        const tarjeta = document.createElement("article");
+
+        tarjeta.innerHTML = `
+            <img src="${producto.imagen}" alt="${producto.nombre}">
+            <h2>${producto.nombre}</h2>
+            <p>$${producto.precio}</p>
+            <a href="producto.html?id=${producto.id}">Ver producto</a>
+        `;
+
+        destacados.appendChild(tarjeta);
     });
 }
 
-renderizarCatalogo();
-renderizarDestacados();
+function cargarProductos() {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve(productos);
+        }, 500);
+    });
+}
+
+async function iniciarCatalogo() {
+    const productosCargados = await cargarProductos();
+
+    renderizarCatalogo(productosCargados);
+    renderizarDestacados();
+}
+
+if (inputBusqueda) {
+    inputBusqueda.addEventListener("input", event => {
+        const normalizarTexto = texto =>
+            texto
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .toLowerCase();
+
+        const textoBusqueda = normalizarTexto(event.target.value.trim());
+
+        const productosFiltrados = productos.filter(producto =>
+            normalizarTexto(producto.nombre).includes(textoBusqueda)
+        );
+
+        renderizarCatalogo(productosFiltrados);
+    });
+}
+
+if (typeof module !== "undefined") {
+    module.exports = { productos };
+}
+
+if (typeof window !== "undefined") {
+    window.productos = productos;
+}
+
+iniciarCatalogo();

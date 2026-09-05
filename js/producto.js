@@ -1,156 +1,170 @@
 document.addEventListener("DOMContentLoaded", () => {
-    initializeProductDetailPage();
+    iniciarDetalleProducto();
 });
 
-async function initializeProductDetailPage() {
-    const productId = getProductIdFromUrl();
+async function iniciarDetalleProducto() {
+    const productoId = obtenerIdProducto();
 
-    if (!productId) {
-        showProductNotFound();
-        console.error("La URL no contiene un id de producto.");
+    if (!productoId) {
+        mostrarProductoNoEncontrado();
         return;
     }
 
-    setProductPageState("loading");
+    mostrarEstadoProducto("loading");
 
     try {
-        const selectedProduct = await loadProductFromUrl(productId);
+        const producto = await cargarProducto(productoId);
 
-        if (!selectedProduct) {
-            showProductNotFound();
-            console.error("Producto no encontrado para el id:", productId);
+        if (!producto) {
+            mostrarProductoNoEncontrado();
             return;
         }
 
-        renderProductDetail(selectedProduct);
-        setProductPageState("detail");
+        renderizarDetalleProducto(producto);
+        mostrarEstadoProducto("detail");
     } catch (error) {
         console.error("No se pudo cargar el detalle del producto:", error);
-        showProductNotFound();
+        mostrarProductoNoEncontrado();
     }
 }
 
-function setProductPageState(state) {
-    const productDetail = document.querySelector(".product-detail");
-    const productSpecs = document.querySelector(".product-specs");
-    const productStatus = document.querySelector(".product-empty");
-    const productStatusMessage = document.querySelector(".product-empty__message");
+function mostrarEstadoProducto(estado) {
+    const detalleProducto = document.querySelector(".product-detail");
+    const especificaciones = document.querySelector(".product-specs");
+    const estadoProducto = document.querySelector(".product-empty");
+    const mensajeEstado = document.querySelector(".product-empty__message");
 
-    if (productDetail) {
-        productDetail.hidden = state !== "detail";
+    if (detalleProducto) {
+        detalleProducto.hidden = estado !== "detail";
     }
 
-    if (productSpecs) {
-        productSpecs.hidden = state !== "detail";
+    if (especificaciones) {
+        especificaciones.hidden = estado !== "detail";
     }
 
-    if (!productStatus || !productStatusMessage) {
+    if (!estadoProducto || !mensajeEstado) {
         return;
     }
 
-    productStatus.hidden = state === "detail";
+    estadoProducto.hidden = estado === "detail";
 
-    if (state === "loading") {
-        productStatusMessage.textContent = "Cargando producto...";
-        return;
+    if (estado === "loading") {
+        mensajeEstado.textContent = "Cargando producto...";
     }
 
-    if (state === "not-found") {
-        productStatusMessage.textContent = "Producto no encontrado";
+    if (estado === "not-found") {
+        mensajeEstado.textContent = "Producto no encontrado";
     }
 }
 
-function showProductNotFound() {
-    setProductPageState("not-found");
+function mostrarProductoNoEncontrado() {
+    mostrarEstadoProducto("not-found");
 }
 
-function getProductIdFromUrl() {
-    const searchParams = new URLSearchParams(window.location.search);
-    return searchParams.get("id");
+function obtenerIdProducto() {
+    const parametros = new URLSearchParams(window.location.search);
+    return parametros.get("id");
 }
 
-function getAvailableProducts() {
+function obtenerProductos() {
     return Array.isArray(window.productos) ? window.productos : [];
 }
 
-function findProductById(productList, productId) {
-    return productList.find(product => product.id === productId);
+function buscarProductoPorId(productos, productoId) {
+    return productos.find(producto => producto.id === productoId);
 }
 
-function loadProductFromUrl(productId) {
+function cargarProducto(productoId) {
     return new Promise(resolve => {
-        window.setTimeout(() => {
-            const productList = getAvailableProducts();
-            resolve(findProductById(productList, productId));
+        setTimeout(() => {
+            const productos = obtenerProductos();
+            const productoEncontrado = buscarProductoPorId(productos, productoId);
+
+            resolve(productoEncontrado);
         }, 500);
     });
 }
 
-function renderProductDetail(product) {
-    renderProductImage(product);
-    renderProductHeader(product);
-    renderProductDescription(product);
-    renderProductPrice(product);
-    renderProductHighlights(product);
-    renderProductSpecifications(product);
-    configureAddToCartButton(product);
+function renderizarDetalleProducto(producto) {
+    renderizarImagenProducto(producto);
+    renderizarEncabezadoProducto(producto);
+    renderizarDescripcionProducto(producto);
+    renderizarPrecioProducto(producto);
+    renderizarCaracteristicasProducto(producto);
+    renderizarEspecificacionesProducto(producto);
+    configurarBotonCarrito(producto);
 }
 
-function renderProductImage(product) {
-    const productImage = document.querySelector(".product-detail__image");
-    if (!productImage) return;
+function renderizarImagenProducto(producto) {
+    const imagen = document.querySelector(".product-detail__image");
 
-    productImage.src = product.imagen;
-    productImage.alt = product.nombre;
-}
-
-function renderProductHeader(product) {
-    const productTitle = document.getElementById("product-title");
-    if (productTitle) {
-        productTitle.textContent = product.nombre;
-    }
-
-    const eyebrow = document.querySelector(".product-detail__eyebrow");
-    if (eyebrow) {
-        eyebrow.textContent = getProductCategory(product.nombre);
-    }
-}
-
-function renderProductDescription(product) {
-    const productLead = document.querySelector(".product-detail__lead");
-    if (productLead) {
-        productLead.textContent = product.descripcion;
-    }
-
-    const imageCaption = document.querySelector(".product-detail__caption");
-    if (imageCaption) {
-        imageCaption.textContent = `Imagen de ${product.nombre}.`;
-    }
-}
-
-function renderProductPrice(product) {
-    const priceElement = document.querySelector(".product-detail__price-note");
-    if (!priceElement) return;
-
-    const numericPrice = Number(product.precio || 0);
-
-    if (!Number.isFinite(numericPrice) || numericPrice <= 0) {
-        priceElement.textContent = "Precio a consultar";
+    if (!imagen) {
         return;
     }
 
-    priceElement.textContent = new Intl.NumberFormat("es-AR", {
-        style: "currency",
-        currency: "ARS",
-        maximumFractionDigits: 0,
-    }).format(numericPrice);
+    imagen.src = producto.imagen;
+    imagen.alt = producto.nombre;
 }
 
-function renderProductHighlights(product) {
-    const highlightList = document.querySelector(".product-detail__highlights");
-    if (!highlightList) return;
+function renderizarEncabezadoProducto(producto) {
+    const titulo = document.getElementById("product-title");
 
-    const excludedFields = new Set([
+    if (titulo) {
+        titulo.textContent = producto.nombre;
+    }
+
+    const categoria = document.querySelector(".product-detail__eyebrow");
+
+    if (categoria) {
+        categoria.textContent = obtenerCategoria(producto.nombre);
+    }
+}
+
+function renderizarDescripcionProducto(producto) {
+    const descripcion = document.querySelector(".product-detail__lead");
+
+    if (descripcion) {
+        descripcion.textContent = producto.descripcion;
+    }
+
+    const textoImagen = document.querySelector(".product-detail__caption");
+
+    if (textoImagen) {
+        textoImagen.textContent = `Imagen de ${producto.nombre}.`;
+    }
+}
+
+function renderizarPrecioProducto(producto) {
+    const precio = document.querySelector(".product-detail__price-note");
+
+    if (!precio) {
+        return;
+    }
+
+    const precioNumerico = Number(producto.precio || 0);
+
+    if (!Number.isFinite(precioNumerico) || precioNumerico <= 0) {
+        precio.textContent = "Precio a consultar";
+        return;
+    }
+
+    precio.textContent = new Intl.NumberFormat("es-AR", {
+        style: "currency",
+        currency: "ARS",
+        maximumFractionDigits: 0
+    }).format(precioNumerico);
+}
+
+function renderizarCaracteristicasProducto(producto) {
+    const listaCaracteristicas = document.querySelector(
+        ".product-detail__highlights"
+    );
+
+    if (!listaCaracteristicas) {
+        return;
+    }
+
+    const camposExcluidos = new Set([
         "id",
         "nombre",
         "descripcion",
@@ -158,74 +172,91 @@ function renderProductHighlights(product) {
         "medidas",
         "materiales",
         "acabado",
-        "precio",
+        "precio"
     ]);
 
-    const extraFields = Object.entries(product).filter(([fieldName]) => !excludedFields.has(fieldName));
-    highlightList.innerHTML = "";
+    const caracteristicas = Object.entries(producto).filter(
+        ([nombreCampo]) => !camposExcluidos.has(nombreCampo)
+    );
 
-    extraFields.forEach(([fieldName, fieldValue]) => {
-        const highlightItem = document.createElement("div");
-        highlightItem.className = "product-detail__highlight";
+    listaCaracteristicas.innerHTML = "";
 
-        const label = document.createElement("dt");
-        label.textContent = formatFieldLabel(fieldName);
+    caracteristicas.forEach(([nombreCampo, valorCampo]) => {
+        const caracteristica = document.createElement("div");
+        caracteristica.className = "product-detail__highlight";
 
-        const value = document.createElement("dd");
-        value.textContent = fieldValue;
+        const etiqueta = document.createElement("dt");
+        etiqueta.textContent = formatearNombreCampo(nombreCampo);
 
-        highlightItem.append(label, value);
-        highlightList.appendChild(highlightItem);
+        const valor = document.createElement("dd");
+        valor.textContent = valorCampo;
+
+        caracteristica.append(etiqueta, valor);
+        listaCaracteristicas.appendChild(caracteristica);
     });
 }
 
-function renderProductSpecifications(product) {
-    const specsList = document.querySelector(".product-specs__list");
-    if (!specsList) return;
+function renderizarEspecificacionesProducto(producto) {
+    const listaEspecificaciones = document.querySelector(
+        ".product-specs__list"
+    );
 
-    const technicalFields = [
-        ["Medidas", product.medidas],
-        ["Materiales", product.materiales],
-        ["Acabado", product.acabado],
-    ].filter(([, value]) => Boolean(value));
+    if (!listaEspecificaciones) {
+        return;
+    }
 
-    specsList.innerHTML = "";
+    const especificaciones = [
+        ["Medidas", producto.medidas],
+        ["Materiales", producto.materiales],
+        ["Acabado", producto.acabado]
+    ].filter(([, valor]) => Boolean(valor));
 
-    technicalFields.forEach(([label, value]) => {
-        const listItem = document.createElement("li");
-        listItem.className = "product-specs__item";
+    listaEspecificaciones.innerHTML = "";
 
-        const labelElement = document.createElement("span");
-        labelElement.className = "product-specs__label";
-        labelElement.textContent = label;
+    especificaciones.forEach(([etiqueta, valor]) => {
+        const elemento = document.createElement("li");
+        elemento.className = "product-specs__item";
 
-        const valueElement = document.createElement("span");
-        valueElement.className = "product-specs__value";
-        valueElement.textContent = value;
+        const nombre = document.createElement("span");
+        nombre.className = "product-specs__label";
+        nombre.textContent = etiqueta;
 
-        listItem.append(labelElement, valueElement);
-        specsList.appendChild(listItem);
+        const contenido = document.createElement("span");
+        contenido.className = "product-specs__value";
+        contenido.textContent = valor;
+
+        elemento.append(nombre, contenido);
+        listaEspecificaciones.appendChild(elemento);
     });
 }
 
-function configureAddToCartButton(product) {
-    const addToCartButton = document.getElementById("btn-agregar-carrito");
-    if (!addToCartButton) return;
+function configurarBotonCarrito(producto) {
+    const botonCarrito = document.getElementById("btn-agregar-carrito");
 
-    const numericPrice = Number(product.precio || 0);
-    addToCartButton.dataset.id = product.id;
-    addToCartButton.dataset.nombre = product.nombre;
-    addToCartButton.dataset.precio = String(Number.isFinite(numericPrice) && numericPrice > 0 ? numericPrice : 0);
+    if (!botonCarrito) {
+        return;
+    }
+
+    const precioNumerico = Number(producto.precio || 0);
+
+    botonCarrito.dataset.id = producto.id;
+    botonCarrito.dataset.nombre = producto.nombre;
+    botonCarrito.dataset.precio = String(
+        Number.isFinite(precioNumerico) && precioNumerico > 0
+            ? precioNumerico
+            : 0
+    );
 }
 
-function getProductCategory(productName) {
-    const words = productName.trim().split(/\s+/);
-    return words.slice(0, 2).join(" ") || "Producto";
+function obtenerCategoria(nombreProducto) {
+    const palabras = nombreProducto.trim().split(/\s+/);
+
+    return palabras.slice(0, 2).join(" ") || "Producto";
 }
 
-function formatFieldLabel(fieldName) {
-    return fieldName
+function formatearNombreCampo(nombreCampo) {
+    return nombreCampo
         .replace(/([a-z])([A-Z])/g, "$1 $2")
         .replace(/[_-]+/g, " ")
-        .replace(/\b\w/g, character => character.toUpperCase());
+        .replace(/\b\w/g, caracter => caracter.toUpperCase());
 }
