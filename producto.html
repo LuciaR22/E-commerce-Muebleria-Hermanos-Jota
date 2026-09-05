@@ -56,11 +56,11 @@
         </header>
 
         <main class="product-page">
-            <aside class="product-empty" aria-live="polite" hidden>
-                <p class="product-empty__message">Producto no encontrado</p>
+            <aside class="product-empty" aria-live="polite">
+                <p class="product-empty__message">Cargando producto...</p>
             </aside>
 
-            <section class="product-detail" aria-labelledby="product-title">
+            <section class="product-detail" aria-labelledby="product-title" hidden>
                 <figure class="product-detail__media">
                     <div class="product-detail__image-shell">
                         <img
@@ -104,7 +104,7 @@
                 </div>
             </section>
 
-            <section class="product-specs" aria-labelledby="product-specs-title">
+            <section class="product-specs" aria-labelledby="product-specs-title" hidden>
                 <article class="product-card">
                     <p class="product-specs__kicker">Ficha técnica</p>
                     <ul class="product-specs__list">
