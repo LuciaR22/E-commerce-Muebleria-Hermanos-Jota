@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
 
         // Ocultar alerta de éxito anterior
-        successAlert.style.display = 'none';
+        successAlert.classList.remove('is-visible');
         successAlert.textContent = '';
 
         // Inicializar variables de estado
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!tieneErrores) {
             // Mostrar mensaje de éxito en el DOM
             successAlert.textContent = `¡Gracias ${nombreValor}! Recibimos tu consulta con éxito. Te responderemos a la brevedad.`;
-            successAlert.style.display = 'block';
+            successAlert.classList.add('is-visible');
 
             // Limpiar formulario
             form.reset();
