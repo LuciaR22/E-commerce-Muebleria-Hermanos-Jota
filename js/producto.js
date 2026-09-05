@@ -1,44 +1,67 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const productId = getProductIdFromUrl();
-    const productList = getAvailableProducts();
-    const selectedProduct = findProductById(productList, productId);
+    initializeProductDetailPage();
+});
 
-    if (!selectedProduct) {
+async function initializeProductDetailPage() {
+    const productId = getProductIdFromUrl();
+
+    if (!productId) {
         showProductNotFound();
-        console.error("Producto no encontrado para el id:", productId);
+        console.error("La URL no contiene un id de producto.");
         return;
     }
 
-    renderProductImage(selectedProduct);
-    renderProductHeader(selectedProduct);
-    renderProductDescription(selectedProduct);
-    renderProductPrice(selectedProduct);
-    renderProductHighlights(selectedProduct);
-    renderProductSpecifications(selectedProduct);
-    configureAddToCartButton(selectedProduct);
-});
+    setProductPageState("loading");
 
-function showProductNotFound() {
+    try {
+        const selectedProduct = await loadProductFromUrl(productId);
+
+        if (!selectedProduct) {
+            showProductNotFound();
+            console.error("Producto no encontrado para el id:", productId);
+            return;
+        }
+
+        renderProductDetail(selectedProduct);
+        setProductPageState("detail");
+    } catch (error) {
+        console.error("No se pudo cargar el detalle del producto:", error);
+        showProductNotFound();
+    }
+}
+
+function setProductPageState(state) {
     const productDetail = document.querySelector(".product-detail");
     const productSpecs = document.querySelector(".product-specs");
-    const productEmpty = document.querySelector(".product-empty");
-    const productEmptyMessage = document.querySelector(".product-empty__message");
+    const productStatus = document.querySelector(".product-empty");
+    const productStatusMessage = document.querySelector(".product-empty__message");
 
     if (productDetail) {
-        productDetail.hidden = true;
+        productDetail.hidden = state !== "detail";
     }
 
     if (productSpecs) {
-        productSpecs.hidden = true;
+        productSpecs.hidden = state !== "detail";
     }
 
-    if (productEmpty) {
-        productEmpty.hidden = false;
+    if (!productStatus || !productStatusMessage) {
+        return;
     }
 
-    if (productEmptyMessage) {
-        productEmptyMessage.textContent = "Producto no encontrado";
+    productStatus.hidden = state === "detail";
+
+    if (state === "loading") {
+        productStatusMessage.textContent = "Cargando producto...";
+        return;
     }
+
+    if (state === "not-found") {
+        productStatusMessage.textContent = "Producto no encontrado";
+    }
+}
+
+function showProductNotFound() {
+    setProductPageState("not-found");
 }
 
 function getProductIdFromUrl() {
@@ -52,6 +75,25 @@ function getAvailableProducts() {
 
 function findProductById(productList, productId) {
     return productList.find(product => product.id === productId);
+}
+
+function loadProductFromUrl(productId) {
+    return new Promise(resolve => {
+        window.setTimeout(() => {
+            const productList = getAvailableProducts();
+            resolve(findProductById(productList, productId));
+        }, 500);
+    });
+}
+
+function renderProductDetail(product) {
+    renderProductImage(product);
+    renderProductHeader(product);
+    renderProductDescription(product);
+    renderProductPrice(product);
+    renderProductHighlights(product);
+    renderProductSpecifications(product);
+    configureAddToCartButton(product);
 }
 
 function renderProductImage(product) {

@@ -56,47 +56,30 @@
         </header>
 
         <main class="product-page">
-            <aside class="product-empty" aria-live="polite" hidden>
-                <p class="product-empty__message">Producto no encontrado</p>
+            <aside class="product-empty" aria-live="polite">
+                <p class="product-empty__message">Cargando producto...</p>
             </aside>
 
-            <section class="product-detail" aria-labelledby="product-title">
+            <section class="product-detail" aria-labelledby="product-title" hidden>
                 <figure class="product-detail__media">
                     <div class="product-detail__image-shell">
-                        <img
-                            src="Imagenes/Mesa%20Comedor%20Pampa.png"
-                            alt="Mesa Comedor Pampa de roble macizo con tablero biselado y diseño extensible"
-                            class="product-detail__image"
-                        />
+                        <img src="Imagenes/logo.svg" alt="Detalle de producto en carga" class="product-detail__image" />
                     </div>
                 </figure>
 
                 <div class="product-detail__content">
-                    <h1 class="product-detail__title" id="product-title">Mesa Comedor Pampa</h1>
-                    <p class="product-detail__lead">
-                        La Mesa Comedor Pampa combina la nobleza del roble macizo FSC® con un mecanismo alemán de
-                        apertura suave. Su presencia sólida y su acabado natural aportan equilibrio visual, mientras la
-                        extensión central permite adaptarla a momentos cotidianos o celebraciones más amplias.
-                    </p>
+                    <h1 class="product-detail__title" id="product-title">Producto</h1>
+                    <p class="product-detail__lead">El contenido se cargará según el producto indicado en la URL.</p>
 
-                    <dl class="product-detail__highlights" aria-label="Datos destacados">
-                        <div class="product-detail__highlight">
-                            <dt>Capacidad</dt>
-                            <dd>6-10 comensales</dd>
-                        </div>
-                        <div class="product-detail__highlight">
-                            <dt>Extensión</dt>
-                            <dd>Mariposa central</dd>
-                        </div>
-                    </dl>
+                    <dl class="product-detail__highlights" aria-label="Datos destacados"></dl>
 
                     <p class="product-detail__price-note">Precio a consultar</p>
 
                     <button
                         id="btn-agregar-carrito"
                         class="boton-texto product-detail__cta"
-                        data-id="mesa-comedor-pampa"
-                        data-nombre="Mesa Comedor Pampa"
+                        data-id=""
+                        data-nombre=""
                         data-precio="0"
                     >
                         Agregar al carrito
@@ -104,23 +87,10 @@
                 </div>
             </section>
 
-            <section class="product-specs" aria-labelledby="product-specs-title">
+            <section class="product-specs" aria-labelledby="product-specs-title" hidden>
                 <article class="product-card">
                     <p class="product-specs__kicker">Ficha técnica</p>
-                    <ul class="product-specs__list">
-                        <li class="product-specs__item">
-                            <span class="product-specs__label">Medidas</span>
-                            <span class="product-specs__value">160-240 × 90 × 75 cm</span>
-                        </li>
-                        <li class="product-specs__item">
-                            <span class="product-specs__label">Materiales</span>
-                            <span class="product-specs__value">Roble macizo FSC®, mecanismo alemán</span>
-                        </li>
-                        <li class="product-specs__item">
-                            <span class="product-specs__label">Acabado</span>
-                            <span class="product-specs__value">Aceite-cera natural</span>
-                        </li>
-                    </ul>
+                    <ul class="product-specs__list"></ul>
                 </article>
             </section>
         </main>
