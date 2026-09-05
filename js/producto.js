@@ -3,15 +3,21 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 async function initializeProductDetailPage() {
-    setProductPageState("loading");
-
     const productId = getProductIdFromUrl();
 
+    if (!productId) {
+        showProductNotFound();
+        console.error("La URL no contiene un id de producto.");
+        return;
+    }
+
+    setProductPageState("loading");
+
     try {
-        const selectedProduct = await loadProductById(productId);
+        const selectedProduct = await loadProductFromUrl(productId);
 
         if (!selectedProduct) {
-            setProductPageState("not-found");
+            showProductNotFound();
             console.error("Producto no encontrado para el id:", productId);
             return;
         }
@@ -20,7 +26,7 @@ async function initializeProductDetailPage() {
         setProductPageState("detail");
     } catch (error) {
         console.error("No se pudo cargar el detalle del producto:", error);
-        setProductPageState("not-found");
+        showProductNotFound();
     }
 }
 
@@ -71,7 +77,7 @@ function findProductById(productList, productId) {
     return productList.find(product => product.id === productId);
 }
 
-function loadProductById(productId) {
+function loadProductFromUrl(productId) {
     return new Promise(resolve => {
         window.setTimeout(() => {
             const productList = getAvailableProducts();
