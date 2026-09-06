@@ -1,0 +1,371 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Playfair+Display:wght@400;700&display=swap");
+
+:root {
+    --titulo-siena: #a0522d;
+    --acento-verde: #87a96b;
+    --fondo-alabastro: #f5e6d3;
+    --color-fondo: #faf8f5;
+    --color-fondo-alt: #f4efe9;
+    --acento-oro: #d4a437;
+    --acento-rosa: #c47a6d;
+
+    --min-width-logo: 120px;
+
+    --color-texto: #2c2416;
+    --color-blanco: #fafafa;
+
+    --font-body:
+        "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+    --font-display:
+        "Playfair Display", Georgia, "Times New Roman", serif;
+
+    --font-light: 300;
+    --font-regular: 400;
+    --font-medium: 500;
+    --font-bold: 700;
+
+    --letter-spacing-text: 0.01em;
+    --letter-spacing-caption: 0.02em;
+    --letter-spacing-cta: 0.08em;
+
+    --body-size: 1rem;
+    --body-line-height: 1.6;
+    --caption-size: 0.5625rem;
+    --small-size: 0.75rem;
+}
+
+/* =============================================
+   Reset
+   ============================================= */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 100%;
+    scroll-behavior: smooth;
+    background-color: var(--color-fondo);
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-body);
+    font-size: var(--body-size);
+    font-weight: var(--font-regular);
+    line-height: var(--body-line-height);
+    letter-spacing: var(--letter-spacing-text);
+    color: var(--color-texto);
+    background-color: var(--color-fondo);
+}
+
+main {
+    flex: 1;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* =============================================
+   Estilos de marca
+   ============================================= */
+
+.titulo-principal {
+    font-family: var(--font-display);
+    font-weight: var(--font-bold);
+    color: var(--titulo-siena);
+    text-transform: uppercase;
+}
+
+.leyenda {
+    font-size: var(--caption-size);
+    font-weight: var(--font-light);
+    color: var(--color-texto);
+    letter-spacing: var(--letter-spacing-caption);
+}
+
+.boton-texto {
+    font-weight: var(--font-medium);
+    letter-spacing: var(--letter-spacing-cta);
+    text-transform: uppercase;
+}
+
+/* =============================================
+   Header y navegación (Mobile First)
+   ============================================= */
+
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid #e8e2d9;
+    background-color: #ffffff;
+}
+
+.header__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.65rem 0.85rem;
+}
+
+.header__brand {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.header__logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.25rem;
+    font-weight: var(--font-bold);
+    color: var(--color-texto);
+}
+
+.logo-img {
+    display: block;
+    width: auto;
+    height: 30px;
+}
+
+.header__brand-name {
+    display: none;
+    white-space: nowrap;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+}
+
+.nav__list {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.nav__link {
+    position: relative;
+    padding: 0.25rem 0;
+    border-bottom: 2px solid transparent;
+    font-size: 0.8rem;
+    font-weight: var(--font-medium);
+    color: #5a4a3a;
+    white-space: nowrap;
+    transition:
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.nav__link:hover {
+    color: var(--color-texto);
+}
+
+.nav__link.active {
+    border-bottom-color: var(--titulo-siena);
+    font-weight: var(--font-bold);
+    color: var(--titulo-siena);
+}
+
+/* =============================================
+   Carrito en Header
+   ============================================= */
+
+.header__cart {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-shrink: 0;
+    padding: 0.35rem 0.5rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: var(--font-medium);
+    color: var(--color-texto);
+    background-color: var(--color-fondo-alt);
+    transition: background-color 0.2s ease;
+}
+
+.header__cart:hover {
+    background-color: #ebdcd0;
+}
+
+.header__cart-icon {
+    display: inline-block;
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    color: var(--titulo-siena);
+    stroke-width: 2.2;
+}
+
+.header__cart-label {
+    display: none;
+    white-space: nowrap;
+}
+
+.cart-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.25rem;
+    height: 1.25rem;
+    padding: 0 4px;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    font-weight: var(--font-bold);
+    line-height: 1;
+    color: var(--color-blanco);
+    background-color: var(--titulo-siena);
+}
+
+/* =============================================
+   Footer (Mobile First)
+   ============================================= */
+
+.footer {
+    margin-top: 3rem;
+    padding: 3rem 1.25rem 1.5rem;
+    color: var(--color-blanco);
+    background-color: #2c2416;
+}
+
+.footer__container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer__brand {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.footer__logo-img {
+    align-self: flex-start;
+    width: auto;
+    height: 70px;
+    filter: brightness(0) invert(1);
+}
+
+.footer__brand h3 {
+    font-size: 1.25rem;
+    color: var(--color-blanco);
+}
+
+.footer__links h4,
+.footer__contact h4 {
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    color: var(--acento-oro);
+}
+
+.footer__links ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    list-style: none;
+}
+
+.footer__links a {
+    font-size: 0.9rem;
+    color: #c4b8aa;
+    transition: color 0.2s ease;
+}
+
+.footer__links a:hover {
+    color: #ffffff;
+}
+
+.footer__contact p {
+    margin-bottom: 0.35rem;
+    font-size: 0.9rem;
+    color: #c4b8aa;
+}
+
+.footer__bottom {
+    margin-top: 2rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.85rem;
+    text-align: center;
+    color: #9c8e7e;
+}
+
+/* =============================================
+   Tablet (min-width: 768px)
+   ============================================= */
+
+@media (min-width: 768px) {
+    .header__container {
+        padding: 1rem 2rem;
+        gap: 1rem;
+    }
+
+    .header__brand-name {
+        display: inline-block;
+    }
+
+    .logo-img {
+        height: 36px;
+    }
+
+    .nav__list {
+        gap: 1rem;
+    }
+
+    .nav__link {
+        font-size: 0.9rem;
+    }
+
+    .header__cart {
+        padding: 0.4rem 0.85rem;
+    }
+
+    .header__cart-label {
+        display: inline-block;
+    }
+
+    .footer__container {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
+/* =============================================
+   Desktop (min-width: 1024px)
+   ============================================= */
+
+@media (min-width: 1024px) {
+    .nav__list {
+        gap: 1.5rem;
+    }
+
+    .nav__link {
+        font-size: 0.95rem;
+    }
+}

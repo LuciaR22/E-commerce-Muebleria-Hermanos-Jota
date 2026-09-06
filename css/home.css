@@ -1,0 +1,208 @@
+/* =============================================
+   Hero Banner
+   ============================================= */
+
+.hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 94vh;
+    padding: 3rem 1.25rem;
+    background: linear-gradient(
+        135deg,
+        rgba(44, 36, 22, 1) 0%,
+        rgba(74, 55, 40, 1) 50%,
+        #6b4e37 100%
+    );
+}
+
+.hero__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    max-width: 36rem;
+    text-align: center;
+}
+
+.hero__eyebrow {
+    font-size: 0.75rem;
+    font-weight: var(--font-bold);
+    letter-spacing: var(--letter-spacing-cta);
+    text-transform: uppercase;
+    color: var(--acento-oro);
+}
+
+.hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 5vw, 3rem);
+    font-weight: var(--font-bold);
+    line-height: 1.2;
+    color: var(--color-blanco);
+}
+
+.hero__subtitle {
+    max-width: 32ch;
+    font-size: clamp(0.95rem, 2.5vw, 1.125rem);
+    color: #fafafae0;
+}
+
+.hero__cta {
+    display: inline-block;
+    padding: 0.875rem 2rem;
+    border: 2px solid var(--acento-oro);
+    border-radius: 0.375rem;
+    font-weight: var(--font-bold);
+    color: var(--color-texto);
+    background-color: var(--acento-oro);
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.15s ease;
+}
+
+.hero__cta:hover,
+.hero__cta:focus-visible {
+    color: var(--acento-oro);
+    background-color: transparent;
+    transform: translateY(-2px);
+}
+
+.hero__cta:focus-visible {
+    outline: 2px solid var(--color-blanco);
+    outline-offset: 3px;
+}
+
+.hero__cta:active {
+    transform: translateY(0);
+}
+
+/* =============================================
+   Productos destacados (Mobile First)
+   ============================================= */
+
+#destacados {
+    max-width: 1200px;
+    margin: 3rem auto;
+    padding: 1.25rem;
+}
+
+#destacados h2 {
+    margin-bottom: 1.875rem;
+    font-size: 1.75rem;
+    text-align: center;
+    color: var(--color-texto);
+}
+
+#productos-destacados {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+#productos-destacados article {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.25rem;
+    border: 1px solid #e0d8cc;
+    border-radius: 8px;
+    text-align: center;
+    background-color: #ffffff;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+#productos-destacados article:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(44, 36, 22, 0.08);
+}
+
+#productos-destacados img {
+    width: 100%;
+    height: 220px;
+    object-fit: contain;
+}
+
+#productos-destacados h2,
+#productos-destacados h3 {
+    margin: 1rem 0 0.5rem;
+    font-size: 1.25rem;
+    color: var(--color-texto);
+}
+
+#productos-destacados p {
+    margin-bottom: 1rem;
+    font-size: 1.125rem;
+    font-weight: var(--font-bold);
+    color: var(--titulo-siena);
+}
+
+#productos-destacados a {
+    display: inline-block;
+    margin-top: auto;
+    padding: 0.625rem 1.25rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: var(--font-medium);
+    color: var(--color-blanco);
+    background-color: var(--color-texto);
+    transition: background-color 0.2s ease;
+}
+
+#productos-destacados a:hover {
+    background-color: var(--titulo-siena);
+}
+
+/* =============================================
+   Tablet (min-width: 768px)
+   ============================================= */
+
+@media (min-width: 768px) {
+    .hero {
+        padding: 3rem 2rem;
+    }
+
+    .hero__content {
+        gap: 1.25rem;
+        max-width: 42rem;
+    }
+
+    .hero__eyebrow {
+        font-size: 0.8125rem;
+    }
+
+    .hero__cta {
+        margin-top: 1rem;
+        padding: 1rem 2.5rem;
+        font-size: 1.0625rem;
+    }
+
+    #destacados h2 {
+        font-size: 2rem;
+    }
+
+    #productos-destacados {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+/* =============================================
+   Desktop (min-width: 1024px)
+   ============================================= */
+
+@media (min-width: 1024px) {
+    .hero__content {
+        max-width: 48rem;
+    }
+
+    #productos-destacados {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5625rem;
+    }
+}

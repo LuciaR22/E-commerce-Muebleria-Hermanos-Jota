@@ -1,0 +1,146 @@
+/* =============================================
+   Catálogo de productos
+   ============================================= */
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 3.75rem;
+}
+
+main > h1 {
+    margin-bottom: 2rem;
+    font-size: 1.75rem;
+    text-align: center;
+    color: var(--color-texto);
+}
+
+/* =============================================
+   Buscador
+   ============================================= */
+
+#input {
+    display: block;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto 1.5rem;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e0d8cc;
+    border-radius: 8px;
+    outline: none;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--color-texto);
+    background-color: #ffffff;
+    transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+#input:focus {
+    border-color: var(--titulo-siena);
+    box-shadow: 0 0 8px rgba(160, 82, 45, 0.2);
+}
+
+#no-resultado {
+    display: none;
+    margin: 2rem auto;
+    text-align: center;
+    font-size: 1.125rem;
+    color: #8c7a6b;
+}
+
+/* =============================================
+   Grilla del Catálogo (Mobile First: 1 columna)
+   ============================================= */
+
+#catalogo {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0;
+}
+
+#catalogo article {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.25rem;
+    border: 1px solid #e0d8cc;
+    border-radius: 10px;
+    text-align: center;
+    background-color: #ffffff;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+#catalogo article:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(44, 36, 22, 0.08);
+}
+
+#catalogo img {
+    width: 100%;
+    height: 250px;
+    object-fit: contain;
+}
+
+#catalogo h2 {
+    margin: 1rem 0 0.5rem;
+    font-size: 1.25rem;
+    color: var(--color-texto);
+}
+
+#catalogo p {
+    margin-bottom: 1rem;
+    font-size: 1.125rem;
+    font-weight: var(--font-bold);
+    color: var(--titulo-siena);
+}
+
+#catalogo a {
+    display: inline-block;
+    margin-top: auto;
+    padding: 0.625rem 1.25rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: var(--font-medium);
+    color: var(--color-blanco);
+    background-color: var(--color-texto);
+    transition: background-color 0.2s ease;
+}
+
+#catalogo a:hover {
+    background-color: var(--titulo-siena);
+}
+
+/* =============================================
+   Tablet (min-width: 601px)
+   ============================================= */
+
+@media (min-width: 601px) {
+    main > h1 {
+        font-size: 2rem;
+    }
+
+    #catalogo {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+}
+
+/* =============================================
+   Desktop (min-width: 1024px)
+   ============================================= */
+
+@media (min-width: 1024px) {
+    main > h1 {
+        font-size: 2.25rem;
+    }
+
+    #catalogo {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+    }
+}

@@ -1,0 +1,159 @@
+/* =============================================
+    Sección de Contacto (Mobile-First)
+   ============================================= */
+
+.contact-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 1.5rem auto;
+    padding: 1.25rem;
+    background: #ffffff;
+    border: 1px solid #e8e2d9;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+}
+
+.contact-container h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.8rem;
+}
+
+.contact-info {
+    margin-bottom: 1.5rem;
+    color: #5a4a3a;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    font-weight: var(--font-bold);
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid #dcd5cc;
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    background-color: #faf8f5;
+    transition:
+        border-color 0.2s,
+        background-color 0.2s;
+}
+
+.form-group textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--titulo-siena);
+    background-color: #ffffff;
+}
+
+.form-group input.error,
+.form-group textarea.error {
+    border-color: #c53030;
+    background-color: #fffaf0;
+}
+
+.error-text {
+    min-height: 1.15rem;
+    font-size: 0.8rem;
+    font-weight: var(--font-medium);
+    color: #c53030;
+}
+
+.btn-submit {
+    width: 100%;
+    margin-top: 0.5rem;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: var(--font-bold);
+    color: #ffffff;
+    background-color: var(--titulo-siena);
+    cursor: pointer;
+    transition:
+        background-color 0.2s,
+        transform 0.15s;
+    margin-top: 0.5rem;
+}
+
+.btn-submit:hover {
+    background-color: #5a3e2b;
+    transform: translateY(-1px);
+}
+
+.btn-submit:active {
+    transform: translateY(0);
+}
+
+.success-alert {
+    display: none;
+    background-color: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #14532d;
+    padding: 1rem;
+    border: 1px solid #bbf7d0;
+    border-radius: 5px;
+    font-weight: var(--font-medium);
+    text-align: center;
+    color: #14532d;
+    background-color: #f0fdf4;
+}
+
+/* =============================================
+   Tablet y desktop
+   ============================================= */
+
+@media (min-width: 768px) {
+    .contact-container {
+        margin: 3rem auto;
+        padding: 2rem;
+    }
+
+    .btn-submit {
+        width: auto;
+        align-self: flex-start;
+        padding: 0.8rem 1.5rem;
+    }
+}
+
+.success-alert.is-visible {
+    display: block;
+}
+
+/* =============================================
+    Breakpoints (Pantallas medianas y grandes)
+   ============================================= */
+@media (min-width: 640px) {
+    .contact-container {
+        margin: 3rem auto;
+        padding: 2rem;
+    }
+
+    .contact-container h1 {
+        font-size: 1.8rem;
+    }
+}
