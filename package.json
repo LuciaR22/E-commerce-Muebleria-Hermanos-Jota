@@ -1,0 +1,24 @@
+{
+  "name": "muebleria-hermanos-jota",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Monorepo MERN — E-commerce Mueblería Hermanos Jota",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "concurrently -n backend,frontend -c blue,green \"npm run dev -w @muebleria/backend\" \"npm run dev -w @muebleria/frontend\"",
+    "dev:backend": "npm run dev -w @muebleria/backend",
+    "dev:frontend": "npm run dev -w @muebleria/frontend",
+    "build": "npm run build -w @muebleria/frontend",
+    "start": "npm run start -w @muebleria/backend",
+    "install:all": "npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
