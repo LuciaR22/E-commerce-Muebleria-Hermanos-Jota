@@ -1,12 +1,15 @@
-function ProductCard({ producto }) {
+function ProductCard({ producto, seleccionarProducto }) {
   return (
     <article>
       <img src={producto.imagen} alt={producto.nombre} />
+
       <h2>{producto.nombre}</h2>
+
       <p>${producto.precio}</p>
-      <a href={`producto.html?id=${producto.id}`}>
+
+      <button onClick={() => seleccionarProducto(producto)}>
         Ver producto
-      </a>
+      </button>
     </article>
   );
 }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 
-function ProductList() {
+function ProductList({ seleccionarProducto }) {
   const [productos, setProductos] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState("");
@@ -40,6 +40,7 @@ function ProductList() {
         <ProductCard
           key={producto.id}
           producto={producto}
+          seleccionarProducto={seleccionarProducto}
         />
       ))}
     </section>

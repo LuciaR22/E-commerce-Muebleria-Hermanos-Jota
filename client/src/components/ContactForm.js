@@ -7,17 +7,55 @@ function ContactForm() {
     mensaje: "",
   });
 
+  const [mensajeEstado, setMensajeEstado] = useState({
+    tipo: "",
+    texto: "",
+  });
+
   const manejarCambio = (e) => {
     const { name, value } = e.target;
-    
+
     setDatos({
       ...datos,
       [name]: value,
     });
   };
 
+  const manejarSubmit = (e) => {
+    e.preventDefault();
+
+    if (!datos.nombre || !datos.email || !datos.mensaje) {
+      setMensajeEstado({
+        tipo: "error",
+        texto: "Todos los campos son obligatorios.",
+      });
+      return;
+    }
+
+    const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailValido.test(datos.email)) {
+      setMensajeEstado({
+        tipo: "error",
+        texto: "Ingresá un email válido.",
+      });
+      return;
+    }
+
+    setMensajeEstado({
+      tipo: "exito",
+      texto: "Mensaje enviado correctamente.",
+    });
+
+    setDatos({
+      nombre: "",
+      email: "",
+      mensaje: "",
+    });
+  };
+
   return (
-    <form className="contact-form">
+    <form className="contact-form" onSubmit={manejarSubmit}>
       <div className="form-group">
         <label htmlFor="nombre">Nombre completo</label>
         <input
@@ -57,6 +95,12 @@ function ContactForm() {
       <button type="submit" className="btn-submit">
         Enviar mensaje
       </button>
+
+      {mensajeEstado.texto && (
+        <p className={mensajeEstado.tipo}>
+          {mensajeEstado.texto}
+        </p>
+      )}
     </form>
   );
 }
