@@ -1,12 +1,13 @@
 /* =============================================
-   Sección de contacto
+    Sección de Contacto (Mobile-First)
    ============================================= */
 
 .contact-container {
-    width: calc(100% - 2rem);
+    width: 100%;
     max-width: 600px;
-    margin: 2rem auto;
-    padding: 1.5rem;
+    margin: 1.5rem auto;
+    padding: 1.25rem;
+    background: #ffffff;
     border: 1px solid #e8e2d9;
     border-radius: 8px;
     background-color: #ffffff;
@@ -14,8 +15,16 @@
 }
 
 .contact-container h1 {
+    font-size: 1.5rem;
     margin-bottom: 0.5rem;
     font-size: 1.8rem;
+}
+
+.contact-info {
+    margin-bottom: 1.5rem;
+    color: #5a4a3a;
+    font-size: 0.95rem;
+    line-height: 1.5;
 }
 
 .contact-form {
@@ -87,16 +96,24 @@
     cursor: pointer;
     transition:
         background-color 0.2s,
-        transform 0.2s ease;
+        transform 0.15s;
+    margin-top: 0.5rem;
 }
 
 .btn-submit:hover {
-    background-color: #8f4b25;
+    background-color: #5a3e2b;
     transform: translateY(-1px);
 }
 
+.btn-submit:active {
+    transform: translateY(0);
+}
+
 .success-alert {
-    margin-bottom: 1.5rem;
+    display: none;
+    background-color: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #14532d;
     padding: 1rem;
     border: 1px solid #bbf7d0;
     border-radius: 5px;
@@ -120,5 +137,23 @@
         width: auto;
         align-self: flex-start;
         padding: 0.8rem 1.5rem;
+    }
+}
+
+.success-alert.is-visible {
+    display: block;
+}
+
+/* =============================================
+    Breakpoints (Pantallas medianas y grandes)
+   ============================================= */
+@media (min-width: 640px) {
+    .contact-container {
+        margin: 3rem auto;
+        padding: 2rem;
+    }
+
+    .contact-container h1 {
+        font-size: 1.8rem;
     }
 }

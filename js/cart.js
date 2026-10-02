@@ -1,36 +1,28 @@
-﻿const STORAGE_KEY = "carrito";
-
+const STORAGE_KEY = "carrito";
 
 function obtenerCarrito() {
     const datos = localStorage.getItem(STORAGE_KEY);
-
     return datos ? JSON.parse(datos) : [];
 }
-
 
 function guardarCarrito(carrito) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(carrito));
 }
 
-
 function obtenerCantidadTotal() {
     const carrito = obtenerCarrito();
-
     return carrito.reduce(
         (total, producto) => total + (producto.cantidad || 1),
         0
     );
 }
 
-
 function actualizarContador() {
     const contador = document.getElementById("cart-count");
-
     if (contador) {
         contador.textContent = obtenerCantidadTotal();
     }
 }
-
 
 function agregarAlCarrito(producto) {
     const carrito = obtenerCarrito();
@@ -55,7 +47,6 @@ function agregarAlCarrito(producto) {
     actualizarContador();
 }
 
-
 function vaciarCarrito() {
     localStorage.removeItem(STORAGE_KEY);
     actualizarContador();
@@ -68,10 +59,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (botonAgregar) {
         botonAgregar.addEventListener("click", () => {
+            if (!botonAgregar.dataset.id) {
+                return;
+            }
+
             const productoActual = {
-                id: botonAgregar.dataset.id || 1,
+                id: botonAgregar.dataset.id,
                 nombre: botonAgregar.dataset.nombre || "Mueble Hermanos Jota",
-                precio: Number(botonAgregar.dataset.precio) || 15000
+                precio: Number(botonAgregar.dataset.precio) || 0
             };
 
             agregarAlCarrito(productoActual);

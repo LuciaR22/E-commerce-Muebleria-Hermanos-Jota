@@ -32,7 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         e.preventDefault();
 
-        successAlert.style.display = 'none';
+        // Ocultar alerta de éxito anterior
+        successAlert.classList.remove('is-visible');
         successAlert.textContent = '';
 
         let tieneErrores = false;
@@ -73,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!tieneErrores) {
             
             successAlert.textContent = `¡Gracias ${nombreValor}! Recibimos tu consulta con éxito. Te responderemos a la brevedad.`;
-            successAlert.style.display = 'block';
+            successAlert.classList.add('is-visible');
 
             
             form.reset();
