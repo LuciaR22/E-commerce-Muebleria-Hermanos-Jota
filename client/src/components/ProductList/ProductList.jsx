@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import ProductCard from "./ProductCard";
+import ProductCard from "../ProductCard";
+import "./ProductList.css";
 
 function ProductList({ seleccionarProducto }) {
     const [productos, setProductos] = useState([]);
@@ -35,7 +36,7 @@ function ProductList({ seleccionarProducto }) {
     }
 
     return (
-        <section>
+        <section className="product-list">
             {productos.map(producto => (
                 <ProductCard key={producto.id} producto={producto} seleccionarProducto={seleccionarProducto} />
             ))}
