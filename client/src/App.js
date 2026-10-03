@@ -1,17 +1,17 @@
-import ProductList from "./components/ProductList";
-import ContactForm from "./components/ContactForm";
+import ContactForm from "./components/ContactForm.jsx";
+import ProductList from "./components/ProductList.jsx";
 
 function App() {
-  return (
-    <div>
-      <h1>Mueblería Hermanos Jota</h1>
+    return (
+        <div>
+            <h1>Mueblería Hermanos Jota</h1>
 
-      <ProductList />
+            <ProductList />
 
-      <h2>Contacto</h2>
-      <ContactForm />
-    </div>
-  );
+            <h2>Contacto</h2>
+            <ContactForm />
+        </div>
+    );
 }
 
 export default App;
