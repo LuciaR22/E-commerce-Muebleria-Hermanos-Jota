@@ -1,4 +1,4 @@
-function ProductDetail({ producto, volverAlCatalogo }) {
+function ProductDetail({ producto, volverAlCatalogo, agregarAlCarrito }) {
     return (
         <section>
             <button onClick={volverAlCatalogo}>Volver al catálogo</button>
@@ -12,6 +12,8 @@ function ProductDetail({ producto, volverAlCatalogo }) {
             <p>{producto.fabricacion}</p>
 
             <p>${producto.precio}</p>
+
+            <button onClick={() => agregarAlCarrito(producto)}>Agregar al carrito</button>
         </section>
     );
 }

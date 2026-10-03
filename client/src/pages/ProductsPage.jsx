@@ -1,10 +1,7 @@
-import { useState } from "react";
 import ProductDetail from "../components/ProductDetail.jsx";
 import ProductList from "../components/ProductList.jsx";
 
-export default function ProductsPage() {
-    const [productoSeleccionado, setProductoSeleccionado] = useState(null);
-
+export default function ProductsPage({ productoSeleccionado, setProductoSeleccionado, agregarAlCarrito }) {
     return (
         <main>
             <section id="catalogo">
@@ -14,6 +11,7 @@ export default function ProductsPage() {
                     <ProductDetail
                         producto={productoSeleccionado}
                         volverAlCatalogo={() => setProductoSeleccionado(null)}
+                        agregarAlCarrito={agregarAlCarrito}
                     />
                 ) : (
                     <ProductList seleccionarProducto={setProductoSeleccionado} />
