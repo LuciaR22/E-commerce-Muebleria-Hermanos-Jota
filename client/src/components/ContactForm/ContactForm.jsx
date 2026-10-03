@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./ContactForm.css";
 
 function ContactForm() {
     const [datos, setDatos] = useState({
@@ -96,7 +97,11 @@ function ContactForm() {
                 Enviar mensaje
             </button>
 
-            {mensajeEstado.texto && <p className={mensajeEstado.tipo}>{mensajeEstado.texto}</p>}
+            {mensajeEstado.texto && (
+                <p className={`form-message ${mensajeEstado.tipo}`} aria-live="polite">
+                    {mensajeEstado.texto}
+                </p>
+            )}
         </form>
     );
 }

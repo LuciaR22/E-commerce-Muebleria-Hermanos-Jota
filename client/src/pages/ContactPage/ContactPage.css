@@ -1,0 +1,45 @@
+/* =============================================
+    Página de contacto
+   ============================================= */
+
+.contact-main {
+    width: min(600px, calc(100% - 2rem));
+    margin: 1.5rem auto;
+}
+
+.contact-container {
+    width: 100%;
+    padding: 1.25rem;
+    border: 1px solid #e8e2d9;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+}
+
+.contact-container h1 {
+    margin-bottom: 0.5rem;
+    font-size: 1.8rem;
+    color: var(--color-texto);
+}
+
+.contact-info {
+    margin-bottom: 1.5rem;
+    color: #5a4a3a;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+@media (min-width: 640px) {
+    .contact-main {
+        margin: 3rem auto;
+        width: min(600px, calc(100% - 3rem));
+    }
+
+    .contact-container {
+        padding: 2rem;
+    }
+
+    .contact-container h1 {
+        font-size: 1.8rem;
+    }
+}

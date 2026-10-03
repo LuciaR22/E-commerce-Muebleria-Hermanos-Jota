@@ -1,4 +1,4 @@
-import ContactForm from "./components/ContactForm.jsx";
+import ContactForm from "./components/ContactForm";
 import ProductList from "./components/ProductList";
 
 function App() {

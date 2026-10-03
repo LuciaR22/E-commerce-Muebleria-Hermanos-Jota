@@ -1,0 +1,114 @@
+/* =============================================
+    Formulario de contacto
+   ============================================= */
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    font-weight: var(--font-bold);
+    color: var(--color-texto);
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid #dcd5cc;
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    background-color: #faf8f5;
+    transition:
+        border-color 0.2s,
+        background-color 0.2s;
+}
+
+.form-group textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--titulo-siena);
+    background-color: #ffffff;
+}
+
+.form-group input.error,
+.form-group textarea.error {
+    border-color: #c53030;
+    background-color: #fffaf0;
+}
+
+.error-text {
+    min-height: 1.15rem;
+    font-size: 0.8rem;
+    font-weight: var(--font-medium);
+    color: #c53030;
+}
+
+.btn-submit {
+    width: 100%;
+    margin-top: 0.5rem;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: var(--font-bold);
+    color: #ffffff;
+    background-color: var(--titulo-siena);
+    cursor: pointer;
+    transition:
+        background-color 0.2s,
+        transform 0.15s;
+}
+
+.btn-submit:hover {
+    background-color: #5a3e2b;
+    transform: translateY(-1px);
+}
+
+.btn-submit:active {
+    transform: translateY(0);
+}
+
+.form-message {
+    margin: 0;
+    padding: 1rem;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    font-weight: var(--font-medium);
+    text-align: center;
+}
+
+.form-message.error {
+    border-color: #fecdd3;
+    color: #9f1239;
+    background-color: #fff1f2;
+}
+
+.form-message.exito {
+    border-color: #bbf7d0;
+    color: #14532d;
+    background-color: #f0fdf4;
+}
+
+@media (min-width: 768px) {
+    .btn-submit {
+        width: auto;
+        align-self: flex-start;
+        padding: 0.8rem 1.5rem;
+    }
+}
