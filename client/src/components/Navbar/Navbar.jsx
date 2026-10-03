@@ -1,13 +1,11 @@
-// Importamos el logo directamente desde la carpeta de imágenes
 import { Link, NavLink } from "react-router-dom";
-import logo from "../../../Imagenes/logo.svg";
+import logo from "../../../../Imagenes/logo.svg";
+import "./Navbar.css";
 
-// Componente Navbar
 export default function Navbar({ cartCount = 0 }) {
     return (
         <header className="header">
             <div className="header__container">
-                {/* Logo y nombre de la marca */}
                 <div className="header__brand">
                     <Link to="/" className="header__logo">
                         <img src={logo} alt="Logo Hermanos Jota" className="logo-img" />
@@ -15,7 +13,6 @@ export default function Navbar({ cartCount = 0 }) {
                     </Link>
                 </div>
 
-                {/* Navegación principal */}
                 <nav className="nav" aria-label="Navegación principal">
                     <ul className="nav__list">
                         <li>
@@ -60,7 +57,6 @@ export default function Navbar({ cartCount = 0 }) {
                         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                     </svg>
                     <span className="header__cart-label">Carrito:</span>
-                    {/* El contador se actualiza con el largo del array carrito */}
                     <span id="cart-count" className="cart-count">
                         {cartCount}
                     </span>
