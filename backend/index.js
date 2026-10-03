@@ -4,6 +4,7 @@ import express from "express";
 import { logger } from "./middlewares/logger.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { notFound } from "./middlewares/notFound.js";
+import productosRouter from "./routes/productosRouter.js";
 
 dotenv.config();
 
@@ -17,6 +18,9 @@ app.use(logger);
 app.get("/api/health", (_req, res) => {
   res.json({ ok: true, service: "muebleria-hermanos-jota-api" });
 });
+
+// Rutas de la API
+app.use("/api/productos", productosRouter);
 
 app.use(notFound);
 app.use(errorHandler);
