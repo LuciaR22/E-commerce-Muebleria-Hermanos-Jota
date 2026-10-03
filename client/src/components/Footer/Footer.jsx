@@ -1,5 +1,3 @@
-// Importamos el logo directamente desde la carpeta de imágenes
-import logo from "../../../../Imagenes/logo.svg";
 import "./Footer.css";
 
 // Componente Footer: pie de página reutilizable
@@ -9,7 +7,7 @@ export default function Footer() {
             <div className="footer__container">
                 {/* Logo de la marca */}
                 <div className="footer__brand">
-                    <img src={logo} alt="Logo Hermanos Jota" className="footer__logo-img" />
+                    <img src="/Imagenes/logo.svg" alt="Logo Hermanos Jota" className="footer__logo-img" />
                 </div>
 
                 {/* Enlaces de navegación del pie de página */}

@@ -1,5 +1,4 @@
 import { Link, NavLink } from "react-router-dom";
-import logo from "../../../../Imagenes/logo.svg";
 import "./Navbar.css";
 
 export default function Navbar({ cartCount = 0 }) {
@@ -8,7 +7,7 @@ export default function Navbar({ cartCount = 0 }) {
             <div className="header__container">
                 <div className="header__brand">
                     <Link to="/" className="header__logo">
-                        <img src={logo} alt="Logo Hermanos Jota" className="logo-img" />
+                        <img src="/Imagenes/logo.svg" alt="Logo Hermanos Jota" className="logo-img" />
                         <span className="header__brand-name">Hermanos Jota</span>
                     </Link>
                 </div>
