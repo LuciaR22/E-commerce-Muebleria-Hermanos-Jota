@@ -10,7 +10,7 @@ export default function ProductsPage({ productoSeleccionado, setProductoSeleccio
 
                 {productoSeleccionado ? (
                     <ProductDetail
-                        producto={productoSeleccionado}
+                        productoId={productoSeleccionado}
                         volverAlCatalogo={() => setProductoSeleccionado(null)}
                         agregarAlCarrito={agregarAlCarrito}
                     />

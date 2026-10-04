@@ -1,7 +1,57 @@
+import { useEffect, useState } from "react";
+import productosService from "../../services/productosService";
 import "./ProductDetail.css";
 
-// componente detalle de producto
-function ProductDetail({ producto, volverAlCatalogo, agregarAlCarrito }) {
+function ProductDetail({ productoId, volverAlCatalogo, agregarAlCarrito }) {
+    const [producto, setProducto] = useState(null);
+    const [cargando, setCargando] = useState(true);
+    const [error, setError] = useState("");
+
+    useEffect(() => {
+        if (!productoId) {
+            setProducto(null);
+            setCargando(false);
+            return;
+        }
+
+        let isMounted = true;
+
+        const cargarProducto = async () => {
+            try {
+                setCargando(true);
+                setError("");
+                const datos = await productosService.getProductoById(productoId);
+
+                if (isMounted) {
+                    setProducto(datos);
+                }
+            } catch (err) {
+                if (isMounted) {
+                    setError(err.message || "No se pudo cargar el producto.");
+                    setProducto(null);
+                }
+            } finally {
+                if (isMounted) {
+                    setCargando(false);
+                }
+            }
+        };
+
+        cargarProducto();
+
+        return () => {
+            isMounted = false;
+        };
+    }, [productoId]);
+
+    if (cargando) {
+        return <p>Cargando producto...</p>;
+    }
+
+    if (error) {
+        return <p>{error}</p>;
+    }
+
     if (!producto) {
         return null;
     }
@@ -10,11 +60,7 @@ function ProductDetail({ producto, volverAlCatalogo, agregarAlCarrito }) {
 
     return (
         <div className="product-detail-container">
-            <button
-                type="button"
-                className="product-detail__back"
-                onClick={volverAlCatalogo}
-            >
+            <button type="button" className="product-detail__back" onClick={volverAlCatalogo}>
                 ← Volver al catálogo
             </button>
 
@@ -22,11 +68,7 @@ function ProductDetail({ producto, volverAlCatalogo, agregarAlCarrito }) {
             <section className="product-detail">
                 <figure className="product-detail__media">
                     <div className="product-detail__image-shell">
-                        <img
-                            src={producto.imagen}
-                            alt={producto.nombre}
-                            className="product-detail__image"
-                        />
+                        <img src={producto.imagen} alt={producto.nombre} className="product-detail__image" />
                     </div>
                 </figure>
 
@@ -36,16 +78,10 @@ function ProductDetail({ producto, volverAlCatalogo, agregarAlCarrito }) {
                     <p className="product-detail__lead">{producto.descripcion}</p>
 
                     {/* precio */}
-                    <p className="product-detail__price-note">
-                        ${precioFormateado}
-                    </p>
+                    <p className="product-detail__price-note">${precioFormateado}</p>
 
                     {/* botón para agregar al carrito con estado onclick */}
-                    <button
-                        type="button"
-                        className="product-detail__cta"
-                        onClick={() => agregarAlCarrito(producto)}
-                    >
+                    <button type="button" className="product-detail__cta" onClick={() => agregarAlCarrito(producto)}>
                         Agregar al carrito
                     </button>
                 </div>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import productosService from "../../services/productosService";
 import ProductCard from "../ProductCard";
 import "./ProductList.css";
 
@@ -8,23 +9,18 @@ function ProductList({ seleccionarProducto }) {
     const [error, setError] = useState("");
 
     useEffect(() => {
-        fetch("/api/productos")
-            .then(respuesta => {
-                if (!respuesta.ok) {
-                    throw new Error("Error al cargar los productos");
-                }
-
-                return respuesta.json();
-            })
-            .then(datos => {
+        const cargarProductos = async () => {
+            try {
+                const datos = await productosService.getProductos();
                 setProductos(datos);
-            })
-            .catch(() => {
-                setError("No se pudieron cargar los productos");
-            })
-            .finally(() => {
+            } catch (err) {
+                setError(err.message || "No se pudieron cargar los productos");
+            } finally {
                 setCargando(false);
-            });
+            }
+        };
+
+        cargarProductos();
     }, []);
 
     if (cargando) {

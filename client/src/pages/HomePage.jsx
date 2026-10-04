@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import productosService from "../services/productosService";
 
 // página de inicio
 export default function HomePage() {
@@ -7,15 +8,16 @@ export default function HomePage() {
     const [destacados, setDestacados] = useState([]);
 
     useEffect(() => {
-        // carga los primeros 4 productos desde la api
-        fetch("/api/productos")
-            .then(res => res.json())
-            .then(datos => {
+        const cargarDestacados = async () => {
+            try {
+                const datos = await productosService.getProductos();
                 setDestacados(datos.slice(0, 4));
-            })
-            .catch(() => {
+            } catch (_error) {
                 setDestacados([]);
-            });
+            }
+        };
+
+        cargarDestacados();
     }, []);
 
     return (

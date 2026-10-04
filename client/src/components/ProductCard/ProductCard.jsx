@@ -9,7 +9,7 @@ function ProductCard({ producto, seleccionarProducto }) {
 
             <p className="product-card__price">${producto.precio}</p>
 
-            <button className="product-card__button" onClick={() => seleccionarProducto(producto)}>
+            <button className="product-card__button" onClick={() => seleccionarProducto(producto.id)}>
                 Ver producto
             </button>
         </article>
