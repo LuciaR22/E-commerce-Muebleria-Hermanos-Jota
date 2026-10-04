@@ -1,55 +1,53 @@
-import { useEffect, useState } from "react";
+import useApiResource from "../../hooks/useApiResource";
 import productosService from "../../services/productosService";
+import ApiState from "../ApiState";
 import "./ProductDetail.css";
 
 function ProductDetail({ productoId, volverAlCatalogo, agregarAlCarrito }) {
-    const [producto, setProducto] = useState(null);
-    const [cargando, setCargando] = useState(true);
-    const [error, setError] = useState("");
-
-    useEffect(() => {
+    const {
+        data: producto,
+        status,
+        error,
+        retry,
+    } = useApiResource(() => {
         if (!productoId) {
-            setProducto(null);
-            setCargando(false);
-            return;
+            const missingProductError = new Error("No se indicó ningún producto para cargar.");
+            missingProductError.status = 400;
+            missingProductError.retryable = false;
+            throw missingProductError;
         }
 
-        let isMounted = true;
-
-        const cargarProducto = async () => {
-            try {
-                setCargando(true);
-                setError("");
-                const datos = await productosService.getProductoById(productoId);
-
-                if (isMounted) {
-                    setProducto(datos);
-                }
-            } catch (err) {
-                if (isMounted) {
-                    setError(err.message || "No se pudo cargar el producto.");
-                    setProducto(null);
-                }
-            } finally {
-                if (isMounted) {
-                    setCargando(false);
-                }
-            }
-        };
-
-        cargarProducto();
-
-        return () => {
-            isMounted = false;
-        };
+        return productosService.getProductoById(productoId);
     }, [productoId]);
 
-    if (cargando) {
-        return <p>Cargando producto...</p>;
+    if (status === "loading" || status === "refreshing") {
+        return (
+            <ApiState
+                status={status}
+                title="Cargando producto"
+                message="Estamos trayendo la ficha, imágenes y detalles del catálogo."
+            />
+        );
     }
 
-    if (error) {
-        return <p>{error}</p>;
+    if (status === "error") {
+        return (
+            <ApiState
+                status={status}
+                title="No pudimos cargar este producto"
+                message={error}
+                actions={
+                    <>
+                        <button type="button" className="product-detail__cta" onClick={retry}>
+                            Reintentar
+                        </button>
+                        <button type="button" className="product-detail__back" onClick={volverAlCatalogo}>
+                            Volver al catálogo
+                        </button>
+                    </>
+                }
+            />
+        );
     }
 
     if (!producto) {

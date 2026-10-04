@@ -1,0 +1,76 @@
+.api-state {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: start;
+    gap: 1rem;
+    width: 100%;
+    padding: 1.5rem;
+    border: 1px solid rgba(44, 36, 22, 0.1);
+    border-radius: 1.5rem;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 18px 40px rgba(44, 36, 22, 0.08);
+}
+
+.api-state--loading,
+.api-state--refreshing {
+    min-height: 220px;
+    place-items: center;
+    text-align: center;
+    grid-template-columns: 1fr;
+}
+
+.api-state--error {
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.api-state__spinner {
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 3px solid rgba(130, 89, 52, 0.2);
+    border-top-color: var(--titulo-siena);
+    border-radius: 50%;
+    animation: api-state-spin 0.75s linear infinite;
+}
+
+.api-state__icon {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    background: rgba(185, 77, 57, 0.12);
+    color: #a54633;
+    font-size: 1.5rem;
+    font-weight: var(--font-bold);
+}
+
+.api-state__body {
+    display: grid;
+    gap: 0.65rem;
+}
+
+.api-state__title {
+    margin: 0;
+    font-family: var(--font-display);
+    color: var(--titulo-siena);
+}
+
+.api-state__text {
+    margin: 0;
+    line-height: 1.6;
+    color: var(--color-texto);
+}
+
+.api-state__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.25rem;
+}
+
+@keyframes api-state-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

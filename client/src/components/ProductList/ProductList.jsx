@@ -1,34 +1,47 @@
-import { useEffect, useState } from "react";
+import useApiResource from "../../hooks/useApiResource";
 import productosService from "../../services/productosService";
+import ApiState from "../ApiState";
 import ProductCard from "../ProductCard";
 import "./ProductList.css";
 
 function ProductList({ seleccionarProducto }) {
-    const [productos, setProductos] = useState([]);
-    const [cargando, setCargando] = useState(true);
-    const [error, setError] = useState("");
+    const { data: productosData, status, error, retry } = useApiResource(() => productosService.getProductos(), []);
+    const productos = Array.isArray(productosData) ? productosData : [];
 
-    useEffect(() => {
-        const cargarProductos = async () => {
-            try {
-                const datos = await productosService.getProductos();
-                setProductos(datos);
-            } catch (err) {
-                setError(err.message || "No se pudieron cargar los productos");
-            } finally {
-                setCargando(false);
-            }
-        };
-
-        cargarProductos();
-    }, []);
-
-    if (cargando) {
-        return <p>Cargando...</p>;
+    if (status === "loading" || status === "refreshing") {
+        return (
+            <ApiState
+                status={status}
+                title="Cargando catálogo"
+                message="Estamos trayendo los productos disponibles para que puedas explorarlos."
+            />
+        );
     }
 
-    if (error) {
-        return <p>{error}</p>;
+    if (status === "error") {
+        return (
+            <ApiState
+                status={status}
+                title="No pudimos cargar el catálogo"
+                message={error}
+                actions={
+                    <button type="button" className="product-detail__cta" onClick={retry}>
+                        Reintentar
+                    </button>
+                }
+            />
+        );
+    }
+
+    if (productos.length === 0) {
+        return (
+            <div className="product-list__empty" role="status" aria-live="polite">
+                <h2 className="product-list__empty-title">Todavía no hay productos publicados</h2>
+                <p className="product-list__empty-text">
+                    En cuanto el catálogo se actualice, vas a ver los muebles disponibles acá.
+                </p>
+            </div>
+        );
     }
 
     return (
