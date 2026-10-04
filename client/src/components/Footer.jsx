@@ -1,4 +1,4 @@
-// Importamos el logo directamente desde la carpeta de imágenes
+﻿// Importamos el logo directamente desde la carpeta de imágenes
 import logo from "../../../Imagenes/logo.svg";
 
 // Componente Footer: pie de página reutilizable
@@ -20,13 +20,13 @@ export default function Footer() {
           <h4>Navegación</h4>
           <ul>
             <li>
-              <a href="index.html">Inicio</a>
+              <a href="#">Inicio</a>
             </li>
             <li>
-              <a href="productos.html">Productos</a>
+              <a href="#destacados">Productos</a>
             </li>
             <li>
-              <a href="contacto.html">Contacto</a>
+              <a href="#contacto">Contacto</a>
             </li>
           </ul>
         </div>
@@ -48,3 +48,4 @@ export default function Footer() {
     </footer>
   );
 }
+

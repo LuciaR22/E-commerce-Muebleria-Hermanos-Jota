@@ -1,4 +1,4 @@
-// Importamos el logo directamente desde la carpeta de imágenes
+﻿// Importamos el logo directamente desde la carpeta de imágenes
 import logo from "../../../Imagenes/logo.svg";
 
 // Componente Navbar
@@ -8,7 +8,7 @@ export default function Navbar({ cartCount = 0 }) {
       <div className="header__container">
         {/* Logo y nombre de la marca */}
         <div className="header__brand">
-          <a href="index.html" className="header__logo">
+          <a href="#" className="header__logo">
             <img
               src={logo}
               alt="Logo Hermanos Jota"
@@ -22,17 +22,17 @@ export default function Navbar({ cartCount = 0 }) {
         <nav className="nav" aria-label="Navegación principal">
           <ul className="nav__list">
             <li>
-              <a href="index.html" className="nav__link active">
+              <a href="#" className="nav__link active">
                 Inicio
               </a>
             </li>
             <li>
-              <a href="productos.html" className="nav__link">
+              <a href="#destacados" className="nav__link">
                 Productos
               </a>
             </li>
             <li>
-              <a href="contacto.html" className="nav__link">
+              <a href="#contacto" className="nav__link">
                 Contacto
               </a>
             </li>
@@ -70,3 +70,4 @@ export default function Navbar({ cartCount = 0 }) {
     </header>
   );
 }
+

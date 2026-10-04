@@ -18,7 +18,8 @@ function ProductList({ seleccionarProducto }) {
       .then((datos) => {
         setProductos(datos);
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error(error); // Esto imprime el problema real en la consola
         setError("No se pudieron cargar los productos");
       })
       .finally(() => {
@@ -35,7 +36,7 @@ function ProductList({ seleccionarProducto }) {
   }
 
   return (
-    <section>
+    <div id="productos-destacados">
       {productos.map((producto) => (
         <ProductCard
           key={producto.id}
@@ -43,7 +44,7 @@ function ProductList({ seleccionarProducto }) {
           seleccionarProducto={seleccionarProducto}
         />
       ))}
-    </section>
+    </div>
   );
 }
 

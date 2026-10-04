@@ -1,4 +1,4 @@
-// Importamos el hook useState de React para manejar el estado del carrito
+﻿// Importamos el hook useState de React para manejar el estado del carrito
 import { useState } from "react";
 
 // Importamos los componentes Navbar y Footer
@@ -19,7 +19,7 @@ export default function App() {
   const [carrito, setCarrito] = useState([]);
 
   // Estado del producto seleccionado: guarda el producto que el usuario eligió
-  const [productoSeleccionado, setProductoSeleccionado] = useState(null);
+  const [productoSeleccionadoId, setProductoSeleccionadoId] = useState(null);
 
   // Función para agregar un producto al carrito usando el operador spread
   const agregarAlCarrito = (producto) => {
@@ -28,7 +28,7 @@ export default function App() {
 
   // Función para seleccionar un producto y mostrar su detalle
   const seleccionarProducto = (producto) => {
-    setProductoSeleccionado(producto);
+    setProductoSeleccionadoId(producto.id);
   };
 
   return (
@@ -52,7 +52,7 @@ export default function App() {
             </p>
 
             <a
-              href="#catalogo"
+              href="#destacados"
               className="hero__cta boton-texto"
             >
               Ver productos
@@ -61,14 +61,14 @@ export default function App() {
         </section>
 
         {/* Renderizado condicional: muestra el detalle o el catálogo */}
-        {productoSeleccionado ? (
+        {productoSeleccionadoId ? (
           <ProductDetail
-            producto={productoSeleccionado}
-            volverAlCatalogo={() => setProductoSeleccionado(null)}
+            id={productoSeleccionadoId}
+            volverAlCatalogo={() => setProductoSeleccionadoId(null)}
           />
         ) : (
-          <section id="catalogo">
-            <h1>Catálogo de productos</h1>
+          <section id="destacados">
+            <h2>Productos destacados</h2>
 
             <ProductList
               seleccionarProducto={seleccionarProducto}
@@ -76,9 +76,13 @@ export default function App() {
           </section>
         )}
 
-        {/* Formulario de contacto */}
-        <h2>Contacto</h2>
-        <ContactForm />
+        <section id="contacto" className="contact-container">
+          <h1>Contacto</h1>
+          <p className="contact-info">
+            Completa el siguiente formulario y te responderemos a la brevedad.
+          </p>
+          <ContactForm />
+        </section>
       </main>
 
       {/* Footer en la parte inferior */}
@@ -86,3 +90,7 @@ export default function App() {
     </>
   );
 }
+
+
+
+
