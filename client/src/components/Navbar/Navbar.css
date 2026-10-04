@@ -2,8 +2,8 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    border-bottom: 1px solid #e8e2d9;
-    background-color: #ffffff;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-texto) 10%, var(--fondo-alabastro));
+    background-color: var(--color-blanco);
 }
 
 .header__container {
@@ -26,9 +26,10 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    font-family: var(--font-display);
     font-size: 1.25rem;
     font-weight: var(--font-bold);
-    color: var(--color-texto);
+    color: var(--titulo-siena);
 }
 
 .logo-img {
@@ -62,7 +63,7 @@
     border-bottom: 2px solid transparent;
     font-size: 0.8rem;
     font-weight: var(--font-medium);
-    color: #5a4a3a;
+    color: color-mix(in srgb, var(--color-texto) 78%, var(--fondo-alabastro));
     white-space: nowrap;
     transition:
         color 0.2s ease,
@@ -89,12 +90,12 @@
     font-size: 0.9rem;
     font-weight: var(--font-medium);
     color: var(--color-texto);
-    background-color: var(--color-fondo-alt);
+    background-color: var(--fondo-alabastro);
     transition: background-color 0.2s ease;
 }
 
 .header__cart:hover {
-    background-color: #ebdcd0;
+    background-color: color-mix(in srgb, var(--fondo-alabastro) 88%, var(--color-blanco));
 }
 
 .header__cart-icon {

@@ -24,11 +24,11 @@
 .form-group textarea {
     width: 100%;
     padding: 0.7rem 0.9rem;
-    border: 1px solid #dcd5cc;
+    border: 1px solid color-mix(in srgb, var(--color-texto) 18%, var(--fondo-alabastro));
     border-radius: 5px;
     font-family: inherit;
     font-size: 0.95rem;
-    background-color: #faf8f5;
+    background-color: var(--fondo-alabastro);
     transition:
         border-color 0.2s,
         background-color 0.2s;
@@ -43,20 +43,20 @@
 .form-group textarea:focus {
     outline: none;
     border-color: var(--titulo-siena);
-    background-color: #ffffff;
+    background-color: var(--color-blanco);
 }
 
 .form-group input.error,
 .form-group textarea.error {
-    border-color: #c53030;
-    background-color: #fffaf0;
+    border-color: var(--status-error);
+    background-color: var(--status-error-bg);
 }
 
 .error-text {
     min-height: 1.15rem;
     font-size: 0.8rem;
     font-weight: var(--font-medium);
-    color: #c53030;
+    color: var(--status-error);
 }
 
 .btn-submit {
@@ -67,7 +67,7 @@
     border-radius: 5px;
     font-size: 1rem;
     font-weight: var(--font-bold);
-    color: #ffffff;
+    color: var(--color-blanco);
     background-color: var(--titulo-siena);
     cursor: pointer;
     transition:
@@ -82,7 +82,7 @@
 }
 
 .btn-submit:hover {
-    background-color: #5a3e2b;
+    background-color: color-mix(in srgb, var(--titulo-siena) 82%, var(--color-texto));
     transform: translateY(-1px);
 }
 
@@ -105,15 +105,15 @@
 }
 
 .form-message.error {
-    border-color: #fecdd3;
-    color: #9f1239;
-    background-color: #fff1f2;
+    border-color: var(--status-error-border);
+    color: var(--status-error);
+    background-color: var(--status-error-bg);
 }
 
 .form-message.exito {
-    border-color: #bbf7d0;
-    color: #14532d;
-    background-color: #f0fdf4;
+    border-color: color-mix(in srgb, var(--status-success) 22%, var(--status-success-bg));
+    color: var(--status-success);
+    background-color: var(--status-success-bg);
 }
 
 @media (min-width: 768px) {

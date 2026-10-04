@@ -14,9 +14,9 @@
     place-items: center;
     gap: 0.75rem;
     padding: 2rem 1.5rem;
-    border: 1px dashed rgba(44, 36, 22, 0.18);
+    border: 1px dashed color-mix(in srgb, var(--color-texto) 18%, transparent);
     border-radius: 1.25rem;
-    background: rgba(255, 255, 255, 0.72);
+    background: color-mix(in srgb, var(--color-blanco) 72%, transparent);
     text-align: center;
 }
 
@@ -35,10 +35,10 @@
     flex-direction: column;
     align-items: center;
     padding: 1.25rem;
-    border: 1px solid #e0d8cc;
+    border: 1px solid color-mix(in srgb, var(--color-texto) 12%, var(--fondo-alabastro));
     border-radius: 10px;
     text-align: center;
-    background-color: #ffffff;
+    background-color: var(--color-blanco);
     transition:
         transform 0.2s ease,
         box-shadow 0.2s ease;
@@ -46,7 +46,7 @@
 
 .product-list article:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(44, 36, 22, 0.08);
+    box-shadow: 0 8px 20px color-mix(in srgb, var(--color-texto) 8%, transparent);
 }
 
 .product-list img {
@@ -57,15 +57,17 @@
 
 .product-list h2 {
     margin: 1rem 0 0.5rem;
+    font-family: var(--font-display);
     font-size: 1.25rem;
-    color: var(--color-texto);
+    font-weight: var(--font-bold);
+    color: var(--titulo-siena);
 }
 
 .product-list p {
     margin-bottom: 1rem;
     font-size: 1.125rem;
     font-weight: var(--font-bold);
-    color: var(--titulo-siena);
+    color: var(--acento-oro);
 }
 
 .product-list a {

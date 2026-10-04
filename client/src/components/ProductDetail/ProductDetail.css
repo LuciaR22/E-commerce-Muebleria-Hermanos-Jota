@@ -11,19 +11,19 @@
     gap: 0.5rem;
     align-self: flex-start;
     padding: 0.55rem 1.15rem;
-    border: 1px solid rgba(44, 36, 22, 0.15);
+    border: 1px solid color-mix(in srgb, var(--color-texto) 15%, transparent);
     border-radius: 999px;
     font-size: 0.9rem;
     font-weight: var(--font-medium);
     color: var(--color-texto);
-    background-color: #ffffff;
+    background-color: var(--color-blanco);
     cursor: pointer;
     transition: all 0.2s ease;
     width: fit-content;
 }
 
 .product-detail__back:hover {
-    background-color: var(--color-fondo-alt);
+    background-color: var(--fondo-alabastro);
     border-color: var(--titulo-siena);
     color: var(--titulo-siena);
 }
@@ -33,10 +33,10 @@
     display: grid;
     gap: 1.5rem;
     padding: 1.25rem;
-    border: 1px solid rgba(44, 36, 22, 0.08);
+    border: 1px solid color-mix(in srgb, var(--color-texto) 8%, transparent);
     border-radius: 1.5rem;
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 18px 40px rgba(44, 36, 22, 0.08);
+    background: color-mix(in srgb, var(--color-blanco) 95%, transparent);
+    box-shadow: 0 18px 40px color-mix(in srgb, var(--color-texto) 8%, transparent);
 }
 
 .product-detail__media {
@@ -48,10 +48,14 @@
 
 .product-detail__image-shell {
     padding: 1rem;
-    border: 1px solid rgba(44, 36, 22, 0.12);
+    border: 1px solid color-mix(in srgb, var(--color-texto) 12%, transparent);
     border-radius: 1.25rem;
-    background: linear-gradient(135deg, #ffffff, var(--color-fondo-alt));
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    background: linear-gradient(
+        135deg,
+        var(--color-blanco),
+        var(--fondo-alabastro)
+    );
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--color-blanco) 80%, transparent);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -100,8 +104,8 @@
     border-radius: 999px;
     font-size: 1.25rem;
     font-weight: var(--font-bold);
-    color: var(--titulo-siena);
-    background: rgba(212, 164, 55, 0.15);
+    color: var(--acento-oro);
+    background: color-mix(in srgb, var(--acento-oro) 15%, var(--fondo-alabastro));
     margin: 0.5rem 0;
 }
 
@@ -116,8 +120,12 @@
     font-size: 1rem;
     font-weight: var(--font-medium);
     color: var(--color-blanco);
-    background: linear-gradient(135deg, var(--titulo-siena), #8f4b25);
-    box-shadow: 0 14px 26px rgba(160, 82, 45, 0.22);
+    background: linear-gradient(
+        135deg,
+        var(--titulo-siena),
+        color-mix(in srgb, var(--titulo-siena) 85%, var(--color-texto))
+    );
+    box-shadow: 0 14px 26px color-mix(in srgb, var(--titulo-siena) 22%, transparent);
     cursor: pointer;
     transition:
         transform 0.2s ease,
@@ -128,7 +136,7 @@
 .product-detail__cta:hover,
 .product-detail__cta:focus-visible {
     transform: translateY(-2px);
-    box-shadow: 0 18px 30px rgba(160, 82, 45, 0.28);
+    box-shadow: 0 18px 30px color-mix(in srgb, var(--titulo-siena) 28%, transparent);
     filter: saturate(1.1);
 }
 
@@ -144,10 +152,10 @@
 
 .product-specs__card {
     padding: 1.25rem;
-    border: 1px solid rgba(44, 36, 22, 0.08);
+    border: 1px solid color-mix(in srgb, var(--color-texto) 8%, transparent);
     border-radius: 1.25rem;
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 10px 25px rgba(44, 36, 22, 0.05);
+    background: color-mix(in srgb, var(--color-blanco) 95%, transparent);
+    box-shadow: 0 10px 25px color-mix(in srgb, var(--color-texto) 5%, transparent);
 }
 
 .product-specs__kicker {
@@ -171,9 +179,9 @@
     display: grid;
     gap: 0.25rem;
     padding: 0.75rem 1rem;
-    border: 1px solid rgba(44, 36, 22, 0.1);
+    border: 1px solid color-mix(in srgb, var(--color-texto) 10%, transparent);
     border-radius: 0.75rem;
-    background: var(--color-fondo-alt);
+    background: var(--fondo-alabastro);
 }
 
 .product-specs__label {

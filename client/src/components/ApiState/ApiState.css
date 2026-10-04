@@ -5,10 +5,10 @@
     gap: 1rem;
     width: 100%;
     padding: 1.5rem;
-    border: 1px solid rgba(44, 36, 22, 0.1);
+    border: 1px solid color-mix(in srgb, var(--color-texto) 10%, transparent);
     border-radius: 1.5rem;
-    background: rgba(255, 255, 255, 0.96);
-    box-shadow: 0 18px 40px rgba(44, 36, 22, 0.08);
+    background: color-mix(in srgb, var(--color-blanco) 96%, transparent);
+    box-shadow: 0 18px 40px color-mix(in srgb, var(--color-texto) 8%, transparent);
 }
 
 .api-state--loading,
@@ -27,7 +27,7 @@
 .api-state__spinner {
     width: 2.5rem;
     height: 2.5rem;
-    border: 3px solid rgba(130, 89, 52, 0.2);
+    border: 3px solid color-mix(in srgb, var(--titulo-siena) 20%, transparent);
     border-top-color: var(--titulo-siena);
     border-radius: 50%;
     animation: api-state-spin 0.75s linear infinite;
@@ -39,8 +39,8 @@
     width: 2.75rem;
     height: 2.75rem;
     border-radius: 50%;
-    background: rgba(185, 77, 57, 0.12);
-    color: #a54633;
+    background-color: var(--status-error-bg);
+    color: var(--status-error);
     font-size: 1.5rem;
     font-weight: var(--font-bold);
 }

@@ -1,37 +1,45 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Playfair+Display:wght@400;700&display=swap");
 
 :root {
-    --titulo-siena: #a0522d;
-    --acento-verde: #87a96b;
-    --fondo-alabastro: #f5e6d3;
-    --color-fondo: #faf8f5;
-    --color-fondo-alt: #f4efe9;
-    --acento-oro: #d4a437;
-    --acento-rosa: #c47a6d;
+    /* Colores principales */
+    --titulo-siena: #a0522d; /*Siena Tostado : Para titulos principales (color principal de marca)*/
+    --acento-verde: #87a96b; /*Verde Salvia : Para acentos secundarios*/
+    --fondo-alabastro: #f5e6d3; /*Alabastro Cálido: para fondos principales*/
+    --acento-oro: #d4a437; /*Vara de oro: para detalles premium y acentos*/
+    --acento-rosa: #c47a6d; /*Rosa polvoriento: para acentos y detalles femeninos*/
 
-    --min-width-logo: 120px;
-
+    /* Neutros y texto */
     --color-texto: #2c2416;
     --color-blanco: #fafafa;
 
-    --font-body: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
-    --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
+    /* Estados (formularios, alertas) */
+    --status-error: #c53030;
+    --status-error-bg: #fff1f2;
+    --status-error-border: #fecdd3;
+    --status-success: #14532d;
+    --status-success-bg: #f0fdf4;
 
-    --font-light: 300;
-    --font-regular: 400;
-    --font-medium: 500;
-    --font-bold: 700;
+    /* Tipografías */
+    --font-body:
+        "Inter", "Segoe UI", system-ui, -apple-system, sans-serif; /* Para el texto del cuerpo y elementos UI */
+    --font-display:
+        "Playfair Display", Georgia, "Times New Roman", serif; /* Para titulos editoriales, citas destacadas y contenido premium */
 
+    /* Pesos */
+    --font-light: 300; /* Inter: para textos secundarios y leyendas */
+    --font-regular: 400; /* Inter: para texto principal | Playfair Display: para titulos elegantes */
+    --font-medium: 500; /* Inter: para énfasis y subtitulos*/
+    --font-bold: 700; /* Inter: para titulos y CTAs | Playfair Display: para énfasis editorial*/
+
+    /* Espaciados y tamaños */
     --letter-spacing-text: 0.01em;
     --letter-spacing-caption: 0.02em;
     --letter-spacing-cta: 0.08em;
-
     --body-size: 1rem;
     --body-line-height: 1.6;
     --caption-size: 0.5625rem;
     --small-size: 0.75rem;
 }
-
 /* =============================================
    Reset
    ============================================= */
@@ -47,7 +55,7 @@
 html {
     font-size: 100%;
     scroll-behavior: smooth;
-    background-color: var(--color-fondo);
+    background-color: var(--fondo-alabastro);
 }
 
 body {
@@ -60,7 +68,7 @@ body {
     line-height: var(--body-line-height);
     letter-spacing: var(--letter-spacing-text);
     color: var(--color-texto);
-    background-color: var(--color-fondo);
+    background-color: var(--fondo-alabastro);
 }
 
 #root {
@@ -151,7 +159,7 @@ a {
 .hero__subtitle {
     max-width: 32ch;
     font-size: clamp(0.95rem, 2.5vw, 1.125rem);
-    color: #fafafae0;
+    color: color-mix(in srgb, var(--color-blanco) 88%, transparent);
 }
 
 .hero__cta {
@@ -193,9 +201,11 @@ a {
 
 #destacados h2 {
     margin-bottom: 1.875rem;
+    font-family: var(--font-display);
     font-size: 1.75rem;
+    font-weight: var(--font-bold);
     text-align: center;
-    color: var(--color-texto);
+    color: var(--titulo-siena);
 }
 
 #productos-destacados {
@@ -209,10 +219,10 @@ a {
     flex-direction: column;
     align-items: center;
     padding: 1.25rem;
-    border: 1px solid #e0d8cc;
+    border: 1px solid color-mix(in srgb, var(--color-texto) 12%, transparent);
     border-radius: 8px;
     text-align: center;
-    background-color: #ffffff;
+    background-color: var(--color-blanco);
     transition:
         transform 0.2s ease,
         box-shadow 0.2s ease;
@@ -220,7 +230,7 @@ a {
 
 #productos-destacados article:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(44, 36, 22, 0.08);
+    box-shadow: 0 8px 20px color-mix(in srgb, var(--color-texto) 8%, transparent);
 }
 
 #productos-destacados img {
@@ -231,15 +241,17 @@ a {
 
 #productos-destacados h3 {
     margin: 1rem 0 0.5rem;
+    font-family: var(--font-display);
     font-size: 1.25rem;
-    color: var(--color-texto);
+    font-weight: var(--font-bold);
+    color: var(--titulo-siena);
 }
 
 #productos-destacados p {
     margin-bottom: 1rem;
     font-size: 1.125rem;
     font-weight: var(--font-bold);
-    color: var(--titulo-siena);
+    color: var(--acento-oro);
 }
 
 #productos-destacados a {
@@ -263,9 +275,9 @@ a {
     place-items: center;
     gap: 0.875rem;
     padding: 2rem 1.5rem;
-    border: 1px dashed rgba(255, 255, 255, 0.28);
+    border: 1px dashed color-mix(in srgb, var(--color-blanco) 28%, transparent);
     border-radius: 1rem;
-    background: rgba(255, 255, 255, 0.08);
+    background: color-mix(in srgb, var(--color-blanco) 8%, transparent);
     text-align: center;
     color: var(--color-blanco);
 }
