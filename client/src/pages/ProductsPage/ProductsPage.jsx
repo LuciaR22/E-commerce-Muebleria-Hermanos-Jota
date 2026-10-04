@@ -1,4 +1,4 @@
-import ProductDetail from "../../components/ProductDetail.jsx";
+import ProductDetail from "../../components/ProductDetail";
 import ProductList from "../../components/ProductList";
 import "./ProductsPage.css";
 
