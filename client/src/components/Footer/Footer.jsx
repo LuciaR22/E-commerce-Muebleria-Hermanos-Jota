@@ -1,32 +1,31 @@
+import { Link } from "react-router-dom";
 import "./Footer.css";
 
-// Componente Footer: pie de página reutilizable
+// componente footer
 export default function Footer() {
     return (
         <footer className="footer">
             <div className="footer__container">
-                {/* Logo de la marca */}
                 <div className="footer__brand">
-                    <img src="/Imagenes/logo.svg" alt="Logo Hermanos Jota" className="footer__logo-img" />
+                    <Link to="/" aria-label="Inicio">
+                        <img src="/Imagenes/logo.svg" alt="Logo Hermanos Jota" className="footer__logo-img" />
+                    </Link>
                 </div>
 
-                {/* Enlaces de navegación del pie de página */}
                 <div className="footer__links">
                     <h4>Navegación</h4>
                     <ul>
                         <li>
-                            <a href="index.html">Inicio</a>
+                            <Link to="/">Inicio</Link>
                         </li>
                         <li>
-                            <a href="productos.html">Productos</a>
+                            <Link to="/productos">Productos</Link>
                         </li>
                         <li>
-                            <a href="contacto.html">Contacto</a>
+                            <Link to="/contacto">Contacto</Link>
                         </li>
                     </ul>
                 </div>
-
-                {/* Información de contacto */}
                 <div className="footer__contact">
                     <h4>Contacto</h4>
                     <p>Av. San Juan 2847, CABA</p>
@@ -36,7 +35,6 @@ export default function Footer() {
                 </div>
             </div>
 
-            {/* Derechos reservados */}
             <div className="footer__bottom">
                 <p>&copy; 2026 Hermanos Jota. Todos los derechos reservados.</p>
             </div>
