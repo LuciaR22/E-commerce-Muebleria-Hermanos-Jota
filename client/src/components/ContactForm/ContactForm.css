@@ -1,0 +1,125 @@
+/* =============================================
+    Formulario de contacto
+   ============================================= */
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    font-weight: var(--font-bold);
+    color: var(--color-texto);
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid color-mix(in srgb, var(--color-texto) 18%, var(--fondo-alabastro));
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    background-color: var(--fondo-alabastro);
+    transition:
+        border-color 0.2s,
+        background-color 0.2s;
+}
+
+.form-group textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--titulo-siena);
+    background-color: var(--color-blanco);
+}
+
+.form-group input.error,
+.form-group textarea.error {
+    border-color: var(--status-error);
+    background-color: var(--status-error-bg);
+}
+
+.error-text {
+    min-height: 1.15rem;
+    font-size: 0.8rem;
+    font-weight: var(--font-medium);
+    color: var(--status-error);
+}
+
+.btn-submit {
+    width: 100%;
+    margin-top: 0.5rem;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: var(--font-bold);
+    color: var(--color-blanco);
+    background-color: var(--titulo-siena);
+    cursor: pointer;
+    transition:
+        background-color 0.2s,
+        transform 0.15s;
+}
+
+.btn-submit:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+    transform: none;
+}
+
+.btn-submit:hover {
+    background-color: color-mix(in srgb, var(--titulo-siena) 82%, var(--color-texto));
+    transform: translateY(-1px);
+}
+
+.btn-submit:disabled:hover {
+    background-color: var(--titulo-siena);
+    transform: none;
+}
+
+.btn-submit:active {
+    transform: translateY(0);
+}
+
+.form-message {
+    margin: 0;
+    padding: 1rem;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    font-weight: var(--font-medium);
+    text-align: center;
+}
+
+.form-message.error {
+    border-color: var(--status-error-border);
+    color: var(--status-error);
+    background-color: var(--status-error-bg);
+}
+
+.form-message.exito {
+    border-color: color-mix(in srgb, var(--status-success) 22%, var(--status-success-bg));
+    color: var(--status-success);
+    background-color: var(--status-success-bg);
+}
+
+@media (min-width: 768px) {
+    .btn-submit {
+        width: auto;
+        align-self: flex-start;
+        padding: 0.8rem 1.5rem;
+    }
+}

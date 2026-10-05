@@ -1,0 +1,249 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Playfair+Display:wght@400;700&display=swap");
+
+:root {
+    /* Colores principales */
+    --titulo-siena: #a0522d; /*Siena Tostado : Para titulos principales (color principal de marca)*/
+    --acento-verde: #87a96b; /*Verde Salvia : Para acentos secundarios*/
+    --fondo-alabastro: #f5e6d3; /*Alabastro Cálido: para fondos principales*/
+    --acento-oro: #d4a437; /*Vara de oro: para detalles premium y acentos*/
+    --acento-rosa: #c47a6d; /*Rosa polvoriento: para acentos y detalles femeninos*/
+
+    /* Neutros y texto */
+    --color-texto: #2c2416;
+    --color-blanco: #fafafa;
+
+    /* Estados (formularios, alertas) */
+    --status-error: #c53030;
+    --status-error-bg: #fff1f2;
+    --status-error-border: #fecdd3;
+    --status-success: #14532d;
+    --status-success-bg: #f0fdf4;
+
+    /* Tipografías */
+    --font-body:
+        "Inter", "Segoe UI", system-ui, -apple-system, sans-serif; /* Para el texto del cuerpo y elementos UI */
+    --font-display:
+        "Playfair Display", Georgia, "Times New Roman", serif; /* Para titulos editoriales, citas destacadas y contenido premium */
+
+    /* Pesos */
+    --font-light: 300; /* Inter: para textos secundarios y leyendas */
+    --font-regular: 400; /* Inter: para texto principal | Playfair Display: para titulos elegantes */
+    --font-medium: 500; /* Inter: para énfasis y subtitulos*/
+    --font-bold: 700; /* Inter: para titulos y CTAs | Playfair Display: para énfasis editorial*/
+
+    /* Espaciados y tamaños */
+    --letter-spacing-text: 0.01em;
+    --letter-spacing-caption: 0.02em;
+    --letter-spacing-cta: 0.08em;
+    --body-size: 1rem;
+    --body-line-height: 1.6;
+    --caption-size: 0.5625rem;
+    --small-size: 0.75rem;
+}
+/* =============================================
+   Reset
+   ============================================= */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 100%;
+    scroll-behavior: smooth;
+    background-color: var(--fondo-alabastro);
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-body);
+    font-size: var(--body-size);
+    font-weight: var(--font-regular);
+    line-height: var(--body-line-height);
+    letter-spacing: var(--letter-spacing-text);
+    color: var(--color-texto);
+    background-color: var(--fondo-alabastro);
+}
+
+#root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* =============================================
+   Estilos de marca
+   ============================================= */
+
+.titulo-principal {
+    font-family: var(--font-display);
+    font-weight: var(--font-bold);
+    color: var(--titulo-siena);
+    text-transform: uppercase;
+}
+
+.leyenda {
+    font-size: var(--caption-size);
+    font-weight: var(--font-light);
+    color: var(--color-texto);
+    letter-spacing: var(--letter-spacing-caption);
+}
+
+.boton-texto {
+    font-weight: var(--font-medium);
+    letter-spacing: var(--letter-spacing-cta);
+    text-transform: uppercase;
+}
+
+/* =============================================
+   Hero Banner (Sprint 2)
+   ============================================= */
+
+.hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    padding: 3rem 1.25rem;
+    background: linear-gradient(135deg, rgba(44, 36, 22, 1) 0%, rgba(74, 55, 40, 1) 50%, #6b4e37 100%);
+}
+
+.hero__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    max-width: 36rem;
+    text-align: center;
+}
+
+.hero__eyebrow {
+    font-size: 0.75rem;
+    font-weight: var(--font-bold);
+    letter-spacing: var(--letter-spacing-cta);
+    text-transform: uppercase;
+    color: var(--acento-oro);
+}
+
+.hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 5vw, 3rem);
+    font-weight: var(--font-bold);
+    line-height: 1.2;
+    color: var(--color-blanco);
+}
+
+.hero__subtitle {
+    max-width: 32ch;
+    font-size: clamp(0.95rem, 2.5vw, 1.125rem);
+    color: color-mix(in srgb, var(--color-blanco) 88%, transparent);
+}
+
+.hero__cta {
+    display: inline-block;
+    padding: 0.875rem 2rem;
+    border: 2px solid var(--acento-oro);
+    border-radius: 0.375rem;
+    font-weight: var(--font-bold);
+    color: var(--color-texto);
+    background-color: var(--acento-oro);
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.15s ease;
+}
+
+.hero__cta:hover,
+.hero__cta:focus-visible {
+    color: var(--acento-oro);
+    background-color: transparent;
+    transform: translateY(-2px);
+}
+
+.hero__cta:focus-visible {
+    outline: 2px solid var(--color-blanco);
+    outline-offset: 3px;
+}
+
+.hero__cta:active {
+    transform: translateY(0);
+}
+
+/* productos destacados (Sprint 2) */
+#destacados {
+    max-width: 1200px;
+    margin: 3rem auto;
+    padding: 1.25rem;
+}
+
+#destacados h2 {
+    margin-bottom: 1.875rem;
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: var(--font-bold);
+    text-align: center;
+    color: var(--titulo-siena);
+}
+
+#productos-destacados {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+.home-featured-empty {
+    display: grid;
+    place-items: center;
+    gap: 0.875rem;
+    padding: 2rem 1.5rem;
+    border: 1px dashed color-mix(in srgb, var(--color-blanco) 28%, transparent);
+    border-radius: 1rem;
+    background: color-mix(in srgb, var(--color-blanco) 8%, transparent);
+    text-align: center;
+    color: var(--color-blanco);
+}
+
+.home-featured-empty p {
+    max-width: 36rem;
+}
+
+@media (min-width: 768px) {
+    #destacados h2 {
+        font-size: 2rem;
+    }
+
+    #productos-destacados {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    #productos-destacados {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5625rem;
+    }
+}
