@@ -1,13 +1,20 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ApiState from "../components/ApiState";
+import ProductCard from "../components/ProductCard";
 import useApiResource from "../hooks/useApiResource";
 import productosService from "../services/productosService";
 
 // página de inicio
-export default function HomePage() {
+export default function HomePage({ setProductoSeleccionado }) {
+    const navegar = useNavigate();
     const { data: productosData, status, error, retry } = useApiResource(() => productosService.getProductos(), []);
     const productos = Array.isArray(productosData) ? productosData : [];
     const destacados = productos.slice(0, 4);
+
+    const verProducto = productoId => {
+        setProductoSeleccionado(productoId);
+        navegar("/productos");
+    };
 
     return (
         <main>
@@ -62,12 +69,11 @@ export default function HomePage() {
                 {status === "success" && destacados.length > 0 ? (
                     <div id="productos-destacados">
                         {destacados.map(producto => (
-                            <article key={producto.id}>
-                                <img src={producto.imagen} alt={producto.nombre} />
-                                <h3>{producto.nombre}</h3>
-                                <p>${Number(producto.precio).toLocaleString("es-AR")}</p>
-                                <Link to="/productos">Ver producto</Link>
-                            </article>
+                            <ProductCard
+                                key={producto.id}
+                                producto={producto}
+                                seleccionarProducto={verProducto}
+                            />
                         ))}
                     </div>
                 ) : null}

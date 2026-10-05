@@ -24,7 +24,7 @@ export default function App() {
             <Navbar cartCount={carrito.length} />
 
             <Routes>
-                <Route path="/" element={<HomePage />} />
+                <Route path="/" element={<HomePage setProductoSeleccionado={setProductoSeleccionado} />} />
                 <Route
                     path="/productos"
                     element={

@@ -214,62 +214,6 @@ a {
     gap: 1.5rem;
 }
 
-#productos-destacados article {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1.25rem;
-    border: 1px solid color-mix(in srgb, var(--color-texto) 12%, transparent);
-    border-radius: 8px;
-    text-align: center;
-    background-color: var(--color-blanco);
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-#productos-destacados article:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px color-mix(in srgb, var(--color-texto) 8%, transparent);
-}
-
-#productos-destacados img {
-    width: 100%;
-    height: 220px;
-    object-fit: contain;
-}
-
-#productos-destacados h3 {
-    margin: 1rem 0 0.5rem;
-    font-family: var(--font-display);
-    font-size: 1.25rem;
-    font-weight: var(--font-bold);
-    color: var(--titulo-siena);
-}
-
-#productos-destacados p {
-    margin-bottom: 1rem;
-    font-size: 1.125rem;
-    font-weight: var(--font-bold);
-    color: var(--acento-oro);
-}
-
-#productos-destacados a {
-    display: inline-block;
-    margin-top: auto;
-    padding: 0.625rem 1.25rem;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    font-weight: var(--font-medium);
-    color: var(--color-blanco);
-    background-color: var(--color-texto);
-    transition: background-color 0.2s ease;
-}
-
-#productos-destacados a:hover {
-    background-color: var(--titulo-siena);
-}
-
 .home-featured-empty {
     display: grid;
     place-items: center;
