@@ -10,12 +10,17 @@
 export function errorHandler(err, req, res, _next) {
   console.error(err);
 
-  const status =
+  let status =
     typeof err.status === "number"
       ? err.status
       : typeof err.statusCode === "number"
         ? err.statusCode
         : 500;
+
+  // responder 400 ante errores de validación o casteo de mongoose
+  if (err.name === "ValidationError" || err.name === "CastError") {
+    status = 400;
+  }
 
   const isProduction = process.env.NODE_ENV === "production";
   const message =

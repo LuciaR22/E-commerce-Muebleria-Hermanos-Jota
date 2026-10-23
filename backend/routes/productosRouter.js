@@ -1,7 +1,26 @@
 import { Router } from "express";
+import Product from "../models/Product.js";
 import { productos } from "../data/productos.js";
 
 const router = Router();
+
+/**
+ * @route   POST /api/productos
+ * @desc    Crea un nuevo producto en la base de datos
+ * @access  Privado (Admin)
+ */
+router.post("/", async (req, res, next) => {
+  try {
+    // crear el producto en mongodb con los datos del body
+    const nuevoProducto = await Product.create(req.body);
+
+    // responder 201 con el documento creado
+    return res.status(201).json(nuevoProducto);
+  } catch (err) {
+    // pasar el error al middleware errorHandler
+    next(err);
+  }
+});
 
 /**
  * @route   GET /api/productos

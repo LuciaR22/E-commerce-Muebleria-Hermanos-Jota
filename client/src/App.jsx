@@ -4,6 +4,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import ContactPage from "./pages/ContactPage";
+import CrearProducto from "./pages/CrearProducto";
 import HomePage from "./pages/HomePage.jsx";
 import ProductsPage from "./pages/ProductsPage";
 
@@ -36,6 +37,8 @@ export default function App() {
                     }
                 />
                 <Route path="/contacto" element={<ContactPage />} />
+                {/* ruta para crear un nuevo producto desde el panel de administración */}
+                <Route path="/admin/crear-producto" element={<CrearProducto />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
 
