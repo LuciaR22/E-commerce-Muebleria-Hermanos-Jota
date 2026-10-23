@@ -18,6 +18,7 @@
     color: var(--color-texto);
     background-color: var(--color-blanco);
     cursor: pointer;
+    text-decoration: none;
     transition: all 0.2s ease;
     width: fit-content;
 }
