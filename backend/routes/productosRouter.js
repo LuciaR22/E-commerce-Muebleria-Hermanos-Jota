@@ -1,10 +1,27 @@
 import { Router } from "express";
 import mongoose from "mongoose";
 import Product from "../models/Product.js";
-import { productos } from "../data/productos.js";
 import { obtenerProductos } from "../controllers/productoController.js";
 
 const router = Router();
+
+/**
+ * @route   POST /api/productos
+ * @desc    Crea un nuevo producto en la base de datos
+ * @access  Privado (Admin)
+ */
+router.post("/", async (req, res, next) => {
+  try {
+    // crear el producto en mongodb con los datos del body
+    const nuevoProducto = await Product.create(req.body);
+
+    // responder 201 con el documento creado
+    return res.status(201).json(nuevoProducto);
+  } catch (err) {
+    // pasar el error al middleware errorHandler
+    next(err);
+  }
+});
 
 /**
  * @route   GET /api/productos
@@ -12,7 +29,6 @@ const router = Router();
  * @access  Público
  */
 router.get("/", obtenerProductos);
-
 
 /**
  * @route   GET /api/productos/:id
@@ -23,26 +39,25 @@ router.get("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    // Validar si el formato del ID es un ObjectId válido de MongoDB
+    // validar si el formato del ID es un ObjectId válido de MongoDB
     if (!mongoose.isValidObjectId(id)) {
       return res.status(400).json({ error: "ID de producto inválido" });
     }
 
-    // Buscar el producto por ID en la base de datos
+    // buscar el producto por ID en la base de datos
     const producto = await Product.findById(id);
 
-    // Si no se encuentra el producto, responder con 404
+    // si no se encuentra el producto, responder con 404
     if (!producto) {
       return res.status(404).json({ error: "Producto no encontrado" });
     }
 
-    // Responder con código 200 y el producto encontrado
+    // responder con código 200 y el producto encontrado
     return res.status(200).json(producto);
   } catch (error) {
-    // Propagar el error al middleware errorHandler
+    // propagar el error al middleware errorHandler
     next(error);
   }
 });
 
 export default router;
-
