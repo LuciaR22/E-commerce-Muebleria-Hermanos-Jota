@@ -24,6 +24,17 @@
     margin: 0 auto;
 }
 
+.api-state--empty {
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.api-state--empty .api-state__icon {
+    background-color: color-mix(in srgb, var(--color-texto) 8%, transparent);
+    color: var(--color-texto);
+    font-size: 1.25rem;
+}
+
 .api-state__spinner {
     width: 2.5rem;
     height: 2.5rem;
