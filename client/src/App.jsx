@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import ProductDetail from "./components/ProductDetail";
 import ContactPage from "./pages/ContactPage";
 import CrearProducto from "./pages/CrearProducto";
+import EditarProducto from "./pages/EditarProducto";
 import HomePage from "./pages/HomePage.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import ProductsPage from "./pages/ProductsPage";
@@ -52,6 +53,8 @@ export default function App() {
                 <Route path="/contacto" element={<ContactPage />} />
                 {/* Ruta para crear un nuevo producto desde el panel de administración */}
                 <Route path="/admin/crear-producto" element={<CrearProducto />} />
+                {/* Ruta para editar un producto existente desde el panel de administración */}
+                <Route path="/admin/editar-producto/:id" element={<EditarProducto />} />
                 {/* Ruta comodín para páginas inexistentes (404) */}
                 <Route path="*" element={<NotFound />} />
             </Routes>
