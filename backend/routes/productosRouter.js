@@ -1,4 +1,6 @@
 import { Router } from "express";
+import mongoose from "mongoose";
+import Product from "../models/Product.js";
 import { productos } from "../data/productos.js";
 import { obtenerProductos } from "../controllers/productoController.js";
 
@@ -14,19 +16,33 @@ router.get("/", obtenerProductos);
 
 /**
  * @route   GET /api/productos/:id
- * @desc    Obtener un producto por su ID
+ * @desc    Obtener un producto por su ID desde MongoDB
  * @access  Público
  */
-router.get("/:id", (req, res) => {
-  const productoId = Number(req.params.id);
-  const producto = productos.find((p) => p.id === productoId);
+router.get("/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
 
-  // Validación de existencia
-  if (!producto) {
-    return res.status(404).json({ error: "Producto no encontrado" });
+    // Validar si el formato del ID es un ObjectId válido de MongoDB
+    if (!mongoose.isValidObjectId(id)) {
+      return res.status(400).json({ error: "ID de producto inválido" });
+    }
+
+    // Buscar el producto por ID en la base de datos
+    const producto = await Product.findById(id);
+
+    // Si no se encuentra el producto, responder con 404
+    if (!producto) {
+      return res.status(404).json({ error: "Producto no encontrado" });
+    }
+
+    // Responder con código 200 y el producto encontrado
+    return res.status(200).json(producto);
+  } catch (error) {
+    // Propagar el error al middleware errorHandler
+    next(error);
   }
-
-  return res.status(200).json(producto);
 });
 
 export default router;
+
