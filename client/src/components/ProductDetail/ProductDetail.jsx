@@ -86,10 +86,18 @@ function ProductDetail({ productoId, volverAlCatalogo, agregarAlCarrito }) {
                     {/* precio */}
                     <p className="product-detail__price-note">${precioFormateado}</p>
 
-                    {/* botón para agregar al carrito con estado onclick */}
-                    <button type="button" className="product-detail__cta" onClick={() => agregarAlCarrito(producto)}>
-                        Agregar al carrito
-                    </button>
+                    {/* acciones del producto */}
+                    <div className="product-detail__actions">
+                        <button type="button" className="product-detail__cta" onClick={() => agregarAlCarrito(producto)}>
+                            Agregar al carrito
+                        </button>
+                        <Link
+                            to={`/admin/editar-producto/${idAUsar || producto._id || producto.id}`}
+                            className="product-detail__edit-btn"
+                        >
+                            Editar
+                        </Link>
+                    </div>
                 </div>
             </section>
 

@@ -60,4 +60,43 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
+/**
+ * @route   PUT /api/productos/:id
+ * @desc    Actualiza un producto existente por su ID
+ * @access  Privado (Admin)
+ */
+router.put("/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    // validar si el formato del ID es un ObjectId válido de MongoDB
+    if (!mongoose.isValidObjectId(id)) {
+      return res.status(400).json({ error: "ID de producto inválido" });
+    }
+
+    // remover campos inmutables si vinieran en el body para prevenir errores de Mongoose
+    const datosActualizacion = { ...req.body };
+    delete datosActualizacion._id;
+    delete datosActualizacion.__v;
+
+    // actualizar el producto aplicando las validaciones del esquema y retornando el documento modificado
+    const productoActualizado = await Product.findByIdAndUpdate(
+      id,
+      datosActualizacion,
+      { new: true, runValidators: true }
+    );
+
+    // si devuelve null, el producto no existe en la base de datos
+    if (!productoActualizado) {
+      return res.status(404).json({ error: "Producto no encontrado" });
+    }
+
+    // responder 200 con el producto ya actualizado
+    return res.status(200).json(productoActualizado);
+  } catch (error) {
+    // propagar el error al middleware errorHandler (validaciones del schema -> 400)
+    next(error);
+  }
+});
+
 export default router;
