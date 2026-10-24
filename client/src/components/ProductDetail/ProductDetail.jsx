@@ -1,24 +1,30 @@
+import { Link, useParams } from "react-router-dom";
 import useApiResource from "../../hooks/useApiResource";
 import productosService from "../../services/productosService";
 import ApiState from "../ApiState";
 import "./ProductDetail.css";
 
 function ProductDetail({ productoId, volverAlCatalogo, agregarAlCarrito }) {
+    // Obtener el id desde los parámetros de la URL si se accede por ruta dinámica
+    const { id } = useParams();
+    // Priorizar el id recibido por props o el obtenido desde la URL (useParams)
+    const idAUsar = productoId || id;
+
     const {
         data: producto,
         status,
         error,
         retry,
     } = useApiResource(() => {
-        if (!productoId) {
+        if (!idAUsar) {
             const missingProductError = new Error("No se indicó ningún producto para cargar.");
             missingProductError.status = 400;
             missingProductError.retryable = false;
             throw missingProductError;
         }
 
-        return productosService.getProductoById(productoId);
-    }, [productoId]);
+        return productosService.getProductoById(idAUsar);
+    }, [idAUsar]);
 
     if (status === "loading" || status === "refreshing") {
         return (
@@ -41,9 +47,9 @@ function ProductDetail({ productoId, volverAlCatalogo, agregarAlCarrito }) {
                         <button type="button" className="product-detail__cta" onClick={retry}>
                             Reintentar
                         </button>
-                        <button type="button" className="product-detail__back" onClick={volverAlCatalogo}>
+                        <Link to="/productos" className="product-detail__back" onClick={volverAlCatalogo}>
                             Volver al catálogo
-                        </button>
+                        </Link>
                     </>
                 }
             />
@@ -55,18 +61,20 @@ function ProductDetail({ productoId, volverAlCatalogo, agregarAlCarrito }) {
     }
 
     const precioFormateado = Number(producto.precio || 0).toLocaleString("es-AR");
+    const imagenSrc = producto.imagenUrl || producto.imagen;
 
     return (
         <div className="product-detail-container">
-            <button type="button" className="product-detail__back" onClick={volverAlCatalogo}>
+            {/* Link para volver a la vista del catálogo */}
+            <Link to="/productos" className="product-detail__back" onClick={volverAlCatalogo}>
                 ← Volver al catálogo
-            </button>
+            </Link>
 
             {/* vista principal del producto */}
             <section className="product-detail">
                 <figure className="product-detail__media">
                     <div className="product-detail__image-shell">
-                        <img src={producto.imagen} alt={producto.nombre} className="product-detail__image" />
+                        <img src={imagenSrc} alt={producto.nombre} className="product-detail__image" />
                     </div>
                 </figure>
 
@@ -90,6 +98,12 @@ function ProductDetail({ productoId, volverAlCatalogo, agregarAlCarrito }) {
                 <article className="product-specs__card">
                     <h3 className="product-specs__kicker">Ficha técnica</h3>
                     <ul className="product-specs__list">
+                        {producto.stock !== undefined && (
+                            <li className="product-specs__item">
+                                <span className="product-specs__label">Stock</span>
+                                <span className="product-specs__value">{producto.stock} unidades</span>
+                            </li>
+                        )}
                         {producto.medidas && (
                             <li className="product-specs__item">
                                 <span className="product-specs__label">Medidas</span>

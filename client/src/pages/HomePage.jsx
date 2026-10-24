@@ -12,8 +12,10 @@ export default function HomePage({ setProductoSeleccionado }) {
     const destacados = productos.slice(0, 4);
 
     const verProducto = productoId => {
-        setProductoSeleccionado(productoId);
-        navegar("/productos");
+        if (setProductoSeleccionado) {
+            setProductoSeleccionado(productoId);
+        }
+        navegar(`/productos/${productoId}`);
     };
 
     return (
@@ -70,7 +72,7 @@ export default function HomePage({ setProductoSeleccionado }) {
                     <div id="productos-destacados">
                         {destacados.map(producto => (
                             <ProductCard
-                                key={producto.id}
+                                key={producto._id || producto.id}
                                 producto={producto}
                                 seleccionarProducto={verProducto}
                             />
