@@ -2,18 +2,17 @@ import { Router } from "express";
 import mongoose from "mongoose";
 import Product from "../models/Product.js";
 import { productos } from "../data/productos.js";
+import { obtenerProductos } from "../controllers/productoController.js";
 
 const router = Router();
 
 /**
  * @route   GET /api/productos
- * @desc    Obtiene el listado completo de productos
+ * @desc    Obtiene el listado completo de productos desde la base de datos
  * @access  Público
  */
-router.get("/", (req, res) => {
-  // Retorna el listado completo de productos con código HTTP 200 (OK)
-  res.status(200).json(productos);
-});
+router.get("/", obtenerProductos);
+
 
 /**
  * @route   GET /api/productos/:id

@@ -20,4 +20,3 @@ function ProductCard({ producto, seleccionarProducto }) {
 }
 
 export default ProductCard;
-

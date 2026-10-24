@@ -35,12 +35,11 @@ function ProductList({ seleccionarProducto }) {
 
     if (productos.length === 0) {
         return (
-            <div className="product-list__empty" role="status" aria-live="polite">
-                <h2 className="product-list__empty-title">Todavía no hay productos publicados</h2>
-                <p className="product-list__empty-text">
-                    En cuanto el catálogo se actualice, vas a ver los muebles disponibles acá.
-                </p>
-            </div>
+            <ApiState
+                status="empty"
+                title="No hay productos disponibles"
+                message="En cuanto el catálogo se actualice, vas a ver los muebles disponibles acá."
+            />
         );
     }
 
