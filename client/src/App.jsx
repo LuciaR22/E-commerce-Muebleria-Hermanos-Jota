@@ -1,10 +1,14 @@
 import { useState } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
+import ProductDetail from "./components/ProductDetail";
 import ContactPage from "./pages/ContactPage";
+import CrearProducto from "./pages/CrearProducto";
+import EditarProducto from "./pages/EditarProducto";
 import HomePage from "./pages/HomePage.jsx";
+import NotFound from "./pages/NotFound.jsx";
 import ProductsPage from "./pages/ProductsPage";
 
 export default function App() {
@@ -35,8 +39,24 @@ export default function App() {
                         />
                     }
                 />
+                {/* Ruta dinámica para detalle de producto por ID con useParams */}
+                <Route
+                    path="/productos/:id"
+                    element={
+                        <main className="product-page">
+                            <section className="product-page__content">
+                                <ProductDetail agregarAlCarrito={agregarAlCarrito} />
+                            </section>
+                        </main>
+                    }
+                />
                 <Route path="/contacto" element={<ContactPage />} />
-                <Route path="*" element={<Navigate to="/" replace />} />
+                {/* Ruta para crear un nuevo producto desde el panel de administración */}
+                <Route path="/admin/crear-producto" element={<CrearProducto />} />
+                {/* Ruta para editar un producto existente desde el panel de administración */}
+                <Route path="/admin/editar-producto/:id" element={<EditarProducto />} />
+                {/* Ruta comodín para páginas inexistentes (404) */}
+                <Route path="*" element={<NotFound />} />
             </Routes>
 
             <Footer />
