@@ -4,11 +4,9 @@ import productosService from "../../services/productosService";
 import ApiState from "../ApiState";
 import "./ProductDetail.css";
 
-function ProductDetail({ productoId, volverAlCatalogo, agregarAlCarrito }) {
-    // Obtener el id desde los parámetros de la URL si se accede por ruta dinámica
+function ProductDetail({ agregarAlCarrito }) {
     const { id } = useParams();
-    // Priorizar el id recibido por props o el obtenido desde la URL (useParams)
-    const idAUsar = productoId || id;
+    const idAUsar = id;
 
     const {
         data: producto,
@@ -47,7 +45,7 @@ function ProductDetail({ productoId, volverAlCatalogo, agregarAlCarrito }) {
                         <button type="button" className="product-detail__cta" onClick={retry}>
                             Reintentar
                         </button>
-                        <Link to="/productos" className="product-detail__back" onClick={volverAlCatalogo}>
+                        <Link to="/productos" className="product-detail__back">
                             Volver al catálogo
                         </Link>
                     </>
@@ -66,7 +64,7 @@ function ProductDetail({ productoId, volverAlCatalogo, agregarAlCarrito }) {
     return (
         <div className="product-detail-container">
             {/* Link para volver a la vista del catálogo */}
-            <Link to="/productos" className="product-detail__back" onClick={volverAlCatalogo}>
+            <Link to="/productos" className="product-detail__back">
                 ← Volver al catálogo
             </Link>
 
@@ -92,7 +90,7 @@ function ProductDetail({ productoId, volverAlCatalogo, agregarAlCarrito }) {
                             Agregar al carrito
                         </button>
                         <Link
-                            to={`/admin/editar-producto/${idAUsar || producto._id || producto.id}`}
+                            to={`/admin/editar-producto/${producto._id}`}
                             className="product-detail__edit-btn"
                         >
                             Editar
