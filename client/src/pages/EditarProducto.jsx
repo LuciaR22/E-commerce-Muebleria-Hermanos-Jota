@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ProductForm from "../components/ProductForm/ProductForm";
+import productosService from "../services/productosService";
 import "./EditarProducto.css";
 
 /**
@@ -22,14 +23,8 @@ export default function EditarProducto() {
         setCargando(true);
         setError(null);
 
-        fetch(`/api/productos/${id}`)
-            .then(async res => {
-                const data = await res.json();
-                if (!res.ok) {
-                    throw new Error(data.error || "No se pudo obtener el producto");
-                }
-                return data;
-            })
+        productosService
+            .getProductoById(id)
             .then(data => {
                 if (isMounted) {
                     setProducto({
@@ -63,21 +58,7 @@ export default function EditarProducto() {
         setError(null);
 
         try {
-            const response = await fetch(`/api/productos/${id}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(datosActualizados),
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.error || "No se pudo actualizar el producto.");
-            }
-
-            // Al guardar exitosamente, navegar al detalle del producto /productos/:id
+            await productosService.actualizarProducto(id, datosActualizados);
             navigate(`/productos/${id}`);
         } catch (err) {
             setError(err.message || "Ocurrió un error al actualizar el producto.");
