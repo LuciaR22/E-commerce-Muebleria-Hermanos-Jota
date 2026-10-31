@@ -47,7 +47,7 @@ function ProductDetail({ productoId, volverAlCatalogo, agregarAlCarrito }) {
                         <button type="button" className="product-detail__cta" onClick={retry}>
                             Reintentar
                         </button>
-                        <Link to="/productos" className="product-detail__back" onClick={volverAlCatalogo}>
+                        <Link to="/productos" className="product-detail__back">
                             Volver al catálogo
                         </Link>
                     </>

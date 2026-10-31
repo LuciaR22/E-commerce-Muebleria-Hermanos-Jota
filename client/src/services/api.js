@@ -107,18 +107,21 @@ async function request(endpoint, options = {}, retries = DEFAULT_RETRIES, timeou
             }
 
             return response;
-        } catch (error) {
+                } catch (error) {
             lastError = error;
 
             if (error?.name === "AbortError") {
                 lastError = buildRequestError(
                     "La API no respondió dentro del tiempo esperado. Intenta nuevamente.",
                     408,
-                    {
-                        timeout: true,
-                    },
+                    { timeout: true },
                     true,
                 );
+            }
+
+            
+            if (lastError?.retryable === false) {
+                throw lastError; 
             }
 
             if (attempt < retries) {
@@ -132,7 +135,6 @@ async function request(endpoint, options = {}, retries = DEFAULT_RETRIES, timeou
             clearTimeout(timeoutId);
         }
     }
-
     throw lastError;
 }
 

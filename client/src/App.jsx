@@ -15,8 +15,6 @@ export default function App() {
     // Estado del carrito: array que almacena los productos seleccionados (inicia vacío)
     const [carrito, setCarrito] = useState([]);
 
-    // Estado del producto seleccionado: guarda el producto que el usuario eligió
-    const [productoSeleccionado, setProductoSeleccionado] = useState(null);
 
     const agregarAlCarrito = producto => {
         setCarrito(prevCarrito => [...prevCarrito, producto]);
@@ -28,13 +26,11 @@ export default function App() {
             <Navbar cartCount={carrito.length} />
 
             <Routes>
-                <Route path="/" element={<HomePage setProductoSeleccionado={setProductoSeleccionado} />} />
+                <Route path="/" element={<HomePage />} />
                 <Route
                     path="/productos"
                     element={
                         <ProductsPage
-                            productoSeleccionado={productoSeleccionado}
-                            setProductoSeleccionado={setProductoSeleccionado}
                             agregarAlCarrito={agregarAlCarrito}
                         />
                     }
