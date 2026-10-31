@@ -1,3 +1,4 @@
+
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
@@ -12,14 +13,15 @@ dotenv.config();
 const app = express();
 const port = Number(process.env.PORT) || 5000;
 
-await connectDB();
-
 app.use(cors({ origin: process.env.CLIENT_URL }));
 app.use(express.json());
 app.use(logger);
 
 app.get("/api/health", (_req, res) => {
-    res.json({ ok: true, service: "muebleria-hermanos-jota-api" });
+    res.json({
+        ok: true,
+        service: "muebleria-hermanos-jota-api",
+    });
 });
 
 // Rutas de la API
@@ -28,6 +30,21 @@ app.use("/api/productos", productosRouter);
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(port, () => {
-    console.log(`API listening on http://localhost:${port}`);
-});
+// Inicia el servidor solamente cuando se ejecuta este archivo directamente.
+const iniciarServidor = async () => {
+    try {
+        await connectDB();
+
+        app.listen(port, () => {
+            console.log(`API listening on http://localhost:${port}`);
+        });
+    } catch (error) {
+        console.error("Error al iniciar el servidor:", error.message);
+        process.exitCode = 1;
+    }
+};
+
+iniciarServidor();
+
+export default app;
+
