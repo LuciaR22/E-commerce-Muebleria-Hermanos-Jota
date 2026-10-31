@@ -1,3 +1,4 @@
+
 import { request } from "./api";
 
 const productosService = {
@@ -22,6 +23,13 @@ const productosService = {
             body: JSON.stringify(datos),
         });
     },
+
+    async eliminarProducto(id) {
+        return request(`/productos/${id}`, {
+            method: "DELETE",
+        });
+    },
 };
 
 export default productosService;
+

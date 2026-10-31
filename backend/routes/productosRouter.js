@@ -1,3 +1,4 @@
+
 import { Router } from "express";
 import mongoose from "mongoose";
 import Product from "../models/Product.js";
@@ -6,127 +7,124 @@ import { obtenerProductos } from "../controllers/productoController.js";
 const router = Router();
 
 /**
- * @route   POST /api/productos
- * @desc    Crea un nuevo producto en la base de datos
- * @access  Privado (Admin)
+ * @route POST /api/productos
+ * @desc Crea un nuevo producto
  */
 router.post("/", async (req, res, next) => {
-  try {
-    // crear el producto en mongodb con los datos del body
-    const nuevoProducto = await Product.create(req.body);
-
-    // responder 201 con el documento creado
-    return res.status(201).json(nuevoProducto);
-  } catch (err) {
-    // pasar el error al middleware errorHandler
-    next(err);
-  }
+    try {
+        const nuevoProducto = await Product.create(req.body);
+        return res.status(201).json(nuevoProducto);
+    } catch (error) {
+        next(error);
+    }
 });
 
 /**
- * @route   GET /api/productos
- * @desc    Obtiene el listado completo de productos desde la base de datos
- * @access  Público
+ * @route GET /api/productos
+ * @desc Obtiene todos los productos
  */
 router.get("/", obtenerProductos);
 
 /**
- * @route   GET /api/productos/:id
- * @desc    Obtener un producto por su ID desde MongoDB
- * @access  Público
+ * @route GET /api/productos/:id
+ * @desc Obtiene un producto por su ID
  */
 router.get("/:id", async (req, res, next) => {
-  try {
-    const { id } = req.params;
+    try {
+        const { id } = req.params;
 
-    // validar si el formato del ID es un ObjectId válido de MongoDB
-    if (!mongoose.isValidObjectId(id)) {
-      return res.status(400).json({ error: "ID de producto inválido" });
+        if (!mongoose.isValidObjectId(id)) {
+            return res.status(400).json({
+                error: "ID de producto inválido",
+            });
+        }
+
+        const producto = await Product.findById(id);
+
+        if (!producto) {
+            return res.status(404).json({
+                error: "Producto no encontrado",
+            });
+        }
+
+        return res.status(200).json(producto);
+    } catch (error) {
+        next(error);
     }
-
-    // buscar el producto por ID en la base de datos
-    const producto = await Product.findById(id);
-
-    // si no se encuentra el producto, responder con 404
-    if (!producto) {
-      return res.status(404).json({ error: "Producto no encontrado" });
-    }
-
-    // responder con código 200 y el producto encontrado
-    return res.status(200).json(producto);
-  } catch (error) {
-    // propagar el error al middleware errorHandler
-    next(error);
-  }
 });
 
 /**
- * @route   PUT /api/productos/:id
- * @desc    Actualiza un producto existente por su ID
- * @access  Privado (Admin)
+ * @route PUT /api/productos/:id
+ * @desc Actualiza un producto existente
  */
 router.put("/:id", async (req, res, next) => {
-  try {
-    const { id } = req.params;
+    try {
+        const { id } = req.params;
 
-    // validar si el formato del ID es un ObjectId válido de MongoDB
-    if (!mongoose.isValidObjectId(id)) {
-      return res.status(400).json({ error: "ID de producto inválido" });
+        if (!mongoose.isValidObjectId(id)) {
+            return res.status(400).json({
+                error: "ID de producto inválido",
+            });
+        }
+
+        const datosActualizacion = { ...req.body };
+
+        delete datosActualizacion._id;
+        delete datosActualizacion.__v;
+
+        const productoActualizado = await Product.findByIdAndUpdate(
+            id,
+            datosActualizacion,
+            {
+                new: true,
+                runValidators: true,
+            }
+        );
+
+        if (!productoActualizado) {
+            return res.status(404).json({
+                error: "Producto no encontrado",
+            });
+        }
+
+        return res.status(200).json(productoActualizado);
+    } catch (error) {
+        next(error);
     }
-
-    // remover campos inmutables si vinieran en el body para prevenir errores de Mongoose
-    const datosActualizacion = { ...req.body };
-    delete datosActualizacion._id;
-    delete datosActualizacion.__v;
-
-    // actualizar el producto aplicando las validaciones del esquema y retornando el documento modificado
-    const productoActualizado = await Product.findByIdAndUpdate(
-      id,
-      datosActualizacion,
-      { new: true, runValidators: true }
-    );
-
-    // si devuelve null, el producto no existe en la base de datos
-    if (!productoActualizado) {
-      return res.status(404).json({ error: "Producto no encontrado" });
-    }
-
-    // responder 200 con el producto ya actualizado
-    return res.status(200).json(productoActualizado);
-  } catch (error) {
-    // propagar el error al middleware errorHandler (validaciones del schema -> 400)
-    next(error);
-  }
 });
 
 /**
- * @route   DELETE /api/productos/:id
- * @desc    
- * @access  (Admin)
+ * @route DELETE /api/productos/:id
+ * @desc Elimina un producto por su ID
+ * @response 200 - Producto eliminado correctamente
+ * @response 400 - ID inválido
+ * @response 404 - Producto no encontrado
  */
 router.delete("/:id", async (req, res, next) => {
-  try {
-    const { id } = req.params;
+    try {
+        const { id } = req.params;
 
-    // validar si el formato del ID es un ObjectId válido de MongoDB
-    if (!mongoose.isValidObjectId(id)) {
-      return res.status(400).json({ error: "ID de producto inválido" });
+        if (!mongoose.isValidObjectId(id)) {
+            return res.status(400).json({
+                error: "ID de producto inválido",
+            });
+        }
+
+        const productoEliminado = await Product.findByIdAndDelete(id);
+
+        if (!productoEliminado) {
+            return res.status(404).json({
+                error: "Producto no encontrado",
+            });
+        }
+
+        return res.status(200).json({
+            mensaje: "Producto eliminado correctamente",
+            producto: productoEliminado,
+        });
+    } catch (error) {
+        next(error);
     }
-
-    // eliminar el producto por su ID
-    const productoEliminado = await Product.findByIdAndDelete(id);
-
-    // si no se encuentra, responde con 404
-    if (!productoEliminado) {
-      return res.status(404).json({ error: "Producto no encontrado" });
-    }
-
-    // responder con el producto eliminado
-    return res.status(200).json(productoEliminado);
-  } catch (error) {
-    // propagar errores al middleware errorHandler
-    next(error);
-  }
 });
 
 export default router;
