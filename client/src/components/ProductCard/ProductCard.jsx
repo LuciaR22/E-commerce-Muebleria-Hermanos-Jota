@@ -2,12 +2,10 @@ import "./ProductCard.css";
 import { Link } from "react-router-dom";
 
 function ProductCard({ producto, seleccionarProducto }) {
-    const id = producto._id || producto.id;
-    const imagenSrc = producto.imagenUrl || producto.imagen;
 
     return (
         <article className="product-card">
-            <img className="product-card__image" src={imagenSrc} alt={producto.nombre} />
+            <img className="product-card__image" src={producto.imagenUrl} alt={producto.nombre} />
 
             <h2 className="product-card__title">{producto.nombre}</h2>
 
@@ -18,6 +16,9 @@ function ProductCard({ producto, seleccionarProducto }) {
             Ver detalle
             </Link>
             
+            <button className="product-card__button" onClick={() => seleccionarProducto(producto._id)}>
+                Ver producto
+            </button>
         </article>
     );
 }

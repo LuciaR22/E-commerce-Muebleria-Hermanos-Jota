@@ -15,6 +15,13 @@ const productosService = {
             body: JSON.stringify(datos),
         });
     },
+
+    async crearProducto(datos) {
+        return request("/productos", {
+            method: "POST",
+            body: JSON.stringify(datos),
+        });
+    },
 };
 
 export default productosService;

@@ -14,7 +14,7 @@ const port = Number(process.env.PORT) || 5000;
 
 await connectDB();
 
-app.use(cors());
+app.use(cors({ origin: process.env.CLIENT_URL }));
 app.use(express.json());
 app.use(logger);
 

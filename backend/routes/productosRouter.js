@@ -99,4 +99,34 @@ router.put("/:id", async (req, res, next) => {
   }
 });
 
+/**
+ * @route   DELETE /api/productos/:id
+ * @desc    
+ * @access  (Admin)
+ */
+router.delete("/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    // validar si el formato del ID es un ObjectId válido de MongoDB
+    if (!mongoose.isValidObjectId(id)) {
+      return res.status(400).json({ error: "ID de producto inválido" });
+    }
+
+    // eliminar el producto por su ID
+    const productoEliminado = await Product.findByIdAndDelete(id);
+
+    // si no se encuentra, responde con 404
+    if (!productoEliminado) {
+      return res.status(404).json({ error: "Producto no encontrado" });
+    }
+
+    // responder con el producto eliminado
+    return res.status(200).json(productoEliminado);
+  } catch (error) {
+    // propagar errores al middleware errorHandler
+    next(error);
+  }
+});
+
 export default router;

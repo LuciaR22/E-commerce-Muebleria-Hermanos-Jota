@@ -35,6 +35,14 @@ export default function Navbar({ cartCount = 0 }) {
                                 Contacto
                             </NavLink>
                         </li>
+                        <li>
+                            <NavLink
+                                to="/admin/crear-producto"
+                                className={({ isActive }) => `nav__link${isActive ? " active" : ""}`}
+                            >
+                                Crear Producto
+                            </NavLink>
+                        </li>
                     </ul>
                 </nav>
 

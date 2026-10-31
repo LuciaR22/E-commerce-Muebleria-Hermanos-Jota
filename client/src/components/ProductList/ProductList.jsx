@@ -46,7 +46,7 @@ function ProductList({ seleccionarProducto }) {
     return (
         <section className="product-list">
             {productos.map(producto => (
-                <ProductCard key={producto._id || producto.id} producto={producto} seleccionarProducto={seleccionarProducto} />
+                <ProductCard key={producto._id} producto={producto} seleccionarProducto={seleccionarProducto} />
             ))}
         </section>
     );
