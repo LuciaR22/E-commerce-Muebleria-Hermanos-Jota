@@ -1,4 +1,5 @@
 import "./ProductCard.css";
+import { Link } from "react-router-dom";
 
 function ProductCard({ producto, seleccionarProducto }) {
 
@@ -10,6 +11,11 @@ function ProductCard({ producto, seleccionarProducto }) {
 
             <p className="product-card__price">${producto.precio?.toLocaleString("es-AR")}</p>
 
+
+            <Link to={`/productos/${producto._id || producto.id}`} className="boton-ver-detalle">
+            Ver detalle
+            </Link>
+            
             <button className="product-card__button" onClick={() => seleccionarProducto(producto._id)}>
                 Ver producto
             </button>

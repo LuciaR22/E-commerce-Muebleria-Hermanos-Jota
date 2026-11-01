@@ -14,6 +14,7 @@ import ProductsPage from "./pages/ProductsPage";
 
 export default function App() {
     const [carrito, setCarrito] = useState([]);
+
     const [productoSeleccionado, setProductoSeleccionado] = useState(null);
 
     // Agrega un producto al carrito.
@@ -33,6 +34,7 @@ export default function App() {
             <Navbar cartCount={carrito.length} />
 
             <Routes>
+                <Route path="/" element={<HomePage />} />
                 <Route
                     path="/"
                     element={
@@ -46,8 +48,6 @@ export default function App() {
                     path="/productos"
                     element={
                         <ProductsPage
-                            productoSeleccionado={productoSeleccionado}
-                            setProductoSeleccionado={setProductoSeleccionado}
                             agregarAlCarrito={agregarAlCarrito}
                         />
                     }
