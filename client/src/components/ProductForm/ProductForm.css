@@ -1,0 +1,85 @@
+/* =============================================
+   Formulario de producto (Creación y Edición)
+   ============================================= */
+
+.product-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 100%;
+}
+
+.product-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.product-form label {
+    font-size: 0.9rem;
+    font-weight: var(--font-bold);
+    color: var(--color-texto);
+}
+
+.product-form input,
+.product-form textarea {
+    width: 100%;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid color-mix(in srgb, var(--color-texto) 18%, var(--fondo-alabastro));
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    background-color: var(--color-blanco);
+    transition:
+        border-color 0.2s,
+        background-color 0.2s;
+}
+
+.product-form textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.product-form input:focus,
+.product-form textarea:focus {
+    outline: none;
+    border-color: var(--titulo-siena);
+}
+
+.product-form .form-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+}
+
+@media (min-width: 600px) {
+    .product-form .form-row {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.product-form .btn-submit {
+    align-self: flex-start;
+    padding: 0.85rem 2rem;
+    border: none;
+    border-radius: 0.375rem;
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: var(--font-bold);
+    letter-spacing: var(--letter-spacing-cta);
+    text-transform: uppercase;
+    color: var(--color-texto);
+    background-color: var(--acento-oro);
+    cursor: pointer;
+    transition: background-color 0.2s, opacity 0.2s, transform 0.15s;
+}
+
+.product-form .btn-submit:hover:not(:disabled) {
+    filter: brightness(0.95);
+    transform: translateY(-1px);
+}
+
+.product-form .btn-submit:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
