@@ -1,8 +1,8 @@
 # E-commerce Muebleria Hermanos Jota
 
 ## Enlaces de Despliegue
-*   **Frontend (Vercel):** [PEGAR LINK DE VERCEL ]
-*   **Backend (Render):** [PEGAR LINK DE RENDER]
+*   **Frontend (Vercel):** https://e-commerce-muebleria-hermanos-jota.vercel.app/
+*   **Backend (Render):** https://e-commerce-muebleria-hermanos-jota.onrender.com
 
 ## Descripción del proyecto
 
