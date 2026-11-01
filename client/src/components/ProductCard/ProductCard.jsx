@@ -16,9 +16,6 @@ function ProductCard({ producto, seleccionarProducto }) {
             Ver detalle
             </Link>
             
-            <button className="product-card__button" onClick={() => seleccionarProducto(producto._id)}>
-                Ver producto
-            </button>
         </article>
     );
 }
