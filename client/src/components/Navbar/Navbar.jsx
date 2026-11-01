@@ -1,7 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 import "./Navbar.css";
 
-export default function Navbar({ cartCount = 0 }) {
+export default function Navbar({ cartCount = 0, rolUsuario, cambiarRol }) {
     return (
         <header className="header">
             <div className="header__container">
@@ -35,18 +35,33 @@ export default function Navbar({ cartCount = 0 }) {
                                 Contacto
                             </NavLink>
                         </li>
-                        <li>
-                            <NavLink
-                                to="/admin/crear-producto"
-                                className={({ isActive }) => `nav__link${isActive ? " active" : ""}`}
-                            >
-                                Crear Producto
-                            </NavLink>
-                        </li>
+                        
+                        {/* Solo mostramos "Crear Producto" si el rol es admin */}
+                        {rolUsuario === "admin" && (
+                            <li>
+                                <NavLink
+                                    to="/admin/crear-producto"
+                                    className={({ isActive }) => `nav__link${isActive ? " active" : ""}`}
+                                >
+                                    Crear Producto
+                                </NavLink>
+                            </li>
+                        )}
                     </ul>
                 </nav>
 
-                <div className="header__cart" title="Carrito de compras" aria-label="Carrito de compras">
+                {/* Botón para cambiar de rol (Píldora) */}
+                <div className="header__role-switch">
+                    <button 
+                        onClick={cambiarRol} 
+                        className={`btn-rol ${rolUsuario === "admin" ? "btn-rol--admin" : "btn-rol--cliente"}`}
+                    >
+                        {rolUsuario === "admin" ? "Admin" : "Cliente"}
+                    </button>
+                </div>
+
+                {/* El carrito ahora es un Link a /carrito */}
+                <Link to="/carrito" className="header__cart" title="Carrito de compras" aria-label="Carrito de compras">
                     <svg
                         className="header__cart-icon"
                         width="20"
@@ -67,7 +82,7 @@ export default function Navbar({ cartCount = 0 }) {
                     <span id="cart-count" className="cart-count">
                         {cartCount}
                     </span>
-                </div>
+                </Link>
             </div>
         </header>
     );
