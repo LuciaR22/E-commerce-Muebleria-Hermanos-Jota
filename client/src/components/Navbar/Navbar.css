@@ -167,3 +167,51 @@
         font-size: 0.95rem;
     }
 }
+/* --- Botón de Roles --- */
+.header__role-switch {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+}
+
+.btn-rol {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: var(--font-body, sans-serif);
+}
+
+/* Estilo base Cliente */
+.btn-rol--cliente {
+    background-color: #f9f9f9;
+    color: #555;
+    border-color: #ccc;
+}
+
+.btn-rol--cliente:hover {
+    background-color: #eaeaea;
+}
+
+/* Estilo Admin (Usa el color de la marca) */
+.btn-rol--admin {
+    background-color: var(--titulo-siena, #5c3a21);
+    color: white;
+    border-color: var(--titulo-siena, #5c3a21);
+    box-shadow: 0 2px 8px rgba(92, 58, 33, 0.3);
+}
+
+.btn-rol--admin:hover {
+    background-color: color-mix(in srgb, var(--titulo-siena) 85%, black);
+}
+
+/* Ajuste para que el Link del carrito no tenga subrayado */
+a.header__cart {
+    text-decoration: none;
+}
