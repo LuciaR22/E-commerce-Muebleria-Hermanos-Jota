@@ -4,31 +4,39 @@ import ProductCard from "../components/ProductCard";
 import useApiResource from "../hooks/useApiResource";
 import productosService from "../services/productosService";
 
-export default function HomePage() {
+// página de inicio
+export default function HomePage({ setProductoSeleccionado }) {
     const navegar = useNavigate();
     const { data: productosData, status, error, retry } = useApiResource(() => productosService.getProductos(), []);
     const productos = Array.isArray(productosData) ? productosData : [];
     const destacados = productos.slice(0, 4);
 
     const verProducto = productoId => {
-        navegar(`/productos/${productoId}`);
+        setProductoSeleccionado(productoId);
+        navegar("/productos");
     };
 
     return (
         <main>
-            {/* Banner principal */}
+            {/* banner principal */}
             <section className="hero" aria-label="Banner principal">
                 <div className="hero__content">
                     <p className="hero__eyebrow">Mueblería Hermanos Jota</p>
+
                     <h1 className="hero__title">Diseño y confort para tu hogar</h1>
+
                     <p className="hero__subtitle">
-                        Descubrí muebles hechos con dedicación, materiales seleccionados y estilo atemporal para cada ambiente.
+                        Descubrí muebles hechos con dedicación, materiales seleccionados y estilo atemporal para cada
+                        ambiente.
                     </p>
-                    <Link to="/productos" className="hero__cta boton-texto">Ver productos</Link>
+
+                    <Link to="/productos" className="hero__cta boton-texto">
+                        Ver productos
+                    </Link>
                 </div>
             </section>
 
-            {/* Productos destacados */}
+            {/* productos desrtacados */}
             <section id="destacados">
                 <h2>Productos destacados</h2>
 
@@ -47,8 +55,12 @@ export default function HomePage() {
                         message={error}
                         actions={
                             <>
-                                <button type="button" className="hero__cta boton-texto" onClick={retry}>Reintentar</button>
-                                <Link to="/productos" className="hero__cta boton-texto">Ver catálogo</Link>
+                                <button type="button" className="hero__cta boton-texto" onClick={retry}>
+                                    Reintentar
+                                </button>
+                                <Link to="/productos" className="hero__cta boton-texto">
+                                    Ver catálogo
+                                </Link>
                             </>
                         }
                     />
@@ -58,7 +70,7 @@ export default function HomePage() {
                     <div id="productos-destacados">
                         {destacados.map(producto => (
                             <ProductCard
-                                key={producto._id || producto.id}
+                                key={producto.id}
                                 producto={producto}
                                 seleccionarProducto={verProducto}
                             />
@@ -69,7 +81,9 @@ export default function HomePage() {
                 {status === "success" && destacados.length === 0 ? (
                     <div className="home-featured-empty">
                         <p>Por ahora no hay productos destacados para mostrar.</p>
-                        <Link to="/productos" className="hero__cta boton-texto">Explorar catálogo</Link>
+                        <Link to="/productos" className="hero__cta boton-texto">
+                            Explorar catálogo
+                        </Link>
                     </div>
                 ) : null}
             </section>

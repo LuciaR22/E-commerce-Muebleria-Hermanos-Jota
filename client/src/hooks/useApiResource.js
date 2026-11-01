@@ -1,8 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { normalizeErrorMessage } from "../services/api";
 
-
-
 const initialState = {
     status: "idle",
     data: null,

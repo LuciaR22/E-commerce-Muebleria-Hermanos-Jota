@@ -18,20 +18,9 @@ function ApiState({ status, title, message, actions = null, className = "" }) {
     if (status === "error") {
         return (
             <div className={rootClassName} role="alert">
-                <div className="api-state__icon" aria-hidden="true">!</div>
-                <div className="api-state__body">
-                    <h3 className="api-state__title">{title}</h3>
-                    <p className="api-state__text">{message}</p>
-                    {actions ? <div className="api-state__actions">{actions}</div> : null}
+                <div className="api-state__icon" aria-hidden="true">
+                    !
                 </div>
-            </div>
-        );
-    }
-
-    if (status === "empty") {
-        return (
-            <div className={rootClassName} role="status" aria-live="polite">
-                <div className="api-state__icon" aria-hidden="true">○</div>
                 <div className="api-state__body">
                     <h3 className="api-state__title">{title}</h3>
                     <p className="api-state__text">{message}</p>
