@@ -1,28 +1,48 @@
 # E-commerce Muebleria Hermanos Jota
 
-## Descripcion del proyecto
+## Enlaces de Despliegue
+*   **Frontend (Vercel):** [PEGAR LINK DE VERCEL ]
+*   **Backend (Render):** [PEGAR LINK DE RENDER]
 
-Este proyecto consiste en la construccion de la fachada completa de un e-commerce para la muebleria Hermanos Jota. La experiencia del usuario se desarrolla unicamente con tecnologias del lado del cliente, simulando la navegacion, consulta de productos y la interaccion con un carrito sin necesidad de backend.
+## Descripción del proyecto
 
-El sitio busca ser visualmente atractivo, responsivo y facil de usar, con productos cargados dinamicamente desde JavaScript para representar una tienda en linea funcional a nivel front-end.
+Este proyecto consiste en la construcción de la fachada completa de un e-commerce para la mueblería Hermanos Jota. A partir del Sprint 3 y 4, el proyecto evolucionó de un frontend estático a una aplicación Full Stack real. El frontend en React consume una API REST desarrollada en Express, la cual persiste los datos en una base de datos MongoDB en la nube (mediante Mongoose).
+
+El sitio busca ser visualmente atractivo, responsivo y fácil de usar, con un sistema completo de gestión de productos (CRUD) y una experiencia de compra interactiva para el usuario.
 
 ## Funcionalidades
 
-- Pagina de inicio con header, navegacion, banner principal, productos destacados y footer.
-- Catalogo de productos con tarjetas generadas dinamicamente desde un archivo JavaScript local.
-- Detalle de producto con imagen, descripcion, caracteristicas, precio y boton de anadir al carrito.
-- Formulario de contacto con validacion del lado del cliente y mensaje de confirmacion.
-- Carrito simulado con contador en el header.
-- Busqueda de productos como funcionalidad extra.
+### Generales
+- Página de inicio con header, navegación, banner principal (Hero), productos destacados y footer.
+- Catálogo de productos con tarjetas generadas dinámicamente consultando la API.
+- Detalle de producto dinámico (`/productos/:id`) utilizando `useParams` de React Router.
+- Formulario de contacto con validación del lado del cliente.
+- Manejo de estados de carga y error en las peticiones a la API (componente `ApiState`).
+
+### Panel de Administración (CRUD)
+- Creación de nuevos productos (`/admin/crear-producto`).
+- Edición de productos existentes (`/admin/editar-producto/:id`).
+- Eliminación de productos (con confirmación y redirección).
+
+### Carrito de Compras (Frontend)
+- Carrito simulado que funciona 100% en el cliente (estado global de React).
+- Agrupación de productos idénticos para mostrar cantidades.
+- Controles para aumentar (+) o disminuir (-) unidades, y eliminación individual con ícono de tacho.
+- Cálculo dinámico de subtotales y total general.
+- *Nota:* La persistencia de órdenes de compra en la base de datos y la integración con pasarelas de pago quedan pendientes para futuras iteraciones.
+
+### Simulación de Roles (Provisoria)
+- Se agregó un botón "toggle" en el Navbar para alternar entre el rol de **Cliente** y **Admin**.
+- **Lógica aplicada:** Si el rol es Cliente, se oculta el botón de "Crear Producto" en el menú y los botones de edición/eliminación en el detalle del producto. Si el rol es Admin, se oculta el botón de "Agregar al carrito".
+- *Aclaración:* Esta lógica es netamente visual y provisoria. La implementación real de autenticación y permisos (backend) se abordará en los próximos sprints.
 
 ## Requisitos
-
 - Node.js >= 20
 - npm
 
-## Instalacion
+## Instalación
 
-Desde la raiz del proyecto instalar todas las dependencias (backend, client y herramientas comunes):
+Desde la raíz del proyecto instalar todas las dependencias (backend, client y herramientas comunes):
 
 ```bash
 npm install
