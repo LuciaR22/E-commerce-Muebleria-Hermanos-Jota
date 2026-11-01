@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import useApiResource from "../../hooks/useApiResource";
@@ -6,7 +5,7 @@ import productosService from "../../services/productosService";
 import ApiState from "../ApiState";
 import "./ProductDetail.css";
 
-function ProductDetail({ agregarAlCarrito, quitarDelCarrito }) {
+function ProductDetail({ agregarAlCarrito, quitarDelCarrito, rolUsuario }) {
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -142,32 +141,42 @@ function ProductDetail({ agregarAlCarrito, quitarDelCarrito }) {
                         ${precioFormateado}
                     </p>
 
+                    {/* ACCIONES */}
                     <div className="product-detail__actions">
-                        <button
-                            type="button"
-                            className="product-detail__cta"
-                            onClick={() => agregarAlCarrito(producto)}
-                        >
-                            Agregar al carrito
-                        </button>
+                        {/* Botón de agregar al carrito: solo para cliente */}
+                        {rolUsuario === "cliente" && (
+                            <button
+                                type="button"
+                                className="product-detail__cta"
+                                onClick={() => agregarAlCarrito(producto)}
+                            >
+                                Agregar al carrito
+                            </button>
+                        )}
 
-                        <Link
-                            to={`/admin/editar-producto/${producto._id}`}
-                            className="product-detail__edit-btn"
-                        >
-                            Editar
-                        </Link>
-
-                        <button
-                            type="button"
-                            className="product-detail__edit-btn"
-                            onClick={manejarEliminacion}
-                            disabled={eliminando}
-                        >
-                            {eliminando ? "Eliminando..." : "Eliminar"}
-                        </button>
+                        {/* Botones de Editar y Eliminar: solo para admin */}
+                        {rolUsuario === "admin" && (
+                            <>
+                                <Link
+                                    to={`/admin/editar-producto/${producto._id}`}
+                                    className="product-detail__edit-btn"
+                                >
+                                    Editar producto
+                                </Link>
+                                
+                                <button
+                                    type="button"
+                                    className="product-detail__edit-btn"
+                                    onClick={manejarEliminacion}
+                                    disabled={eliminando}
+                                >
+                                    {eliminando ? "Eliminando..." : "Eliminar"}
+                                </button>
+                            </>
+                        )}
                     </div>
 
+                    {/* Mensaje de error al eliminar */}
                     {errorEliminacion && (
                         <p role="alert" className="form-message error">
                             {errorEliminacion}

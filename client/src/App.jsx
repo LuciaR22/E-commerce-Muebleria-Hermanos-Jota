@@ -11,81 +11,92 @@ import EditarProducto from "./pages/EditarProducto";
 import HomePage from "./pages/HomePage.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import ProductsPage from "./pages/ProductsPage";
+import CartPage from "./pages/CartPages/CartPage.jsx";
 
 export default function App() {
+    // 1. Estado del carrito
     const [carrito, setCarrito] = useState([]);
 
-    const [productoSeleccionado, setProductoSeleccionado] = useState(null);
+    // 2. Estado para simular el rol del usuario (cliente o admin)
+    const [rolUsuario, setRolUsuario] = useState("cliente");
 
-    // Agrega un producto al carrito.
+    // Función para agregar al carrito
     const agregarAlCarrito = producto => {
         setCarrito(prevCarrito => [...prevCarrito, producto]);
     };
 
-    // Quita del carrito todas las unidades del producto eliminado.
-    const quitarDelCarrito = idProducto => {
-        setCarrito(prevCarrito =>
-            prevCarrito.filter(producto => producto._id !== idProducto)
-        );
+    // Función para vaciar el carrito
+    const vaciarCarrito = () => {
+        setCarrito([]);
+    };
+
+    // Función para cambiar de rol (simulación)
+    const cambiarRol = () => {
+        setRolUsuario(prevRol => (prevRol === "cliente" ? "admin" : "cliente"));
     };
 
     return (
         <>
-            <Navbar cartCount={carrito.length} />
+            {/* Le pasamos el rol y la función de cambiar rol al Navbar */}
+            <Navbar 
+                cartCount={carrito.length} 
+                rolUsuario={rolUsuario} 
+                cambiarRol={cambiarRol} 
+            />
 
             <Routes>
+                {/* HOME */}
                 <Route path="/" element={<HomePage />} />
-                <Route
-                    path="/"
-                    element={
-                        <HomePage
-                            setProductoSeleccionado={setProductoSeleccionado}
-                        />
-                    }
-                />
-
+                
+                {/* PRODUCTOS: pasando el rol */}
                 <Route
                     path="/productos"
                     element={
                         <ProductsPage
                             agregarAlCarrito={agregarAlCarrito}
+                            rolUsuario={rolUsuario} 
                         />
                     }
                 />
-
+                
+                {/* DETALLE: Pasando agregarAlCarrito y el rol */}
                 <Route
                     path="/productos/:id"
                     element={
                         <main className="product-page">
                             <section className="product-page__content">
-                                <ProductDetail
-                                    agregarAlCarrito={agregarAlCarrito}
-                                    quitarDelCarrito={quitarDelCarrito}
+                                <ProductDetail 
+                                    agregarAlCarrito={agregarAlCarrito} 
+                                    rolUsuario={rolUsuario}
                                 />
                             </section>
                         </main>
                     }
                 />
 
-                <Route
-                    path="/contacto"
-                    element={<ContactPage />}
+                {/* CARRITO: ahora recibe setCarrito para control granular */}
+                <Route 
+                    path="/carrito" 
+                    element={
+                        <CartPage 
+                            carrito={carrito} 
+                            setCarrito={setCarrito} 
+                            vaciarCarrito={vaciarCarrito} 
+                        />
+                    } 
                 />
 
-                <Route
-                    path="/admin/crear-producto"
-                    element={<CrearProducto />}
-                />
-
-                <Route
-                    path="/admin/editar-producto/:id"
-                    element={<EditarProducto />}
-                />
-
-                <Route
-                    path="*"
-                    element={<NotFound />}
-                />
+                <Route path="/contacto" element={<ContactPage />} />
+                
+                {/* ADMIN: rutas protegidas por rol */}
+                {rolUsuario === "admin" && (
+                    <>
+                        <Route path="/admin/crear-producto" element={<CrearProducto />} />
+                        <Route path="/admin/editar-producto/:id" element={<EditarProducto />} />
+                    </>
+                )}
+                
+                <Route path="*" element={<NotFound />} />
             </Routes>
 
             <Footer />

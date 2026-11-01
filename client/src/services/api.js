@@ -79,6 +79,7 @@ async function request(endpoint, options = {}, retries = DEFAULT_RETRIES, timeou
         try {
             const response = await fetch(url, {
                 ...options,
+                cache: "no-store", // ✅ MEJORA: Evita que el navegador guarde respuestas viejas en caché
                 signal: controller.signal,
                 headers: {
                     ...DEFAULT_HEADERS,
@@ -119,9 +120,9 @@ async function request(endpoint, options = {}, retries = DEFAULT_RETRIES, timeou
                 );
             }
 
-            
+
             if (lastError?.retryable === false) {
-                throw lastError; 
+                throw lastError;
             }
 
             if (attempt < retries) {

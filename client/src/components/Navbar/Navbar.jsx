@@ -1,9 +1,11 @@
 import { Link, NavLink } from "react-router-dom";
 import "./Navbar.css";
 
-export default function Navbar({ cartCount = 0 }) {
+export default function Navbar({ cartCount = 0, rolUsuario, cambiarRol }) {
+    const esAdmin = rolUsuario === "admin";
+
     return (
-        <header className="header">
+        <header className={`header ${esAdmin ? "header--admin" : ""}`}>
             <div className="header__container">
                 <div className="header__brand">
                     <Link to="/" className="header__logo">
@@ -35,18 +37,36 @@ export default function Navbar({ cartCount = 0 }) {
                                 Contacto
                             </NavLink>
                         </li>
-                        <li>
-                            <NavLink
-                                to="/admin/crear-producto"
-                                className={({ isActive }) => `nav__link${isActive ? " active" : ""}`}
-                            >
-                                Crear Producto
-                            </NavLink>
-                        </li>
+                        
+                        {esAdmin && (
+                            <li>
+                                <NavLink
+                                    to="/admin/crear-producto"
+                                    className={({ isActive }) => `nav__link nav__link--admin${isActive ? " active" : ""}`}
+                                >
+                                    ＋ Crear Producto
+                                </NavLink>
+                            </li>
+                        )}
                     </ul>
                 </nav>
 
-                <div className="header__cart" title="Carrito de compras" aria-label="Carrito de compras">
+                {/* Switch de rol simulado */}
+                <div className="header__role-switch">
+                    <button
+                        onClick={cambiarRol}
+                        className={`btn-rol ${esAdmin ? "btn-rol--admin" : "btn-rol--cliente"}`}
+                        aria-label={`Cambiar a rol ${esAdmin ? "cliente" : "admin"}`}
+                    >
+                        <span className="btn-rol__indicator"></span>
+                        <span className="btn-rol__label">
+                            {esAdmin ? "Admin" : "Cliente"}
+                        </span>
+                    </button>
+                </div>
+
+                {/* Carrito */}
+                <Link to="/carrito" className="header__cart" title="Carrito de compras" aria-label="Carrito de compras">
                     <svg
                         className="header__cart-icon"
                         width="20"
@@ -64,11 +84,21 @@ export default function Navbar({ cartCount = 0 }) {
                         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                     </svg>
                     <span className="header__cart-label">Carrito:</span>
-                    <span id="cart-count" className="cart-count">
+                    <span id="cart-count" className={`cart-count ${cartCount > 0 ? "cart-count--active" : ""}`}>
                         {cartCount}
                     </span>
-                </div>
+                </Link>
             </div>
+
+            {/* Banner de modo admin */}
+            {esAdmin && (
+                <div className="header__admin-banner">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                    <span>Modo administrador activo — Podés crear y editar productos</span>
+                </div>
+            )}
         </header>
     );
 }
