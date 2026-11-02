@@ -6,6 +6,7 @@ import connectDB from "./config/db.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { logger } from "./middlewares/logger.js";
 import { notFound } from "./middlewares/notFound.js";
+import categoriasRouter from "./routes/categoriasRouter.js";
 import productosRouter from "./routes/productosRouter.js";
 
 dotenv.config();
@@ -25,6 +26,7 @@ app.get("/api/health", (_req, res) => {
 });
 
 // Rutas de la API
+app.use("/api/categorias", categoriasRouter);
 app.use("/api/productos", productosRouter);
 
 app.use(notFound);

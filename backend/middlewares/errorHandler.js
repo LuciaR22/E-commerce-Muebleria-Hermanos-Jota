@@ -30,6 +30,13 @@ const resolveError = (err, isProduction) => {
         };
     }
 
+    if (err.code === 11000) {
+        return {
+            status: 409,
+            message: "La categoría ya existe",
+        };
+    }
+
     const status =
         typeof err.status === "number"
             ? err.status

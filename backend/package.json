@@ -10,7 +10,7 @@
         "dev": "node --env-file=.env --watch index.js",
         "start": "node index.js",
         "seed": "node --env-file=.env seed.js",
-        "test": "node --test"
+        "test": "node --test test/contrato.test.js"
     },
     "dependencies": {
         "cors": "^2.8.5",
@@ -25,4 +25,3 @@
         "node": ">=20.0.0"
     }
 }
-

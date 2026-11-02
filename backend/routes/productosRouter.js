@@ -2,9 +2,30 @@
 import { Router } from "express";
 import mongoose from "mongoose";
 import Product from "../models/Product.js";
+import Categoria from "../models/Categoria.js";
 import { obtenerProductos } from "../controllers/productoController.js";
 
 const router = Router();
+
+const validarCategoria = async (categoriaId) => {
+    if (!categoriaId && categoriaId !== 0) {
+        return;
+    }
+
+    if (!mongoose.isValidObjectId(String(categoriaId))) {
+        const error = new Error("ID de categoría inválido");
+        error.status = 400;
+        throw error;
+    }
+
+    const categoria = await Categoria.findById(categoriaId);
+
+    if (!categoria) {
+        const error = new Error("La categoría no existe");
+        error.status = 400;
+        throw error;
+    }
+};
 
 /**
  * @route POST /api/productos
@@ -12,9 +33,22 @@ const router = Router();
  */
 router.post("/", async (req, res, next) => {
     try {
-        const nuevoProducto = await Product.create(req.body);
+        const { categoria, ...datosProducto } = req.body;
+
+        if (categoria !== undefined) {
+            await validarCategoria(categoria);
+        }
+
+        const nuevoProducto = await Product.create({
+            ...datosProducto,
+            categoria,
+        });
         return res.status(201).json(nuevoProducto);
     } catch (error) {
+        if (error.status === 400) {
+            return res.status(400).json({ error: error.message });
+        }
+
         next(error);
     }
 });
@@ -39,7 +73,7 @@ router.get("/:id", async (req, res, next) => {
             });
         }
 
-        const producto = await Product.findById(id);
+        const producto = await Product.findById(id).populate("categoria", "nombre");
 
         if (!producto) {
             return res.status(404).json({
@@ -72,6 +106,14 @@ router.put("/:id", async (req, res, next) => {
         delete datosActualizacion._id;
         delete datosActualizacion.__v;
 
+        if (Object.prototype.hasOwnProperty.call(datosActualizacion, "categoria")) {
+            if (datosActualizacion.categoria === undefined || datosActualizacion.categoria === null || datosActualizacion.categoria === "") {
+                delete datosActualizacion.categoria;
+            } else {
+                await validarCategoria(datosActualizacion.categoria);
+            }
+        }
+
         const productoActualizado = await Product.findByIdAndUpdate(
             id,
             datosActualizacion,
@@ -79,7 +121,7 @@ router.put("/:id", async (req, res, next) => {
                 new: true,
                 runValidators: true,
             }
-        );
+        ).populate("categoria", "nombre");
 
         if (!productoActualizado) {
             return res.status(404).json({
@@ -89,6 +131,10 @@ router.put("/:id", async (req, res, next) => {
 
         return res.status(200).json(productoActualizado);
     } catch (error) {
+        if (error.status === 400) {
+            return res.status(400).json({ error: error.message });
+        }
+
         next(error);
     }
 });

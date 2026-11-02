@@ -11,6 +11,7 @@
     "dev": "concurrently -n backend,client -c blue,green \"npm run dev -w @muebleria/backend\" \"npm run dev -w @muebleria/client\"",
     "dev:backend": "npm run dev -w @muebleria/backend",
     "dev:client": "npm run dev -w @muebleria/client",
+    "test": "npm test -w @muebleria/backend",
     "build": "npm run build -w @muebleria/client",
     "start": "npm run start -w @muebleria/backend",
     "install:all": "npm install"
