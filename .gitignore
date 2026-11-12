@@ -92,3 +92,5 @@ dump/
 *.pem
 *.key
 *.cert
+
+/practica-ia-auth

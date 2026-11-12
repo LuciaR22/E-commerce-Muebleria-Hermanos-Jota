@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import Product from "../models/Product.js";
 import Categoria from "../models/Categoria.js";
 import { obtenerProductos } from "../controllers/productoController.js";
+import { soloAdmin, verificarToken } from "../middleware/auth.js";
 
 const router = Router();
 
@@ -31,7 +32,7 @@ const validarCategoria = async (categoriaId) => {
  * @route POST /api/productos
  * @desc Crea un nuevo producto
  */
-router.post("/", async (req, res, next) => {
+router.post("/", verificarToken, soloAdmin, async (req, res, next) => {
     try {
         const { categoria, ...datosProducto } = req.body;
 
@@ -91,7 +92,7 @@ router.get("/:id", async (req, res, next) => {
  * @route PUT /api/productos/:id
  * @desc Actualiza un producto existente
  */
-router.put("/:id", async (req, res, next) => {
+router.put("/:id", verificarToken, soloAdmin, async (req, res, next) => {
     try {
         const { id } = req.params;
 
@@ -146,7 +147,7 @@ router.put("/:id", async (req, res, next) => {
  * @response 400 - ID inválido
  * @response 404 - Producto no encontrado
  */
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", verificarToken, soloAdmin, async (req, res, next) => {
     try {
         const { id } = req.params;
 

@@ -14,7 +14,8 @@
     "test": "npm test -w @muebleria/backend",
     "build": "npm run build -w @muebleria/client",
     "start": "npm run start -w @muebleria/backend",
-    "install:all": "npm install"
+    "install:all": "npm install",
+    "test:auth": "npm run test:auth -w @muebleria/backend"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"
