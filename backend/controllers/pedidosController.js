@@ -84,3 +84,23 @@ const crearPedido = async (req, res) => {
     });
   }
 };
+// GET /api/pedidos/mis-pedidos
+const obtenerMisPedidos = async (req, res) => {
+  try {
+    // 1. Obtener el ID del usuario autenticado (inyectado por verificarToken)
+    const usuarioId = req.user.id;
+
+    // 2. Buscar en la BD solo los pedidos creados por este usuario
+    // .sort({ createdAt: -1 }) ordena los pedidos desde el más reciente al más antiguo
+    const pedidos = await Order.find({ usuario: usuarioId }).sort({ createdAt: -1 });
+
+    // 3. Responder con status 200 OK y el listado de pedidos
+    return res.status(200).json(pedidos);
+
+  } catch (error) {
+    return res.status(500).json({ 
+      mensaje: 'Error al obtener los pedidos del usuario', 
+      error: error.message 
+    });
+  }
+};
