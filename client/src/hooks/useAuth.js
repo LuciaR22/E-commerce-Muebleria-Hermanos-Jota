@@ -1,41 +1,18 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
-
-const USER_STORAGE_KEYS = ["usuario", "user"];
-
-function leerUsuarioDesdeStorage() {
-    for (const key of USER_STORAGE_KEYS) {
-        const valor = localStorage.getItem(key);
-
-        if (!valor) {
-            continue;
-        }
-
-        try {
-            const usuario = JSON.parse(valor);
-
-            if (usuario && typeof usuario === "object") {
-                return usuario;
-            }
-        } catch {
-            // Si el valor no es JSON válido, se ignora y se evalúa la siguiente clave.
-        }
-    }
-
-    return null;
-}
+import { obtenerUsuarioDesdeStorage } from "../utils/authStorage";
 
 export default function useAuth() {
     const location = useLocation();
-    const [usuario, setUsuario] = useState(() => leerUsuarioDesdeStorage());
+    const [usuario, setUsuario] = useState(() => obtenerUsuarioDesdeStorage());
 
     useEffect(() => {
-        setUsuario(leerUsuarioDesdeStorage());
+        setUsuario(obtenerUsuarioDesdeStorage());
     }, [location.pathname]);
 
     useEffect(() => {
         const sincronizarAuth = () => {
-            setUsuario(leerUsuarioDesdeStorage());
+            setUsuario(obtenerUsuarioDesdeStorage());
         };
 
         window.addEventListener("storage", sincronizarAuth);

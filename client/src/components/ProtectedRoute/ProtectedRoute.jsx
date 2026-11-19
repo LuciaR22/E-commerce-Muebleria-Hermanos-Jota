@@ -1,41 +1,17 @@
 import { useEffect, useState } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-
-const USER_STORAGE_KEYS = ["usuario", "user"];
-
-const leerUsuarioDesdeStorage = () => {
-    for (const key of USER_STORAGE_KEYS) {
-        const valor = localStorage.getItem(key);
-
-        if (!valor) {
-            continue;
-        }
-
-        try {
-            const parseado = JSON.parse(valor);
-
-            if (parseado && typeof parseado === "object") {
-                return parseado;
-            }
-        } catch {
-            // Si el valor no es JSON válido, se ignora y se prueba otra clave.
-        }
-    }
-
-    return null;
-};
+import useAuth from "../../hooks/useAuth";
 
 export default function ProtectedRoute() {
     const location = useLocation();
+    const { usuario, isAdmin } = useAuth();
     const [loading, setLoading] = useState(true);
-    const [usuario, setUsuario] = useState(null);
 
     const esRutaAdmin = location.pathname.startsWith("/admin");
 
     useEffect(() => {
-        setUsuario(leerUsuarioDesdeStorage());
         setLoading(false);
-    }, []);
+    }, [usuario]);
 
     if (loading) {
         return <p>Cargando...</p>;
@@ -45,7 +21,7 @@ export default function ProtectedRoute() {
         return <Navigate to="/login" state={{ from: location }} replace />;
     }
 
-    if (esRutaAdmin && usuario.rol !== "admin") {
+    if (esRutaAdmin && !isAdmin) {
         return <p>Sin permiso</p>;
     }
 
