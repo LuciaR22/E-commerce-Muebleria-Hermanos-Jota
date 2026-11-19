@@ -1,7 +1,10 @@
 import { Link, NavLink } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 import "./Navbar.css";
 
-export default function Navbar({ cartCount = 0, rolUsuario, cambiarRol }) {
+export default function Navbar({ cartCount = 0 }) {
+    const { isAuthenticated, isAdmin } = useAuth();
+
     return (
         <header className="header">
             <div className="header__container">
@@ -35,14 +38,19 @@ export default function Navbar({ cartCount = 0, rolUsuario, cambiarRol }) {
                                 Contacto
                             </NavLink>
                         </li>
-                        <li>
-                            <NavLink to="/perfil" className={({ isActive }) => `nav__link${isActive ? " active" : ""}`}>
-                                Perfil
-                            </NavLink>
-                        </li>
+                        {isAuthenticated && (
+                            <li>
+                                <NavLink
+                                    to="/perfil"
+                                    className={({ isActive }) => `nav__link${isActive ? " active" : ""}`}
+                                >
+                                    Perfil
+                                </NavLink>
+                            </li>
+                        )}
 
                         {/* Solo mostramos "Crear Producto" si el rol es admin */}
-                        {rolUsuario === "admin" && (
+                        {isAdmin && (
                             <li>
                                 <NavLink
                                     to="/admin/crear-producto"
@@ -54,16 +62,6 @@ export default function Navbar({ cartCount = 0, rolUsuario, cambiarRol }) {
                         )}
                     </ul>
                 </nav>
-
-                {/* Botón para cambiar de rol (Píldora) */}
-                <div className="header__role-switch">
-                    <button
-                        onClick={cambiarRol}
-                        className={`btn-rol ${rolUsuario === "admin" ? "btn-rol--admin" : "btn-rol--cliente"}`}
-                    >
-                        {rolUsuario === "admin" ? "Admin" : "Cliente"}
-                    </button>
-                </div>
 
                 {/* El carrito ahora es un Link a /carrito */}
                 <Link to="/carrito" className="header__cart" title="Carrito de compras" aria-label="Carrito de compras">

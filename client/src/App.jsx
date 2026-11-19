@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import ProductDetail from "./components/ProductDetail";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute.jsx";
+import useAuth from "./hooks/useAuth";
 import CartPage from "./pages/CartPage/CartPage.jsx";
 import ContactPage from "./pages/ContactPage";
 import CrearProducto from "./pages/CrearProducto";
@@ -16,9 +17,7 @@ import ProductsPage from "./pages/ProductsPage";
 
 export default function App() {
     const [carrito, setCarrito] = useState([]);
-
-    // Estado para simular el rol del usuario (cliente o admin)
-    const [rolUsuario, setRolUsuario] = useState("cliente");
+    const { rolUsuario } = useAuth();
 
     const agregarAlCarrito = producto => {
         setCarrito(prevCarrito => [...prevCarrito, producto]);
@@ -32,14 +31,9 @@ export default function App() {
         setCarrito([]);
     };
 
-    // Función para cambiar de rol
-    const cambiarRol = () => {
-        setRolUsuario(prevRol => (prevRol === "cliente" ? "admin" : "cliente"));
-    };
-
     return (
         <>
-            <Navbar cartCount={carrito.length} rolUsuario={rolUsuario} cambiarRol={cambiarRol} />
+            <Navbar cartCount={carrito.length} />
 
             <Routes>
                 <Route path="/" element={<HomePage />} />
