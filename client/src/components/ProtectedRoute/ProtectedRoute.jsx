@@ -30,6 +30,8 @@ export default function ProtectedRoute() {
     const [loading, setLoading] = useState(true);
     const [usuario, setUsuario] = useState(null);
 
+    const esRutaAdmin = location.pathname.startsWith("/admin");
+
     useEffect(() => {
         setUsuario(leerUsuarioDesdeStorage());
         setLoading(false);
@@ -41,6 +43,10 @@ export default function ProtectedRoute() {
 
     if (!usuario) {
         return <Navigate to="/login" state={{ from: location }} replace />;
+    }
+
+    if (esRutaAdmin && usuario.rol !== "admin") {
+        return <p>Sin permiso</p>;
     }
 
     return <Outlet />;
