@@ -1,11 +1,20 @@
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { useCart } from "../../context/CartContext";
 import useApiResource from "../../hooks/useApiResource";
+import useAuth from "../../hooks/useAuth";
 import productosService from "../../services/productosService";
 import ApiState from "../ApiState";
 import "./ProductDetail.css";
 
-function ProductDetail({ agregarAlCarrito, quitarDelCarrito, rolUsuario }) {
+function ProductDetail({ agregarAlCarrito: agregarProp, quitarDelCarrito: quitarProp, rolUsuario: rolProp }) {
+    const { agregarAlCarrito: agregarContext, quitarDelCarrito: quitarContext } = useCart();
+    const { rolUsuario: rolContext } = useAuth();
+
+    // usamos las funciones y rol desde el contexto o como props de fallback
+    const agregarAlCarrito = agregarProp || agregarContext;
+    const quitarDelCarrito = quitarProp || quitarContext;
+    const rolUsuario = rolProp || rolContext;
     const { id } = useParams();
     const navigate = useNavigate();
 

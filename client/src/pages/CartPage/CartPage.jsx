@@ -1,41 +1,19 @@
 import { Link } from "react-router-dom";
+import { useCart } from "../../context/CartContext";
 import "./CartPage.css";
 
-export default function CartPage({ carrito, setCarrito, vaciarCarrito }) {
-    // Agrupar productos iguales por _id y sumar cantidad
-    const productosAgrupados = carrito.reduce((acc, prod) => {
-        const existente = acc.find(item => item._id === prod._id);
-        if (existente) {
-            existente.cantidad += 1;
-        } else {
-            acc.push({ ...prod, cantidad: 1 });
-        }
-        return acc;
-    }, []);
-
-    // Calculamos el total a pagar
-    const total = carrito.reduce((acc, prod) => acc + Number(prod.precio), 0);
-    const cantidadTotal = carrito.length;
-
-    // Eliminar UNA unidad de un producto
-    const quitarUnidad = (productoId) => {
-        const index = carrito.findIndex(p => p._id === productoId);
-        if (index !== -1) {
-            const nuevoCarrito = [...carrito];
-            nuevoCarrito.splice(index, 1);
-            setCarrito(nuevoCarrito);
-        }
-    };
-
-    // Agregar una unidad más del producto
-    const agregarUnidad = (producto) => {
-        setCarrito(prev => [...prev, producto]);
-    };
-
-    // Eliminar TODAS las unidades de un producto
-    const eliminarProducto = (productoId) => {
-        setCarrito(prev => prev.filter(p => p._id !== productoId));
-    };
+export default function CartPage() {
+    // consumimos todos los datos y metodos del carrito desde el contexto
+    const {
+        carrito,
+        productosAgrupados,
+        total,
+        cantidadTotal,
+        quitarUnidad,
+        agregarAlCarrito,
+        eliminarProducto,
+        vaciarCarrito,
+    } = useCart();
 
     if (carrito.length === 0) {
         return (
@@ -97,7 +75,7 @@ export default function CartPage({ carrito, setCarrito, vaciarCarrito }) {
                                         <span className="cart-item__qty-value">{producto.cantidad}</span>
                                         <button
                                             className="cart-item__qty-btn"
-                                            onClick={() => agregarUnidad(producto)}
+                                            onClick={() => agregarAlCarrito(producto)}
                                             aria-label="Agregar una unidad"
                                         >
                                             +
@@ -127,37 +105,37 @@ export default function CartPage({ carrito, setCarrito, vaciarCarrito }) {
 
                 {/* Resumen del pedido */}
                 <aside className="cart-summary">
-                <h2 className="cart-summary__title">Resumen del pedido</h2>
+                    <h2 className="cart-summary__title">Resumen del pedido</h2>
 
-                <div className="cart-summary__details">
-                    <div className="cart-summary__row">
-                        {/* Lógica para singular/plural */}
-                        <span>Subtotal ({cantidadTotal === 1 ? "1 producto" : `${cantidadTotal} productos`})</span>
-                        <span>${total.toLocaleString("es-AR")}</span>
+                    <div className="cart-summary__details">
+                        <div className="cart-summary__row">
+                            {/* Logica para singular/plural */}
+                            <span>Subtotal ({cantidadTotal === 1 ? "1 producto" : `${cantidadTotal} productos`})</span>
+                            <span>${total.toLocaleString("es-AR")}</span>
+                        </div>
+                        <div className="cart-summary__row">
+                            <span>Envío</span>
+                            <span className="cart-summary__free">Gratis</span>
+                        </div>
                     </div>
-                    <div className="cart-summary__row">
-                        <span>Envío</span>
-                        <span className="cart-summary__free">Gratis</span>
+
+                    <div className="cart-summary__total">
+                        <span>Total</span>
+                        <span className="cart-summary__total-price">${total.toLocaleString("es-AR")}</span>
                     </div>
-                </div>
 
-                <div className="cart-summary__total">
-                    <span>Total</span>
-                    <span className="cart-summary__total-price">${total.toLocaleString("es-AR")}</span>
-                </div>
+                    <button className="cart-summary__checkout" onClick={() => alert("Compra finalizada")}>
+                        Finalizar compra
+                    </button>
 
-                <button className="cart-summary__checkout" onClick={() => alert("Compra finalizada")}>
-                    Finalizar compra
-                </button>
+                    <button className="cart-summary__clear" onClick={vaciarCarrito}>
+                        Vaciar carrito
+                    </button>
 
-                <button className="cart-summary__clear" onClick={vaciarCarrito}>
-                    Vaciar carrito
-                </button>
-
-                <Link to="/productos" className="cart-summary__continue">
-                    ← Seguir comprando
-                </Link>
-            </aside>
+                    <Link to="/productos" className="cart-summary__continue">
+                        ← Seguir comprando
+                    </Link>
+                </aside>
             </div>
         </main>
     );

@@ -1,11 +1,11 @@
-import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import ProductDetail from "./components/ProductDetail";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute.jsx";
-import useAuth from "./hooks/useAuth";
+import { AuthProvider } from "./context/AuthContext";
+import { CartProvider } from "./context/CartContext";
 import CartPage from "./pages/CartPage/CartPage.jsx";
 import ContactPage from "./pages/ContactPage";
 import CrearProducto from "./pages/CrearProducto";
@@ -16,67 +16,42 @@ import PerfilPage from "./pages/PerfilPage/PerfilPage.jsx";
 import ProductsPage from "./pages/ProductsPage";
 
 export default function App() {
-    const [carrito, setCarrito] = useState([]);
-    const { rolUsuario } = useAuth();
-
-    const agregarAlCarrito = producto => {
-        setCarrito(prevCarrito => [...prevCarrito, producto]);
-    };
-
-    const quitarDelCarrito = idProducto => {
-        setCarrito(prevCarrito => prevCarrito.filter(producto => producto._id !== idProducto));
-    };
-
-    const vaciarCarrito = () => {
-        setCarrito([]);
-    };
-
     return (
-        <>
-            <Navbar cartCount={carrito.length} />
+        <AuthProvider>
+            <CartProvider>
+                <Navbar />
 
-            <Routes>
-                <Route path="/" element={<HomePage />} />
+                <Routes>
+                    <Route path="/" element={<HomePage />} />
 
-                <Route
-                    path="/productos"
-                    element={<ProductsPage agregarAlCarrito={agregarAlCarrito} rolUsuario={rolUsuario} />}
-                />
+                    <Route path="/productos" element={<ProductsPage />} />
 
-                <Route
-                    path="/productos/:id"
-                    element={
-                        <main className="product-page">
-                            <section className="product-page__content">
-                                <ProductDetail
-                                    agregarAlCarrito={agregarAlCarrito}
-                                    quitarDelCarrito={quitarDelCarrito}
-                                    rolUsuario={rolUsuario}
-                                />
-                            </section>
-                        </main>
-                    }
-                />
+                    <Route
+                        path="/productos/:id"
+                        element={
+                            <main className="product-page">
+                                <section className="product-page__content">
+                                    <ProductDetail />
+                                </section>
+                            </main>
+                        }
+                    />
 
-                <Route
-                    path="/carrito"
-                    element={<CartPage carrito={carrito} setCarrito={setCarrito} vaciarCarrito={vaciarCarrito} />}
-                />
+                    <Route path="/carrito" element={<CartPage />} />
 
-                <Route path="/contacto" element={<ContactPage />} />
+                    <Route path="/contacto" element={<ContactPage />} />
 
-                <Route element={<ProtectedRoute />}>
-                    <Route path="/admin/crear-producto" element={<CrearProducto />} />
-                    <Route path="/admin/editar-producto/:id" element={<EditarProducto />} />
-                    <Route path="/perfil" element={<PerfilPage />} />
-                    {/* Estas rutas todavia no existen pero deben estar protegidas cuando se implementen
-                    <Route path="/mis-pedidos" element={<MisPedidos />} /> */}
-                </Route>
+                    <Route element={<ProtectedRoute />}>
+                        <Route path="/admin/crear-producto" element={<CrearProducto />} />
+                        <Route path="/admin/editar-producto/:id" element={<EditarProducto />} />
+                        <Route path="/perfil" element={<PerfilPage />} />
+                    </Route>
 
-                <Route path="*" element={<NotFound />} />
-            </Routes>
+                    <Route path="*" element={<NotFound />} />
+                </Routes>
 
-            <Footer />
-        </>
+                <Footer />
+            </CartProvider>
+        </AuthProvider>
     );
 }

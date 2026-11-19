@@ -1,9 +1,14 @@
 import { Link, NavLink } from "react-router-dom";
+import { useCart } from "../../context/CartContext";
 import useAuth from "../../hooks/useAuth";
 import "./Navbar.css";
 
-export default function Navbar({ cartCount = 0 }) {
+export default function Navbar({ cartCount: cartCountProp }) {
     const { isAuthenticated, isAdmin } = useAuth();
+    const { cartCount } = useCart();
+
+    // cantidad de productos en el carrito (desde el contexto)
+    const contador = cartCountProp !== undefined ? cartCountProp : cartCount;
 
     return (
         <header className="header">
@@ -83,7 +88,7 @@ export default function Navbar({ cartCount = 0 }) {
                     </svg>
                     <span className="header__cart-label">Carrito:</span>
                     <span id="cart-count" className="cart-count">
-                        {cartCount}
+                        {contador}
                     </span>
                 </Link>
             </div>

@@ -1,31 +1,27 @@
-import { useEffect, useMemo, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useContext } from "react";
+import AuthContext from "../context/AuthContext";
 import { obtenerUsuarioDesdeStorage } from "../utils/authStorage";
 
+// hook useAuth conectado con AuthContext
 export default function useAuth() {
-    const location = useLocation();
-    const [usuario, setUsuario] = useState(() => obtenerUsuarioDesdeStorage());
+    const authContext = useContext(AuthContext);
 
-    useEffect(() => {
-        setUsuario(obtenerUsuarioDesdeStorage());
-    }, [location.pathname]);
+    // si estamos dentro del AuthProvider, usamos el contexto global
+    if (authContext) {
+        return authContext;
+    }
 
-    useEffect(() => {
-        const sincronizarAuth = () => {
-            setUsuario(obtenerUsuarioDesdeStorage());
-        };
-
-        window.addEventListener("storage", sincronizarAuth);
-
-        return () => {
-            window.removeEventListener("storage", sincronizarAuth);
-        };
-    }, []);
-
-    const rolUsuario = useMemo(() => usuario?.rol || "cliente", [usuario]);
+    // fallback seguro si se consulta fuera del AuthProvider
+    const usuario = obtenerUsuarioDesdeStorage();
+    const rolUsuario = usuario?.rol || "cliente";
 
     return {
+        user: usuario,
         usuario,
+        token: null,
+        loading: false,
+        login: () => {},
+        logout: () => {},
         rolUsuario,
         isAuthenticated: Boolean(usuario),
         isAdmin: rolUsuario === "admin",
