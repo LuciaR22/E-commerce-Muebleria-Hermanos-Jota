@@ -35,7 +35,12 @@ export default function Navbar({ cartCount = 0, rolUsuario, cambiarRol }) {
                                 Contacto
                             </NavLink>
                         </li>
-                        
+                        <li>
+                            <NavLink to="/perfil" className={({ isActive }) => `nav__link${isActive ? " active" : ""}`}>
+                                Perfil
+                            </NavLink>
+                        </li>
+
                         {/* Solo mostramos "Crear Producto" si el rol es admin */}
                         {rolUsuario === "admin" && (
                             <li>
@@ -52,8 +57,8 @@ export default function Navbar({ cartCount = 0, rolUsuario, cambiarRol }) {
 
                 {/* Botón para cambiar de rol (Píldora) */}
                 <div className="header__role-switch">
-                    <button 
-                        onClick={cambiarRol} 
+                    <button
+                        onClick={cambiarRol}
                         className={`btn-rol ${rolUsuario === "admin" ? "btn-rol--admin" : "btn-rol--cliente"}`}
                     >
                         {rolUsuario === "admin" ? "Admin" : "Cliente"}

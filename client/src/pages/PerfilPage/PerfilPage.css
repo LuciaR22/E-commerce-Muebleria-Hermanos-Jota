@@ -1,0 +1,82 @@
+/* =============================================
+   Pagina de perfil
+   ============================================= */
+
+.perfil-page {
+    width: min(860px, calc(100% - 2rem));
+    margin: 2rem auto 3rem;
+}
+
+.perfil-card {
+    padding: 1.5rem;
+    border: 1px solid color-mix(in srgb, var(--color-texto) 10%, var(--fondo-alabastro));
+    border-radius: 0.875rem;
+    background: linear-gradient(
+        160deg,
+        var(--color-blanco) 0%,
+        color-mix(in srgb, var(--fondo-alabastro) 35%, #fff) 100%
+    );
+    box-shadow: 0 12px 28px color-mix(in srgb, var(--color-texto) 8%, transparent);
+}
+
+.perfil-header {
+    margin-bottom: 1.25rem;
+}
+
+.perfil-header h1 {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: var(--font-bold);
+    color: var(--titulo-siena);
+}
+
+.perfil-subtitle {
+    margin-top: 0.35rem;
+    color: color-mix(in srgb, var(--color-texto) 82%, #000);
+}
+
+.perfil-data-list {
+    display: grid;
+    gap: 0.9rem;
+}
+
+.perfil-data-item {
+    display: grid;
+    gap: 0.4rem;
+    padding: 0.875rem 0.95rem;
+    border: 1px solid color-mix(in srgb, var(--color-texto) 10%, transparent);
+    border-radius: 0.65rem;
+    background-color: color-mix(in srgb, var(--color-blanco) 92%, var(--fondo-alabastro));
+}
+
+.perfil-data-item dt {
+    font-size: 0.75rem;
+    font-weight: var(--font-medium);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--color-texto) 70%, transparent);
+}
+
+.perfil-data-item dd {
+    font-size: 1rem;
+    font-weight: var(--font-medium);
+    color: var(--color-texto);
+}
+
+@media (min-width: 768px) {
+    .perfil-page {
+        width: min(860px, calc(100% - 3rem));
+    }
+
+    .perfil-card {
+        padding: 2rem;
+    }
+
+    .perfil-data-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .perfil-data-item:first-child {
+        grid-column: 1 / -1;
+    }
+}

@@ -11,6 +11,7 @@ import CrearProducto from "./pages/CrearProducto";
 import EditarProducto from "./pages/EditarProducto";
 import HomePage from "./pages/HomePage.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import PerfilPage from "./pages/PerfilPage/PerfilPage.jsx";
 import ProductsPage from "./pages/ProductsPage";
 
 export default function App() {
@@ -73,9 +74,8 @@ export default function App() {
                 <Route element={<ProtectedRoute />}>
                     <Route path="/admin/crear-producto" element={<CrearProducto />} />
                     <Route path="/admin/editar-producto/:id" element={<EditarProducto />} />
-
+                    <Route path="/perfil" element={<PerfilPage />} />
                     {/* Estas rutas todavia no existen pero deben estar protegidas cuando se implementen
-                    <Route path="/perfil" element={<Perfil />} />
                     <Route path="/mis-pedidos" element={<MisPedidos />} /> */}
                 </Route>
 
