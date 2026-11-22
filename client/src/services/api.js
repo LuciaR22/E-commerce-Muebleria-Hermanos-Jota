@@ -1,3 +1,6 @@
+
+import { obtenerTokenDesdeStorage } from "../utils/authStorage";
+
 const API_BASE_URL = import.meta.env.VITE_API_URL || "/api";
 const DEFAULT_TIMEOUT_MS = 8000;
 const DEFAULT_RETRIES = 2;
@@ -70,6 +73,22 @@ async function request(endpoint, options = {}, retries = DEFAULT_RETRIES, timeou
         ? endpoint
         : `${API_BASE_URL}${endpoint.startsWith("/") ? "" : "/"}${endpoint}`;
 
+    const token = obtenerTokenDesdeStorage();
+    const headersOriginales = options.headers || {};
+    const tieneAuthorization = Object.keys(headersOriginales).some(
+        (key) => key.toLowerCase() === "authorization"
+    );
+
+    const headers = {
+        ...DEFAULT_HEADERS,
+        ...(token && !tieneAuthorization
+            ? { Authorization: `Bearer ${token}` }
+            : {}),
+        ...headersOriginales,
+    };
+
+    const esLogin = /\/usuario\/login$|\/usuarios\/login$|\/auth\/login$/.test(endpoint);
+
     let lastError;
 
     for (let attempt = 0; attempt <= retries; attempt += 1) {
@@ -80,10 +99,7 @@ async function request(endpoint, options = {}, retries = DEFAULT_RETRIES, timeou
             const response = await fetch(url, {
                 ...options,
                 signal: controller.signal,
-                headers: {
-                    ...DEFAULT_HEADERS,
-                    ...(options.headers || {}),
-                },
+                headers,
             });
 
             if (!response.ok) {
@@ -96,8 +112,18 @@ async function request(endpoint, options = {}, retries = DEFAULT_RETRIES, timeou
                     parsedError = {};
                 }
 
+                if (response.status === 401 && token && !esLogin) {
+                    window.dispatchEvent(new Event("auth:unauthorized"));
+                }
+
                 const detail = parsedError.message || parsedError.error || errorText || "La solicitud falló.";
-                throw buildRequestError(detail, response.status, parsedError, isRetryableStatus(response.status));
+
+                throw buildRequestError(
+                    detail,
+                    response.status,
+                    parsedError,
+                    isRetryableStatus(response.status)
+                );
             }
 
             const contentType = response.headers.get("content-type") || "";
@@ -107,7 +133,7 @@ async function request(endpoint, options = {}, retries = DEFAULT_RETRIES, timeou
             }
 
             return response;
-                } catch (error) {
+        } catch (error) {
             lastError = error;
 
             if (error?.name === "AbortError") {
@@ -115,18 +141,17 @@ async function request(endpoint, options = {}, retries = DEFAULT_RETRIES, timeou
                     "La API no respondió dentro del tiempo esperado. Intenta nuevamente.",
                     408,
                     { timeout: true },
-                    true,
+                    true
                 );
             }
 
-            
             if (lastError?.retryable === false) {
-                throw lastError; 
+                throw lastError;
             }
 
             if (attempt < retries) {
                 const retryDelay = 250 * (attempt + 1);
-                await new Promise(resolve => setTimeout(resolve, retryDelay));
+                await new Promise((resolve) => setTimeout(resolve, retryDelay));
                 continue;
             }
 
@@ -135,7 +160,11 @@ async function request(endpoint, options = {}, retries = DEFAULT_RETRIES, timeou
             clearTimeout(timeoutId);
         }
     }
+
     throw lastError;
 }
 
-export { API_BASE_URL, normalizeErrorMessage, request };
+const apiFetch = request;
+
+export { API_BASE_URL, apiFetch, normalizeErrorMessage, request };
+

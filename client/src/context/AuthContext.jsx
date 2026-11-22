@@ -1,3 +1,4 @@
+
 import { createContext, useContext, useEffect, useState } from "react";
 import {
     obtenerTokenDesdeStorage,
@@ -11,13 +12,35 @@ const AuthContext = createContext(null);
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(() => obtenerUsuarioDesdeStorage());
     const [token, setToken] = useState(() => obtenerTokenDesdeStorage());
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const restaurarSesion = () => {
+            const usuarioGuardado = obtenerUsuarioDesdeStorage();
+            const tokenGuardado = obtenerTokenDesdeStorage();
+
+            if (usuarioGuardado && tokenGuardado) {
+                setUser(usuarioGuardado);
+                setToken(tokenGuardado);
+            } else {
+                setUser(null);
+                setToken(null);
+            }
+
+            setLoading(false);
+        };
+
+        restaurarSesion();
+    }, []);
 
     // sincronizacion si cambia el almacenamiento en otra pestaña
     useEffect(() => {
         const sincronizarStorage = () => {
-            setUser(obtenerUsuarioDesdeStorage());
-            setToken(obtenerTokenDesdeStorage());
+            const usuarioGuardado = obtenerUsuarioDesdeStorage();
+            const tokenGuardado = obtenerTokenDesdeStorage();
+
+            setUser(usuarioGuardado);
+            setToken(tokenGuardado);
         };
 
         window.addEventListener("storage", sincronizarStorage);
@@ -28,14 +51,13 @@ export function AuthProvider({ children }) {
 
     // funcion para iniciar sesion y persistir datos
     const login = (userData, tokenData) => {
-        if (userData) {
-            localStorage.setItem("user", JSON.stringify(userData));
-            localStorage.setItem("usuario", JSON.stringify(userData));
+        if (!userData || !tokenData) {
+            throw new Error("No se recibieron los datos necesarios para iniciar sesión.");
         }
 
-        if (tokenData) {
-            localStorage.setItem("token", tokenData);
-        }
+        localStorage.setItem("user", JSON.stringify(userData));
+        localStorage.setItem("usuario", JSON.stringify(userData));
+        localStorage.setItem("token", tokenData);
 
         setUser(userData);
         setToken(tokenData);
@@ -54,6 +76,18 @@ export function AuthProvider({ children }) {
         setToken(null);
     };
 
+    useEffect(() => {
+        const manejarNoAutorizado = () => {
+            logout();
+        };
+
+        window.addEventListener("auth:unauthorized", manejarNoAutorizado);
+
+        return () => {
+            window.removeEventListener("auth:unauthorized", manejarNoAutorizado);
+        };
+    }, []);
+
     // valores y metodos acordados
     const valor = {
         user,
@@ -63,12 +97,16 @@ export function AuthProvider({ children }) {
         logout,
         // compatibilidad adicional con codigo existente del equipo
         usuario: user,
-        isAuthenticated: Boolean(user),
+        isAuthenticated: Boolean(user && token),
         isAdmin: user?.rol === "admin",
         rolUsuario: user?.rol || "cliente",
     };
 
-    return <AuthContext.Provider value={valor}>{children}</AuthContext.Provider>;
+    return (
+        <AuthContext.Provider value={valor}>
+            {children}
+        </AuthContext.Provider>
+    );
 }
 
 // hook para consumir el contexto de autenticacion

@@ -1,17 +1,12 @@
-import { useEffect, useState } from "react";
+
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 
 export default function ProtectedRoute() {
     const location = useLocation();
-    const { usuario, isAdmin } = useAuth();
-    const [loading, setLoading] = useState(true);
+    const { usuario, isAdmin, loading } = useAuth();
 
     const esRutaAdmin = location.pathname.startsWith("/admin");
-
-    useEffect(() => {
-        setLoading(false);
-    }, [usuario]);
 
     if (loading) {
         return <p>Cargando...</p>;

@@ -31,7 +31,10 @@ app.get("/api/health", (_req, res) => {
 app.use("/api/auth", authRouter);
 app.use("/api/categorias", categoriasRouter);
 app.use("/api/productos", productosRouter);
+
+// Rutas de usuarios
 app.use("/api/usuarios", usuariosRouter);
+app.use("/api/usuario", usuariosRouter);
 
 app.use(notFound);
 app.use(errorHandler);
