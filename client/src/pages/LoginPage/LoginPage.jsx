@@ -1,6 +1,8 @@
+
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import usuarioService from "../../services/usuarioService";
 import "./LoginPage.css";
 
 export default function LoginPage() {
@@ -18,15 +20,18 @@ export default function LoginPage() {
     const [cargando, setCargando] = useState(false);
     const [error, setError] = useState("");
 
-    const handleChange = e => {
+    const handleChange = (e) => {
         const { name, value } = e.target;
-        setCredenciales(prev => ({ ...prev, [name]: value }));
+        setCredenciales((prev) => ({ ...prev, [name]: value }));
         if (error) setError("");
     };
 
-    const handleSubmit = async e => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!credenciales.email || !credenciales.password) {
+
+        if (cargando) return;
+
+        if (!credenciales.email.trim() || !credenciales.password) {
             setError("Completá email y contraseña.");
             return;
         }
@@ -35,23 +40,25 @@ export default function LoginPage() {
         setError("");
 
         try {
-            const respuesta = await fetch("/api/usuarios/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(credenciales),
+            const datos = await usuarioService.iniciarSesion({
+                email: credenciales.email.trim(),
+                password: credenciales.password,
             });
 
-            const datos = await respuesta.json();
-
-            if (respuesta.ok && datos.token) {
+            if (datos?.token && datos?.usuario) {
                 login(datos.usuario, datos.token);
+
                 const destino = location.state?.from?.pathname || "/";
                 navigate(destino, { replace: true });
             } else {
-                setError(datos.error || datos.mensaje || "Credenciales inválidas.");
+                setError("No se recibieron los datos necesarios para iniciar sesión.");
             }
-        } catch {
-            setError("Error de conexión al servidor.");
+        } catch (error) {
+            setError(
+                error.status === 401
+                    ? "Credenciales inválidas."
+                    : error.userMessage || "Error de conexión al servidor."
+            );
         } finally {
             setCargando(false);
         }
@@ -91,6 +98,7 @@ export default function LoginPage() {
                             value={credenciales.email}
                             onChange={handleChange}
                             required
+                            disabled={cargando}
                         />
                     </div>
 
@@ -104,6 +112,7 @@ export default function LoginPage() {
                             value={credenciales.password}
                             onChange={handleChange}
                             required
+                            disabled={cargando}
                         />
                     </div>
 
@@ -121,3 +130,4 @@ export default function LoginPage() {
         </main>
     );
 }
+

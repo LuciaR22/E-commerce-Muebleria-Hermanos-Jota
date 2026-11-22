@@ -1,14 +1,21 @@
-import { Link, NavLink } from "react-router-dom";
+
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import useAuth from "../../hooks/useAuth";
 import "./Navbar.css";
 
 export default function Navbar({ cartCount: cartCountProp }) {
-    const { isAuthenticated, isAdmin } = useAuth();
+    const { isAuthenticated, isAdmin, logout } = useAuth();
     const { cartCount } = useCart();
+    const navigate = useNavigate();
 
     // cantidad de productos en el carrito (desde el contexto)
     const contador = cartCountProp !== undefined ? cartCountProp : cartCount;
+
+    const handleLogout = () => {
+        logout();
+        navigate("/", { replace: true });
+    };
 
     return (
         <header className="header">
@@ -43,16 +50,28 @@ export default function Navbar({ cartCount: cartCountProp }) {
                                 Contacto
                             </NavLink>
                         </li>
+
                         {!isAuthenticated && (
-                            <li>
-                                <NavLink
-                                    to="/registro"
-                                    className={({ isActive }) => `nav__link${isActive ? " active" : ""}`}
-                                >
-                                    Crear cuenta
-                                </NavLink>
-                            </li>
+                            <>
+                                <li>
+                                    <NavLink
+                                        to="/login"
+                                        className={({ isActive }) => `nav__link${isActive ? " active" : ""}`}
+                                    >
+                                        Ingresar
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink
+                                        to="/registro"
+                                        className={({ isActive }) => `nav__link${isActive ? " active" : ""}`}
+                                    >
+                                        Registrarse
+                                    </NavLink>
+                                </li>
+                            </>
                         )}
+
                         {isAuthenticated && (
                             <li>
                                 <NavLink
@@ -73,6 +92,18 @@ export default function Navbar({ cartCount: cartCountProp }) {
                                 >
                                     Crear Producto
                                 </NavLink>
+                            </li>
+                        )}
+
+                        {isAuthenticated && (
+                            <li>
+                                <button
+                                    type="button"
+                                    className="nav__link"
+                                    onClick={handleLogout}
+                                >
+                                    Cerrar sesión
+                                </button>
                             </li>
                         )}
                     </ul>
