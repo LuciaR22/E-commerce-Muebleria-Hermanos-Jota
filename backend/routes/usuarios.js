@@ -2,44 +2,12 @@ import { Router } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import Usuario from "../models/Usuario.js";
-import { verificarToken } from "../middleware/auth.js";
+import { verificarToken } from "../middlewares/auth.js";
+import { registro } from "../controllers/authController.js";
 
 const router = Router();
 
-router.post("/registro", async (req, res, next) => {
-    try {
-        const { nombre, email, password } = req.body ?? {};
-
-        if (
-            typeof nombre !== "string" ||
-            !nombre.trim() ||
-            typeof email !== "string" ||
-            !email.trim() ||
-            typeof password !== "string" ||
-            !password
-        ) {
-            return res.status(400).json({
-                error: "Nombre, email y contraseña son obligatorios",
-            });
-        }
-
-        const passwordHasheada = await bcrypt.hash(password, 10);
-        const usuario = await Usuario.create({
-            nombre: nombre.trim(),
-            email: email.trim().toLowerCase(),
-            password: passwordHasheada,
-        });
-
-        return res.status(201).json({
-            _id: usuario._id,
-            nombre: usuario.nombre,
-            email: usuario.email,
-            rol: usuario.rol,
-        });
-    } catch (error) {
-        return next(error);
-    }
-});
+router.post("/registro", registro);
 
 router.post("/login", async (req, res, next) => {
     try {
@@ -58,9 +26,11 @@ router.post("/login", async (req, res, next) => {
 
         const usuario = await Usuario.findOne({
             email: email.trim().toLowerCase(),
-        });
+        }).select("+password +contrasenia");
 
-        if (!usuario || !(await bcrypt.compare(password, usuario.password))) {
+        const hash = usuario?.password || usuario?.contrasenia;
+
+        if (!usuario || !hash || !(await bcrypt.compare(password, hash))) {
             return res.status(401).json({
                 error: "Credenciales inválidas",
             });

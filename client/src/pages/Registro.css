@@ -1,0 +1,155 @@
+/* =============================================
+   Página de Registro de Usuario
+   ============================================= */
+
+.registro-page {
+    width: min(600px, calc(100% - 2rem));
+    margin: 0 auto;
+    padding: 3rem 0 5rem;
+}
+
+.registro-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    background: color-mix(in srgb, var(--color-blanco) 96%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-texto) 10%, transparent);
+    border-radius: 1.25rem;
+    padding: 2.25rem;
+    box-shadow: 0 12px 36px color-mix(in srgb, var(--color-texto) 6%, transparent);
+}
+
+.registro-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+}
+
+.registro-eyebrow {
+    font-size: 0.8rem;
+    font-weight: var(--font-bold);
+    letter-spacing: var(--letter-spacing-cta);
+    text-transform: uppercase;
+    color: var(--titulo-siena);
+}
+
+.registro-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3.5vw, 2.25rem);
+    font-weight: var(--font-bold);
+    color: var(--color-texto);
+    margin: 0;
+}
+
+.registro-subtitle {
+    font-size: 0.95rem;
+    color: color-mix(in srgb, var(--color-texto) 70%, transparent);
+    margin: 0;
+}
+
+.registro-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 100%;
+}
+
+.registro-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.registro-form label {
+    font-size: 0.9rem;
+    font-weight: var(--font-bold);
+    color: var(--color-texto);
+}
+
+.registro-form input {
+    width: 100%;
+    padding: 0.75rem 0.95rem;
+    border: 1px solid color-mix(in srgb, var(--color-texto) 20%, var(--fondo-alabastro));
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    background-color: var(--color-blanco);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+}
+
+.registro-form input:focus {
+    outline: none;
+    border-color: var(--titulo-siena);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--titulo-siena) 18%, transparent);
+}
+
+.registro-form input[aria-invalid="true"] {
+    border-color: #d32f2f;
+    background-color: color-mix(in srgb, #d32f2f 3%, var(--color-blanco));
+}
+
+.error-text {
+    font-size: 0.82rem;
+    color: #d32f2f;
+    min-height: 1.2rem;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.server-error {
+    background-color: #ffebee;
+    border: 1px solid #ffcdd2;
+    color: #c62828;
+    padding: 0.85rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: var(--font-medium);
+    margin: 0;
+}
+
+.btn-registro {
+    padding: 0.9rem 2rem;
+    border: none;
+    border-radius: 0.375rem;
+    background-color: var(--color-texto);
+    color: var(--color-blanco);
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: var(--font-bold);
+    letter-spacing: var(--letter-spacing-cta);
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.2s, opacity 0.2s;
+    margin-top: 0.5rem;
+    width: 100%;
+}
+
+.btn-registro:hover:not(:disabled) {
+    background-color: var(--titulo-siena);
+}
+
+.btn-registro:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.registro-footer {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--color-texto);
+    padding-top: 0.5rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-texto) 10%, transparent);
+}
+
+.registro-footer a {
+    color: var(--titulo-siena);
+    font-weight: var(--font-bold);
+    text-decoration: underline;
+    transition: opacity 0.2s;
+}
+
+.registro-footer a:hover {
+    opacity: 0.8;
+}
