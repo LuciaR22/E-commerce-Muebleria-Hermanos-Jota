@@ -10,7 +10,8 @@
         "start": "node index.js",
         "seed": "node --env-file=.env seed.js",
         "test": "node --test test/contrato.test.js",
-        "test:auth": "node --test test/auth.test.cjs"
+        "test:auth": "node --test test/auth.test.cjs",
+        "test:registro": "node --env-file=.env --test test/auth.registro.test.js"
     },
     "dependencies": {
         "bcrypt": "^6.0.0",

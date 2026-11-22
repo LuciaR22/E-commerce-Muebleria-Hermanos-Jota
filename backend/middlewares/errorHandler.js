@@ -31,9 +31,19 @@ const resolveError = (err, isProduction) => {
     }
 
     if (err.code === 11000) {
+        const keys = Object.keys(err.keyValue || err.keyPattern || {});
+        const field = keys[0];
+        let message = "El recurso ya existe";
+
+        if (field === "email") {
+            message = "El email ya se encuentra registrado";
+        } else if (field === "nombre") {
+            message = "La categoría ya existe";
+        }
+
         return {
             status: 409,
-            message: "La categoría ya existe",
+            message,
         };
     }
 

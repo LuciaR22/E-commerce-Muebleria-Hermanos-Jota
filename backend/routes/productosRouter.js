@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import Product from "../models/Product.js";
 import Categoria from "../models/Categoria.js";
 import { obtenerProductos } from "../controllers/productoController.js";
-import { soloAdmin, verificarToken } from "../middleware/auth.js";
+import { soloAdmin, verificarToken } from "../middlewares/auth.js";
 
 const router = Router();
 

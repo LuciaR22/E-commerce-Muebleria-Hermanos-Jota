@@ -43,6 +43,16 @@ export default function Navbar({ cartCount: cartCountProp }) {
                                 Contacto
                             </NavLink>
                         </li>
+                        {!isAuthenticated && (
+                            <li>
+                                <NavLink
+                                    to="/registro"
+                                    className={({ isActive }) => `nav__link${isActive ? " active" : ""}`}
+                                >
+                                    Crear cuenta
+                                </NavLink>
+                            </li>
+                        )}
                         {isAuthenticated && (
                             <li>
                                 <NavLink

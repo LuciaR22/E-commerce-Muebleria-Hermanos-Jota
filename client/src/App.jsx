@@ -11,9 +11,11 @@ import ContactPage from "./pages/ContactPage";
 import CrearProducto from "./pages/CrearProducto";
 import EditarProducto from "./pages/EditarProducto";
 import HomePage from "./pages/HomePage.jsx";
+import LoginPage from "./pages/LoginPage/LoginPage.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import PerfilPage from "./pages/PerfilPage/PerfilPage.jsx";
 import ProductsPage from "./pages/ProductsPage";
+import Registro from "./pages/Registro.jsx";
 
 export default function App() {
     return (
@@ -40,6 +42,9 @@ export default function App() {
                     <Route path="/carrito" element={<CartPage />} />
 
                     <Route path="/contacto" element={<ContactPage />} />
+
+                    <Route path="/registro" element={<Registro />} />
+                    <Route path="/login" element={<LoginPage />} />
 
                     <Route element={<ProtectedRoute />}>
                         <Route path="/admin/crear-producto" element={<CrearProducto />} />
