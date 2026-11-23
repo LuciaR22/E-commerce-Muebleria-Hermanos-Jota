@@ -1,4 +1,4 @@
-
+import { obtenerHeadersAuth } from "../utils/authStorage";
 import { request } from "./api";
 
 const productosService = {
@@ -13,6 +13,7 @@ const productosService = {
     async actualizarProducto(id, datos) {
         return request(`/productos/${id}`, {
             method: "PUT",
+            headers: obtenerHeadersAuth(),
             body: JSON.stringify(datos),
         });
     },
@@ -20,6 +21,7 @@ const productosService = {
     async crearProducto(datos) {
         return request("/productos", {
             method: "POST",
+            headers: obtenerHeadersAuth(),
             body: JSON.stringify(datos),
         });
     },
@@ -27,9 +29,9 @@ const productosService = {
     async eliminarProducto(id) {
         return request(`/productos/${id}`, {
             method: "DELETE",
+            headers: obtenerHeadersAuth(),
         });
     },
 };
 
 export default productosService;
-

@@ -1,3 +1,4 @@
+
 // Pruebas del contrato de Categorías. Se corren con el servidor prendido:
 //   npm run dev   (en una terminal)
 //   npm test      (en otra)
@@ -7,12 +8,44 @@ import assert from "node:assert/strict";
 const API = process.env.API_URL || "http://localhost:5000/api";
 const ID_QUE_NO_EXISTE = "6712f0a1c3e9a1b2c3d4e5f6";
 
-async function pedir(metodo, ruta, body) {
+let tokenAdmin;
+
+async function obtenerTokenAdmin() {
+    if (tokenAdmin) {
+        return tokenAdmin;
+    }
+
+    const respuesta = await fetch(`${API}/usuario/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            email: process.env.TEST_ADMIN_EMAIL || "admin@hermanosjota.com",
+            password: process.env.TEST_ADMIN_PASSWORD || "Admin1234!",
+        }),
+    });
+
+    const datos = await respuesta.json();
+
+    assert.equal(respuesta.status, 200, "el administrador debe poder iniciar sesión");
+    assert.ok(datos.token, "el login debe devolver un token");
+
+    tokenAdmin = datos.token;
+    return tokenAdmin;
+}
+
+async function pedir(metodo, ruta, body, autenticado = false) {
+    const headers = { "Content-Type": "application/json" };
+
+    if (autenticado) {
+        headers.Authorization = `Bearer ${await obtenerTokenAdmin()}`;
+    }
+
     const respuesta = await fetch(API + ruta, {
         method: metodo,
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: body ? JSON.stringify(body) : undefined,
     });
+
     const datos = await respuesta.json();
     return { status: respuesta.status, datos };
 }
@@ -73,25 +106,45 @@ test("GET /productos/:id → el detalle también trae la categoría con nombre",
 });
 
 test("POST /productos con una categoría que no existe → 400", async () => {
-    const { status, datos } = await pedir("POST", "/productos", {
-        nombre: "Mesa fantasma", precio: 1000, categoria: ID_QUE_NO_EXISTE,
-    });
+    const { status, datos } = await pedir(
+        "POST",
+        "/productos",
+        {
+            nombre: "Mesa fantasma",
+            precio: 1000,
+            categoria: ID_QUE_NO_EXISTE,
+        },
+        true
+    );
     assert.equal(status, 400);
     assert.ok(datos.error, "responde { error }");
 });
 
 test('POST /productos con categoria "abc" → 400 (no 500)', async () => {
-    const { status } = await pedir("POST", "/productos", { nombre: "Mesa rara", precio: 1000, categoria: "abc" });
+    const { status } = await pedir(
+        "POST",
+        "/productos",
+        { nombre: "Mesa rara", precio: 1000, categoria: "abc" },
+        true
+    );
     assert.equal(status, 400);
 });
 
 test("POST /productos con una categoría válida → 201 y guarda la referencia", async () => {
     const { datos: categorias } = await pedir("GET", "/categorias");
     assert.ok(Array.isArray(categorias) && categorias.length, "GET /categorias no devuelve categorías");
-    const { status, datos } = await pedir("POST", "/productos", {
-        nombre: `Banco ${Date.now()}`, precio: 50000, categoria: categorias[0]._id,
-    });
+    const { status, datos } = await pedir(
+        "POST",
+        "/productos",
+        {
+            nombre: `Banco ${Date.now()}`,
+            precio: 50000,
+            categoria: categorias[0]._id,
+        },
+        true
+    );
     assert.equal(status, 201);
     assert.equal(String(datos.categoria?._id ?? datos.categoria), categorias[0]._id);
-    await pedir("DELETE", `/productos/${datos._id}`);
+
+    await pedir("DELETE", `/productos/${datos._id}`, undefined, true);
 });

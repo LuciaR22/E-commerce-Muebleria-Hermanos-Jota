@@ -70,6 +70,18 @@
         border-color 0.2s ease;
 }
 
+button.nav__link {
+    appearance: none;
+    margin: 0;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    font-family: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+    cursor: pointer;
+}
+
 .nav__link:hover {
     color: var(--color-texto);
 }

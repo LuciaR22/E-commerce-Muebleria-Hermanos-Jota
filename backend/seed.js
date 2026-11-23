@@ -1,11 +1,12 @@
-
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import bcryptjs from "bcryptjs";
 
 import connectDB from "./config/db.js";
 import { productos } from "./data/productos.js";
 import Categoria from "./models/Categoria.js";
 import Product from "./models/Product.js";
+import User from "./models/User.js";
 
 dotenv.config();
 
@@ -21,6 +22,31 @@ const categoriasPorProducto = {
     "Sillas Córdoba": "Sillas",
     "Escritorio Costa": "Escritorios",
     "Silla de Trabajo Belgrano": "Sillas",
+};
+
+// funcion para dejar usuario administrador de pruebas en la coleccion 'usuarios'
+const seedAdmin = async () => {
+    const adminEmail = "admin@hermanosjota.com";
+    const passwordPlana = "Admin1234!";
+    const passwordHasheada = await bcryptjs.hash(passwordPlana, 10);
+
+    const adminUser = await User.findOne({ email: adminEmail });
+    if (!adminUser) {
+        await User.create({
+            nombre: "Admin Hermanos Jota",
+            email: adminEmail,
+            contrasenia: passwordHasheada,
+            password: passwordHasheada,
+            rol: "admin",
+        });
+        console.log(`Usuario admin creado en 'usuarios': ${adminEmail}`);
+    } else {
+        adminUser.rol = "admin";
+        adminUser.contrasenia = passwordHasheada;
+        adminUser.password = passwordHasheada;
+        await adminUser.save();
+        console.log(`Usuario admin actualizado en 'usuarios': ${adminEmail}`);
+    }
 };
 
 const seed = async () => {
@@ -69,6 +95,9 @@ const seed = async () => {
         console.log(
             `Seed completado: ${insertados} productos nuevos insertados y ${actualizados} productos actualizados con categoría.`
         );
+
+        // ejecutamos la siembra del usuario admin
+        await seedAdmin();
     } catch (error) {
         console.error("Error en el seed:", error.message);
         process.exitCode = 1;
@@ -78,4 +107,3 @@ const seed = async () => {
 };
 
 seed();
-

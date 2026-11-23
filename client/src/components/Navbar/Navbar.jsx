@@ -1,7 +1,22 @@
-import { Link, NavLink } from "react-router-dom";
+
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useCart } from "../../context/CartContext";
+import useAuth from "../../hooks/useAuth";
 import "./Navbar.css";
 
-export default function Navbar({ cartCount = 0, rolUsuario, cambiarRol }) {
+export default function Navbar({ cartCount: cartCountProp }) {
+    const { isAuthenticated, isAdmin, logout } = useAuth();
+    const { cartCount } = useCart();
+    const navigate = useNavigate();
+
+    // cantidad de productos en el carrito (desde el contexto)
+    const contador = cartCountProp !== undefined ? cartCountProp : cartCount;
+
+    const handleLogout = () => {
+        logout();
+        navigate("/", { replace: true });
+    };
+
     return (
         <header className="header">
             <div className="header__container">
@@ -35,9 +50,41 @@ export default function Navbar({ cartCount = 0, rolUsuario, cambiarRol }) {
                                 Contacto
                             </NavLink>
                         </li>
-                        
+
+                        {!isAuthenticated && (
+                            <>
+                                <li>
+                                    <NavLink
+                                        to="/login"
+                                        className={({ isActive }) => `nav__link${isActive ? " active" : ""}`}
+                                    >
+                                        Ingresar
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink
+                                        to="/registro"
+                                        className={({ isActive }) => `nav__link${isActive ? " active" : ""}`}
+                                    >
+                                        Registrarse
+                                    </NavLink>
+                                </li>
+                            </>
+                        )}
+
+                        {isAuthenticated && (
+                            <li>
+                                <NavLink
+                                    to="/perfil"
+                                    className={({ isActive }) => `nav__link${isActive ? " active" : ""}`}
+                                >
+                                    Perfil
+                                </NavLink>
+                            </li>
+                        )}
+
                         {/* Solo mostramos "Crear Producto" si el rol es admin */}
-                        {rolUsuario === "admin" && (
+                        {isAdmin && (
                             <li>
                                 <NavLink
                                     to="/admin/crear-producto"
@@ -47,18 +94,20 @@ export default function Navbar({ cartCount = 0, rolUsuario, cambiarRol }) {
                                 </NavLink>
                             </li>
                         )}
+
+                        {isAuthenticated && (
+                            <li>
+                                <button
+                                    type="button"
+                                    className="nav__link"
+                                    onClick={handleLogout}
+                                >
+                                    Cerrar sesión
+                                </button>
+                            </li>
+                        )}
                     </ul>
                 </nav>
-
-                {/* Botón para cambiar de rol (Píldora) */}
-                <div className="header__role-switch">
-                    <button 
-                        onClick={cambiarRol} 
-                        className={`btn-rol ${rolUsuario === "admin" ? "btn-rol--admin" : "btn-rol--cliente"}`}
-                    >
-                        {rolUsuario === "admin" ? "Admin" : "Cliente"}
-                    </button>
-                </div>
 
                 {/* El carrito ahora es un Link a /carrito */}
                 <Link to="/carrito" className="header__cart" title="Carrito de compras" aria-label="Carrito de compras">
@@ -80,7 +129,7 @@ export default function Navbar({ cartCount = 0, rolUsuario, cambiarRol }) {
                     </svg>
                     <span className="header__cart-label">Carrito:</span>
                     <span id="cart-count" className="cart-count">
-                        {cartCount}
+                        {contador}
                     </span>
                 </Link>
             </div>

@@ -9,6 +9,7 @@ import { notFound } from "./middlewares/notFound.js";
 import categoriasRouter from "./routes/categoriasRouter.js";
 import productosRouter from "./routes/productosRouter.js";
 import usuariosRouter from "./routes/usuarios.js";
+import authRouter from "./routes/auth.js";
 
 dotenv.config();
 
@@ -27,9 +28,13 @@ app.get("/api/health", (_req, res) => {
 });
 
 // Rutas de la API
+app.use("/api/auth", authRouter);
 app.use("/api/categorias", categoriasRouter);
 app.use("/api/productos", productosRouter);
+
+// Rutas de usuarios
 app.use("/api/usuarios", usuariosRouter);
+app.use("/api/usuario", usuariosRouter);
 
 app.use(notFound);
 app.use(errorHandler);

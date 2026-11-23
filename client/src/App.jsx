@@ -1,98 +1,62 @@
-import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import ProductDetail from "./components/ProductDetail";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute.jsx";
+import { AuthProvider } from "./context/AuthContext";
+import { CartProvider } from "./context/CartContext";
+import CartPage from "./pages/CartPage/CartPage.jsx";
 import ContactPage from "./pages/ContactPage";
 import CrearProducto from "./pages/CrearProducto";
 import EditarProducto from "./pages/EditarProducto";
 import HomePage from "./pages/HomePage.jsx";
+import LoginPage from "./pages/LoginPage/LoginPage.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import PerfilPage from "./pages/PerfilPage/PerfilPage.jsx";
 import ProductsPage from "./pages/ProductsPage";
-import CartPage from "./pages/CartPage/CartPage.jsx";
+import Registro from "./pages/Registro.jsx";
 
 export default function App() {
-    const [carrito, setCarrito] = useState([]);
-    
-    // ✅ Estado para simular el rol del usuario (cliente o admin)
-    const [rolUsuario, setRolUsuario] = useState("cliente");
-
-    const agregarAlCarrito = producto => {
-        setCarrito(prevCarrito => [...prevCarrito, producto]);
-    };
-
-    const quitarDelCarrito = idProducto => {
-        setCarrito(prevCarrito =>
-            prevCarrito.filter(producto => producto._id !== idProducto)
-        );
-    };
-
-    const vaciarCarrito = () => {
-        setCarrito([]);
-    };
-
-    // ✅ Función para cambiar de rol
-    const cambiarRol = () => {
-        setRolUsuario(prevRol => (prevRol === "cliente" ? "admin" : "cliente"));
-    };
-
     return (
-        <>
-            {/* ✅ Le pasamos rolUsuario y cambiarRol al Navbar */}
-            <Navbar 
-                cartCount={carrito.length} 
-                rolUsuario={rolUsuario} 
-                cambiarRol={cambiarRol} 
-            />
+        <AuthProvider>
+            <CartProvider>
+                <Navbar />
 
-            <Routes>
-                <Route path="/" element={<HomePage />} />
-                
-                <Route
-                    path="/productos"
-                    element={
-                        <ProductsPage
-                            agregarAlCarrito={agregarAlCarrito}
-                            rolUsuario={rolUsuario}
-                        />
-                    }
-                />
+                <Routes>
+                    <Route path="/" element={<HomePage />} />
 
-                <Route
-                    path="/productos/:id"
-                    element={
-                        <main className="product-page">
-                            <section className="product-page__content">
-                                <ProductDetail
-                                    agregarAlCarrito={agregarAlCarrito}
-                                    quitarDelCarrito={quitarDelCarrito}
-                                    rolUsuario={rolUsuario}
-                                />
-                            </section>
-                        </main>
-                    }
-                />
+                    <Route path="/productos" element={<ProductsPage />} />
 
-                {/* ✅ RUTA DEL CARRITO (Ahora con quitarDelCarrito) */}
-                <Route 
-                path="/carrito" 
-                element={
-                    <CartPage 
-                        carrito={carrito} 
-                        setCarrito={setCarrito} 
-                        vaciarCarrito={vaciarCarrito} 
+                    <Route
+                        path="/productos/:id"
+                        element={
+                            <main className="product-page">
+                                <section className="product-page__content">
+                                    <ProductDetail />
+                                </section>
+                            </main>
+                        }
                     />
-                } 
-            />
 
-                <Route path="/contacto" element={<ContactPage />} />
-                <Route path="/admin/crear-producto" element={<CrearProducto />} />
-                <Route path="/admin/editar-producto/:id" element={<EditarProducto />} />
-                <Route path="*" element={<NotFound />} />
-            </Routes>
+                    <Route path="/carrito" element={<CartPage />} />
 
-            <Footer />
-        </>
+                    <Route path="/contacto" element={<ContactPage />} />
+
+                    <Route path="/registro" element={<Registro />} />
+                    <Route path="/login" element={<LoginPage />} />
+
+                    <Route element={<ProtectedRoute />}>
+                        <Route path="/admin/crear-producto" element={<CrearProducto />} />
+                        <Route path="/admin/editar-producto/:id" element={<EditarProducto />} />
+                        <Route path="/perfil" element={<PerfilPage />} />
+                    </Route>
+
+                    <Route path="*" element={<NotFound />} />
+                </Routes>
+
+                <Footer />
+            </CartProvider>
+        </AuthProvider>
     );
 }
