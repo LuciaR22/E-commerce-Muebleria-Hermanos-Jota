@@ -1,138 +1,105 @@
-
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import useAuth from "../../hooks/useAuth";
 import "./Navbar.css";
 
 export default function Navbar({ cartCount: cartCountProp }) {
-    const { isAuthenticated, isAdmin, logout } = useAuth();
-    const { cartCount } = useCart();
-    const navigate = useNavigate();
+  const { usuario, isAuthenticated, isAdmin, logout } = useAuth();
+  const { cartCount } = useCart();
+  const navigate = useNavigate();
 
-    // cantidad de productos en el carrito (desde el contexto)
-    const contador = cartCountProp !== undefined ? cartCountProp : cartCount;
+  const contador = cartCountProp !== undefined ? cartCountProp : cartCount;
 
-    const handleLogout = () => {
-        logout();
-        navigate("/", { replace: true });
-    };
+  const handleLogout = () => {
+    logout();
+    navigate("/", { replace: true });
+  };
 
-    return (
-        <header className="header">
-            <div className="header__container">
-                <div className="header__brand">
-                    <Link to="/" className="header__logo">
-                        <img src="/Imagenes/logo.svg" alt="Logo Hermanos Jota" className="logo-img" />
-                        <span className="header__brand-name">Hermanos Jota</span>
-                    </Link>
-                </div>
+  return (
+    <header className="navbar">
+      <div className="navbar__container">
+        <div className="navbar__left">
+          <Link to="/" className="navbar__logo">
+            <img src="/Imagenes/logo.svg" alt="Logo Hermanos Jota" className="navbar__logo-img" />
+            <span className="navbar__brand">Hermanos Jota</span>
+          </Link>
+        </div>
 
-                <nav className="nav" aria-label="Navegación principal">
-                    <ul className="nav__list">
-                        <li>
-                            <NavLink to="/" end className={({ isActive }) => `nav__link${isActive ? " active" : ""}`}>
-                                Inicio
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink
-                                to="/productos"
-                                className={({ isActive }) => `nav__link${isActive ? " active" : ""}`}
-                            >
-                                Productos
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink
-                                to="/contacto"
-                                className={({ isActive }) => `nav__link${isActive ? " active" : ""}`}
-                            >
-                                Contacto
-                            </NavLink>
-                        </li>
+        <nav className="navbar__center" aria-label="Navegación principal">
+          <ul className="navbar__list">
+            <li className="navbar__item">
+              <NavLink to="/" end className="navbar__link" activeClassName="navbar__link--active">
+                Inicio
+              </NavLink>
+            </li>
+            <li className="navbar__item">
+              <NavLink to="/productos" className="navbar__link" activeClassName="navbar__link--active">
+                Productos
+              </NavLink>
+            </li>
+          </ul>
+        </nav>
 
-                        {!isAuthenticated && (
-                            <>
-                                <li>
-                                    <NavLink
-                                        to="/login"
-                                        className={({ isActive }) => `nav__link${isActive ? " active" : ""}`}
-                                    >
-                                        Ingresar
-                                    </NavLink>
-                                </li>
-                                <li>
-                                    <NavLink
-                                        to="/registro"
-                                        className={({ isActive }) => `nav__link${isActive ? " active" : ""}`}
-                                    >
-                                        Registrarse
-                                    </NavLink>
-                                </li>
-                            </>
-                        )}
+        {/* Right: user area & cart */}
+        <div className="navbar__right">
+          {/* Auth links */}
+          {!isAuthenticated && (
+            <ul className="navbar__auth-list">
+              <li className="navbar__auth-item">
+                <NavLink to="/login" className="navbar__link" activeClassName="navbar__link--active">
+                  Ingresar
+                </NavLink>
+              </li>
+              <li className="navbar__auth-item">
+                <NavLink to="/registro" className="navbar__link" activeClassName="navbar__link--active">
+                  Registrarse
+                </NavLink>
+              </li>
+            </ul>
+          )}
 
-                        {isAuthenticated && (
-                            <li>
-                                <NavLink
-                                    to="/perfil"
-                                    className={({ isActive }) => `nav__link${isActive ? " active" : ""}`}
-                                >
-                                    Perfil
-                                </NavLink>
-                            </li>
-                        )}
-
-                        {/* Solo mostramos "Crear Producto" si el rol es admin */}
-                        {isAdmin && (
-                            <li>
-                                <NavLink
-                                    to="/admin/crear-producto"
-                                    className={({ isActive }) => `nav__link${isActive ? " active" : ""}`}
-                                >
-                                    Crear Producto
-                                </NavLink>
-                            </li>
-                        )}
-
-                        {isAuthenticated && (
-                            <li>
-                                <button
-                                    type="button"
-                                    className="nav__link"
-                                    onClick={handleLogout}
-                                >
-                                    Cerrar sesión
-                                </button>
-                            </li>
-                        )}
-                    </ul>
-                </nav>
-
-                {/* El carrito ahora es un Link a /carrito */}
-                <Link to="/carrito" className="header__cart" title="Carrito de compras" aria-label="Carrito de compras">
-                    <svg
-                        className="header__cart-icon"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        aria-hidden="true"
-                    >
-                        <circle cx="9" cy="21" r="1"></circle>
-                        <circle cx="20" cy="21" r="1"></circle>
-                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                    </svg>
-                    <span className="header__cart-label">Carrito:</span>
-                    <span id="cart-count" className="cart-count">
-                        {contador}
-                    </span>
+          {isAuthenticated && usuario && (
+            <div className="navbar__user">
+              <span className="navbar__greeting">Hola, {usuario.nombre}!</span>
+              {isAdmin && (
+                <Link to="/admin/crear-producto" className="navbar__admin-btn">
+                  + Nuevo producto
                 </Link>
+              )}
+              <button type="button" className="navbar__logout" onClick={handleLogout}>
+                Cerrar sesión
+              </button>
             </div>
-        </header>
-    );
+          )}
+
+          {/* Cart button */}
+          <Link
+            to="/carrito"
+            className="navbar__cart"
+            title="Carrito de compras"
+            aria-label="Carrito de compras"
+          >
+            <svg
+              className="navbar__cart-icon"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="9" cy="21" r="1" />
+              <circle cx="20" cy="21" r="1" />
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+            </svg>
+            <span className="navbar__cart-label">Carrito</span>
+            <span className="navbar__cart-badge">{contador}</span>
+          </Link>
+        </div>
+      </div>
+    </header>
+  );
 }
