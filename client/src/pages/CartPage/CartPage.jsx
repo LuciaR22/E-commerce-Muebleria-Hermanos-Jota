@@ -1,9 +1,15 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 import { useCart } from "../../context/CartContext";
+import { apiFetch } from "../../services/api";
 import "./CartPage.css";
 
 export default function CartPage() {
-    // consumimos todos los datos y metodos del carrito desde el contexto
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { isAuthenticated } = useAuth();
+
     const {
         carrito,
         productosAgrupados,
@@ -14,6 +20,81 @@ export default function CartPage() {
         eliminarProducto,
         vaciarCarrito,
     } = useCart();
+
+    const [enviando, setEnviando] = useState(false);
+    const [error, setError] = useState("");
+    const [pedidoExitoso, setPedidoExitoso] = useState(null);
+
+    const handleFinalizarCompra = async () => {
+        // si no hay sesion, redirigir a /login conservando el destino
+        if (!isAuthenticated) {
+            navigate("/login", { state: { from: location } });
+            return;
+        }
+
+        if (enviando) return;
+
+        setEnviando(true);
+        setError("");
+
+        try {
+            // armar el body con { items: [{ productoId, cantidad }] } (sin precios)
+            const items = productosAgrupados.map((p) => ({
+                productoId: p._id,
+                cantidad: p.cantidad,
+            }));
+
+            const data = await apiFetch("/pedidos", {
+                method: "POST",
+                body: JSON.stringify({ items }),
+            });
+
+            // si sale bien, vaciar el carrito y mostrar confirmacion
+            vaciarCarrito();
+            setPedidoExitoso(data.pedido || data);
+        } catch (err) {
+            setError(
+                err.userMessage || err.message || "Error al procesar el pedido."
+            );
+        } finally {
+            setEnviando(false);
+        }
+    };
+
+    // pantalla de confirmacion tras pedido exitoso
+    if (pedidoExitoso) {
+        return (
+            <main className="cart-page">
+                <div className="cart-confirmacion">
+                    <div className="cart-confirmacion__icon">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                    </div>
+                    <h2 className="cart-confirmacion__title">
+                        ¡Pedido realizado con éxito!
+                    </h2>
+                    <p className="cart-confirmacion__text">
+                        Tu pedido fue registrado correctamente.
+                    </p>
+                    {pedidoExitoso.total != null && (
+                        <p className="cart-confirmacion__total">
+                            Total: ${Number(pedidoExitoso.total).toLocaleString("es-AR")}
+                        </p>
+                    )}
+                    <div className="cart-confirmacion__actions">
+                        <Link to="/mis-pedidos" className="cart-confirmacion__btn cart-confirmacion__btn--primary">
+                            Ver mis pedidos
+                        </Link>
+                        <Link to="/productos" className="cart-confirmacion__btn cart-confirmacion__btn--secondary">
+                            Seguir comprando
+                        </Link>
+                    </div>
+                </div>
+            </main>
+        );
+    }
 
     if (carrito.length === 0) {
         return (
@@ -124,8 +205,18 @@ export default function CartPage() {
                         <span className="cart-summary__total-price">${total.toLocaleString("es-AR")}</span>
                     </div>
 
-                    <button className="cart-summary__checkout" onClick={() => alert("Compra finalizada")}>
-                        Finalizar compra
+                    {error && (
+                        <div className="cart-summary__error" role="alert">
+                            {error}
+                        </div>
+                    )}
+
+                    <button
+                        className="cart-summary__checkout"
+                        onClick={handleFinalizarCompra}
+                        disabled={enviando}
+                    >
+                        {enviando ? "Procesando..." : "Finalizar compra"}
                     </button>
 
                     <button className="cart-summary__clear" onClick={vaciarCarrito}>
