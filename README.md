@@ -64,23 +64,22 @@ npm install
 ## Variables de Entorno
 
 ### Backend (`backend/.env`)
-Crear el archivo `backend/.env` tomando como base `backend/.env.example`:
+Para ejectuar correctamente el backend. Crear el archivo `backend/.env` tomando como base `backend/.env.example`:
 
 ```env
 # Conexión a MongoDB Atlas
 MONGODB_URI=mongodb+srv://<usuario>:<password>@<cluster>.mongodb.net/<base-de-datos>
 
-# Clave secreta para firmar tokens JWT
-JWT_SECRET=tu_clave_secreta_super_segura
+JWT_SECRET=
 
 # Tiempo de expiración del token JWT
-JWT_EXPIRES_IN=1h
+JWT_EXPIRES_IN=
 
 # Puerto de escucha del servidor
-PORT=5000
+PORT=
 
 # URL del cliente frontend permitida en CORS
-CLIENT_URL=http://localhost:5173
+CLIENT_URL=
 ```
 
 ### Frontend (`client/.env`)
@@ -110,12 +109,6 @@ npm run dev:backend
 npm run dev:client
 ```
 
-### Compilación para producción (Frontend)
-```bash
-npm run build
-```
-
----
 
 ## Arquitectura del Proyecto
 
@@ -169,14 +162,12 @@ Estructura organizada como monorepo con workspaces de npm:
 
 ## Pruebas automatizadas
 
-El proyecto incluye suites completas de pruebas automáticas para verificar contratos y seguridad:
-
 ### Pruebas de contrato de productos
 ```bash
 npm run test
 ```
 
-### Pruebas de contrato de autenticación y roles (12 de 12)
+### Pruebas de contrato de autenticación y roles
 Con el servidor backend iniciado en otra terminal:
 ```bash
 npm run test:auth
@@ -184,22 +175,6 @@ npm run test:auth
 
 ---
 
-## Datos de prueba y Cuentas de Acceso
-
-Para poblar la base de datos con las categorías, el catálogo oficial de 11 muebles y los usuarios de prueba:
-
-```bash
-npm run seed -w @muebleria/backend
-```
-
-### Cuentas de prueba disponibles:
-
-| Rol | Correo electrónico | Contraseña | Permisos |
-|---|---|---|---|
-| **Administrador** | `admin@hermanosjota.com` | `Admin1234!` | Acceso completo (CRUD de productos, compras, perfil y pedidos). |
-| **Cliente** | `cliente@hermanosjota.com` | `Cliente1234!` | Acceso de cliente (navegación, carrito, checkout, perfil y mis pedidos). |
-
----
 
 ## Tecnologías utilizadas
 
