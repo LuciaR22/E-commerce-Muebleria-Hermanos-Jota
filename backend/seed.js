@@ -24,28 +24,50 @@ const categoriasPorProducto = {
     "Silla de Trabajo Belgrano": "Sillas",
 };
 
-// funcion para dejar usuario administrador de pruebas en la coleccion 'usuarios'
-const seedAdmin = async () => {
+// funcion para sembrar usuarios de prueba (admin y cliente) en la coleccion 'usuarios'
+const seedUsuarios = async () => {
+    // 1. Usuario Administrador de pruebas
     const adminEmail = "admin@hermanosjota.com";
-    const passwordPlana = "Admin1234!";
-    const passwordHasheada = await bcryptjs.hash(passwordPlana, 10);
+    const passAdmin = await bcryptjs.hash("Admin1234!", 10);
 
     const adminUser = await User.findOne({ email: adminEmail });
     if (!adminUser) {
         await User.create({
             nombre: "Admin Hermanos Jota",
             email: adminEmail,
-            contrasenia: passwordHasheada,
-            password: passwordHasheada,
+            contrasenia: passAdmin,
+            password: passAdmin,
             rol: "admin",
         });
         console.log(`Usuario admin creado en 'usuarios': ${adminEmail}`);
     } else {
         adminUser.rol = "admin";
-        adminUser.contrasenia = passwordHasheada;
-        adminUser.password = passwordHasheada;
+        adminUser.contrasenia = passAdmin;
+        adminUser.password = passAdmin;
         await adminUser.save();
         console.log(`Usuario admin actualizado en 'usuarios': ${adminEmail}`);
+    }
+
+    // 2. Usuario Cliente de pruebas
+    const clienteEmail = "cliente@hermanosjota.com";
+    const passCliente = await bcryptjs.hash("Cliente1234!", 10);
+
+    const clienteUser = await User.findOne({ email: clienteEmail });
+    if (!clienteUser) {
+        await User.create({
+            nombre: "Cliente Hermanos Jota",
+            email: clienteEmail,
+            contrasenia: passCliente,
+            password: passCliente,
+            rol: "cliente",
+        });
+        console.log(`Usuario cliente creado en 'usuarios': ${clienteEmail}`);
+    } else {
+        clienteUser.rol = "cliente";
+        clienteUser.contrasenia = passCliente;
+        clienteUser.password = passCliente;
+        await clienteUser.save();
+        console.log(`Usuario cliente actualizado en 'usuarios': ${clienteEmail}`);
     }
 };
 
@@ -96,8 +118,8 @@ const seed = async () => {
             `Seed completado: ${insertados} productos nuevos insertados y ${actualizados} productos actualizados con categoría.`
         );
 
-        // ejecutamos la siembra del usuario admin
-        await seedAdmin();
+        // ejecutamos la siembra de usuarios de prueba (admin y cliente)
+        await seedUsuarios();
     } catch (error) {
         console.error("Error en el seed:", error.message);
         process.exitCode = 1;

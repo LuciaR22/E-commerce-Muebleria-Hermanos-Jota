@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import usuarioService from "../services/usuarioService";
 import "./Registro.css";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -106,40 +107,28 @@ export default function Registro() {
         setEnviando(true);
 
         try {
-            const respuesta = await fetch("/api/auth/registro", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    nombre: formData.nombre.trim(),
-                    email: formData.email.trim(),
-                    password: formData.password,
-                }),
+            await usuarioService.registrar({
+                nombre: formData.nombre.trim(),
+                email: formData.email.trim(),
+                password: formData.password,
             });
 
-            const datos = await respuesta.json().catch(() => ({}));
-
-            if (respuesta.ok && (respuesta.status === 201 || respuesta.status === 200)) {
-                // 6. Éxito: navegar a /login con mensaje de confirmación
-                navigate("/login", {
-                    state: {
-                        mensaje: "¡Cuenta creada con éxito! Ya podés iniciar sesión con tus credenciales.",
-                    },
-                });
-            } else {
-                // 7. Error de servidor: mostrar mensaje SIN borrar lo que el usuario escribió
-                const mensajeError =
-                    datos.error ||
-                    datos.mensaje ||
-                    datos.message ||
-                    "Hubo un problema al crear la cuenta. Intentá nuevamente.";
-                setErrorServidor(mensajeError);
-            }
-        } catch {
-            setErrorServidor("No pudimos conectar con el servidor. Revisá tu conexión a internet.");
+            // navegar a /login con mensaje de confirmacion
+            navigate("/login", {
+                state: {
+                    mensaje: "¡Cuenta creada con éxito! Ya podés iniciar sesión con tus credenciales.",
+                },
+            });
+        } catch (error) {
+            // error de servidor: mostrar mensaje sin borrar los campos
+            const mensajeError =
+                error.details?.error ||
+                error.userMessage ||
+                error.message ||
+                "Hubo un problema al crear la cuenta. Intentá nuevamente.";
+            setErrorServidor(mensajeError);
         } finally {
-            // 5. Liberar estado de enviando
+            // liberar estado de enviando
             setEnviando(false);
         }
     };

@@ -17,7 +17,27 @@ dotenv.config();
 const app = express();
 const port = Number(process.env.PORT) || 5000;
 
-app.use(cors({ origin: process.env.CLIENT_URL }));
+// lista de origenes permitidos para cors
+const origenesPermitidos = [
+    process.env.CLIENT_URL,
+    "https://e-commerce-muebleria-hermanos-jota.vercel.app",
+    "http://localhost:5173",
+    "http://localhost:5000",
+    "http://localhost:3000",
+].filter(Boolean);
+
+app.use(
+    cors({
+        origin: (origin, callback) => {
+            // permitir solicitudes sin origin 
+            if (!origin || origenesPermitidos.includes(origin) || process.env.NODE_ENV !== "production") {
+                return callback(null, true);
+            }
+            return callback(new Error("Origen no permitido por CORS"), false);
+        },
+        credentials: true,
+    })
+);
 app.use(express.json());
 app.use(logger);
 

@@ -1,234 +1,221 @@
-# E-commerce Muebleria Hermanos Jota
+# E-commerce Mueblería Hermanos Jota
 
 ## Enlaces de Despliegue
 *   **Frontend (Vercel):** https://e-commerce-muebleria-hermanos-jota.vercel.app/
 *   **Backend (Render):** https://e-commerce-muebleria-hermanos-jota.onrender.com
 
+---
+
 ## Descripción del proyecto
 
-Este proyecto consiste en la construcción de la fachada completa de un e-commerce para la mueblería Hermanos Jota. A partir del Sprint 3 y 4, el proyecto evolucionó de un frontend estático a una aplicación Full Stack real. El frontend en React consume una API REST desarrollada en Express, la cual persiste los datos en una base de datos MongoDB en la nube (mediante Mongoose).
+Este proyecto consiste en la construcción completa de un e-commerce para la mueblería **Hermanos Jota**. A lo largo de los distintos Sprints, la aplicación evolucionó desde una interfaz estática hasta una plataforma **Full Stack MERN** (MongoDB, Express, React y Node.js) totalmente operativa.
 
-El sitio busca ser visualmente atractivo, responsivo y fácil de usar, con un sistema completo de gestión de productos (CRUD) y una experiencia de compra interactiva para el usuario.
+El sistema cuenta con un catálogo dinámico de productos, gestión de inventario (CRUD administrativo), autenticación y autorización segura basada en JSON Web Tokens (JWT), roles de usuario (Cliente y Administrador), un carrito de compras global con React Context y un flujo de compra con persistencia de pedidos en base de datos.
 
-## Funcionalidades
+---
 
-### Generales
-- Página de inicio con header, navegación, banner principal (Hero), productos destacados y footer.
-- Catálogo de productos con tarjetas generadas dinámicamente consultando la API.
-- Detalle de producto dinámico (`/productos/:id`) utilizando `useParams` de React Router.
-- Formulario de contacto con validación del lado del cliente.
-- Manejo de estados de carga y error en las peticiones a la API (componente `ApiState`).
+## Funcionalidades principales
 
-### Panel de Administración (CRUD)
+### Catálogo y Navegación
+- **Página de inicio (Home):** Header con navegación condicional, banner Hero, productos destacados y footer informativo.
+- **Catálogo de productos:** Listado responsivo obtenido dinámicamente desde la API REST.
+- **Detalle de producto (`/productos/:id`):** Información detallada, precio, stock y acciones dinámicas según el rol de la sesión.
+- **Formulario de contacto (`/contacto`):** Validación en tiempo real del lado del cliente.
+- **Manejo de estados:** Componentes de carga (`loading`), error y estado vacío (`ApiState`).
+
+### Autenticación y Autorización (Sprint 7)
+- **Registro de usuarios (`/registro`):** Validación de datos, normalización de emails y almacenamiento seguro de contraseñas mediante hashing con **Bcrypt**.
+- **Inicio de sesión (`/login`):** Validación de credenciales y generación de **JWT** (JSON Web Token) firmado. Manejo uniforme de errores (401) para prevenir la enumeración de usuarios.
+- **Sesión persistente:** Manejo global mediante `AuthContext`, sincronización con `localStorage` y auto-deslogueo ante tokens expirados o inválidos.
+- **Rutas protegidas (`<ProtectedRoute>`):** Acceso restringido a `/perfil` y `/mis-pedidos` para usuarios autenticados, y a `/admin/*` exclusivamente para administradores. Redirección automática con memoria de retorno (`location.state.from`).
+- **UI condicional en Navbar:** Menús adaptados dinámicamente según si el usuario es invitado, cliente logueado o administrador.
+
+### Carrito de Compras y Pedidos (Sprint 8)
+- **Estado global (`CartContext`):** Manejo desacoplado sin *prop drilling*, permitiendo agregar, restar unidades, eliminar productos y vaciar el carrito.
+- **Checkout seguro:** El cliente envía únicamente los identificadores y cantidades; el backend consulta los precios reales en la base de datos para calcular el total sin permitir manipulación.
+- **Persistencia de órdenes (`Order`):** Creación del pedido vinculado al usuario autenticado en MongoDB Atlas.
+- **Historial de pedidos (`/mis-pedidos`):** Consulta del listado de compras realizadas por el usuario con detalle de ítems, cantidades, fechas y totales.
+
+### Panel de Administración (CRUD de Productos)
 - Creación de nuevos productos (`/admin/crear-producto`).
 - Edición de productos existentes (`/admin/editar-producto/:id`).
-- Eliminación de productos (con confirmación y redirección).
+- Eliminación de productos con confirmación y guardia estricta de rol (`soloAdmin`).
 
-### Carrito de Compras (Frontend)
-- Carrito simulado que funciona 100% en el cliente (estado global de React).
-- Agrupación de productos idénticos para mostrar cantidades.
-- Controles para aumentar (+) o disminuir (-) unidades, y eliminación individual con ícono de tacho.
-- Cálculo dinámico de subtotales y total general.
-- *Nota:* La persistencia de órdenes de compra en la base de datos y la integración con pasarelas de pago quedan pendientes para futuras iteraciones.
+---
 
-### Simulación de Roles (Provisoria)
-- Se agregó un botón "toggle" en el Navbar para alternar entre el rol de **Cliente** y **Admin**.
-- **Lógica aplicada:** Si el rol es Cliente, se oculta el botón de "Crear Producto" en el menú y los botones de edición/eliminación en el detalle del producto. Si el rol es Admin, se oculta el botón de "Agregar al carrito".
-- *Aclaración:* Esta lógica es netamente visual y provisoria. La implementación real de autenticación y permisos (backend) se abordará en los próximos sprints.
+## Requisitos del sistema
+- **Node.js** >= 20.0.0
+- **npm** >= 10.0.0
 
-## Requisitos
-- Node.js >= 20
-- npm
+---
 
 ## Instalación
 
-Desde la raíz del proyecto instalar todas las dependencias (backend, client y herramientas comunes):
+Clonar el repositorio e instalar todas las dependencias del monorepo desde la raíz:
 
 ```bash
+git clone https://github.com/LuciaR22/E-commerce-Muebleria-Hermanos-Jota.git
+cd E-commerce-Muebleria-Hermanos-Jota
 npm install
 ```
 
-Esto instala las dependencias de ambos paquetes gracias al monorepo con workspaces de npm.
+---
 
-## Ejecucion
+## Variables de Entorno
 
-### Ambos servidores (recomendado)
+### Backend (`backend/.env`)
+Crear el archivo `backend/.env` tomando como base `backend/.env.example`:
 
+```env
+# Conexión a MongoDB Atlas
+MONGODB_URI=mongodb+srv://<usuario>:<password>@<cluster>.mongodb.net/<base-de-datos>
+
+# Clave secreta para firmar tokens JWT
+JWT_SECRET=tu_clave_secreta_super_segura
+
+# Tiempo de expiración del token JWT
+JWT_EXPIRES_IN=1h
+
+# Puerto de escucha del servidor
+PORT=5000
+
+# URL del cliente frontend permitida en CORS
+CLIENT_URL=http://localhost:5173
+```
+
+### Frontend (`client/.env`)
+Opcionalmente, para configurar la conexión del cliente con la API en desarrollo o producción:
+
+```env
+VITE_API_URL=http://localhost:5000/api
+```
+
+---
+
+## Ejecución del proyecto
+
+### Ambos entornos en paralelo (recomendado)
 ```bash
 npm run dev
 ```
-
-Levanta el backend y el cliente en paralelo con `concurrently`.
+Inicia simultáneamente el servidor backend en `http://localhost:5000` y el cliente Vite en `http://localhost:5173`.
 
 ### Solo backend
-
 ```bash
 npm run dev:backend
 ```
 
-API de Express disponible en `http://localhost:5000`.
-
 ### Solo cliente
-
 ```bash
 npm run dev:client
 ```
 
-Cliente con Vite disponible en `http://localhost:5173`, con proxy de `/api` hacia el backend.
-
-## Arquitectura
-
-El proyecto usa un monorepo con workspaces de npm dividido en dos paquetes:
-
-```
-├── backend/                # API (Express + Mongoose)
-│   ├── index.js            # Punto de entrada y montaje de middlewares
-│   ├── config/             # Configuracion (variables de entorno)
-│   ├── controllers/        # Logica de las rutas
-│   ├── data/               # Datos de ejemplo (productos)
-│   ├── middlewares/        # logger, notFound, errorHandler
-│   ├── models/             # Modelos de Mongoose
-│   ├── routes/             # Definicion de rutas
-│   └── services/           # Logica de negocio
-└── client/                 # Cliente (React + Vite)
-    └── src/
-        ├── components/     # Componentes reutilizables
-        ├── pages/          # Vistas por ruta
-        └── services/       # Comunicacion con la API
+### Compilación para producción (Frontend)
+```bash
+npm run build
 ```
 
-### Backend
+---
 
-- **Express** con `cors`, `express.json()` y un middleware de logs propio (`logger`).
-- Los middlewares `notFound` y `errorHandler` se montan al final de la cadena para responder 404 en rutas inexistentes y errores propagados con `next(err)`, respectivamente.
-- **Mongoose** como ODM para la futura conexion a MongoDB.
-- Separa la logica en `routes`, `controllers`, `services` y `models` para mantener el codigo organizado y testeable.
-- Usa ESM (`"type": "module"`) y variables de entorno con `dotenv`.
+## Arquitectura del Proyecto
 
-### Cliente
+Estructura organizada como monorepo con workspaces de npm:
 
-- **React 19** con React Router para la navegacion.
-- **Vite** como build tool y dev server, con proxy de `/api` hacia el backend para evitar problemas de CORS en desarrollo.
-- El estado actual incluye un scaffold basico que crece hacia las paginas y componentes del proyecto.
-
-## Decisiones tomadas
-
-- **Monorepo con workspaces de npm**: instalar y ejecutar ambos servidores desde la raiz con un solo comando.
-- **Arquitectura en capas en el backend** (`routes` → `controllers` → `services` → `models`): separacion de responsabilidades para facilitar el mantenimiento.
-- **Middlewares de errores al final de la cadena**: `notFound` responde 404 con formato JSON y `errorHandler` oculta el `stack` en produccion (`NODE_ENV=production`) pero lo muestra en desarrollo para facilitar el debugging.
-- **CORS habilitado** en la API para permitir el consumo desde el cliente en desarrollo.
-- **Proxy de Vite** (`/api` → `http://localhost:5000`) en lugar de configurar manualmente la URL del backend en cada request.
-- **ESM en backend y cliente** como convencion moderna de Node.
-
-## Tecnologias utilizadas
-
-- HTML5
-- CSS3
-- JavaScript
-- React
-- Express
-
-## Integrantes del proyecto
-
-1. Fernanda Arenas
-2. Vargas Valentina
-3. Ezequiel Zalazar
-4. Santiago Bonanno
-5. Lucia Rivero
-
-
-## API REST – Endpoints de productos
-
-La API utiliza la ruta base `/api/productos` para administrar los productos.
-
-### 1. Crear producto
-
-**Método:** POST
-
-**Ruta:** `/api/productos`
-
-**Body (JSON):**
-```json
-{
-  "nombre": "Mesa de centro",
-  "descripcion": "Mesa de madera de nogal",
-  "precio": 320000,
-  "stock": 5,
-  "imagenUrl": "/Imagenes/mesa.png"
-}
+```
+├── backend/                # API REST (Express + Mongoose)
+│   ├── config/             # Configuración de base de datos
+│   ├── controllers/        # Controladores (auth, pedidos, productos)
+│   ├── data/               # Datos iniciales para seed
+│   ├── middlewares/        # auth, logger, notFound, errorHandler
+│   ├── models/             # Modelos Mongoose (User, Product, Order, Categoria)
+│   ├── routes/             # Definición de endpoints de Express
+│   ├── test/               # Pruebas automatizadas (contrato y autenticación)
+│   ├── index.js            # Punto de entrada de la API
+│   └── seed.js             # Script de poblado inicial de datos
+├── client/                 # Aplicación SPA (React 19 + Vite)
+│   ├── public/             # Archivos estáticos y _redirects
+│   ├── src/
+│   │   ├── components/     # Componentes reutilizables (Navbar, Footer, etc.)
+│   │   ├── context/        # Contextos globales (AuthContext, CartContext)
+│   │   ├── hooks/          # Custom hooks (useAuth, useApiResource)
+│   │   ├── pages/          # Vistas (Home, Products, Cart, Login, Registro, etc.)
+│   │   ├── services/       # Clientes HTTP (api.js, usuarioService, etc.)
+│   │   └── utils/          # Helpers y almacenamiento de tokens
+│   └── index.html          # HTML principal
+└── vercel.json             # Configuración de enrutamiento SPA para Vercel
 ```
 
-**Respuestas:** `201 Created` producto creado; `400 Bad Request` datos inválidos.
+---
 
-### 2. Obtener todos los productos
+## API REST — Endpoints Principales
 
-**Método:** GET
+### 1. Autenticación y Usuarios (`/api/usuarios`)
+- `POST /api/usuarios/registro`: Registra un nuevo usuario con rol `cliente`. Devuelve `201 Created`.
+- `POST /api/usuarios/login`: Valida credenciales y retorna `{ token, usuario }`. Devuelve `200 OK`.
+- `GET /api/usuarios/perfil`: Retorna el perfil del usuario autenticado. Requiere `Authorization: Bearer <token>`.
 
-**Ruta:** `/api/productos`
+### 2. Pedidos y Compras (`/api/pedidos`)
+- `POST /api/pedidos`: Crea una orden de compra vinculada al usuario autenticado a partir de los ítems del carrito. Requiere `Authorization: Bearer <token>`. Devuelve `201 Created`.
+- `GET /api/pedidos/mis-pedidos`: Lista el historial de pedidos del usuario autenticado ordenados del más reciente al más antiguo. Requiere `Authorization: Bearer <token>`. Devuelve `200 OK`.
 
-**Body:** No requiere.
+### 3. Productos (`/api/productos`)
+- `GET /api/productos`: Lista todos los productos disponibles (público).
+- `GET /api/productos/:id`: Obtiene el detalle de un producto por su ID (público).
+- `POST /api/productos`: Crea un nuevo producto (requiere rol `admin`). Devuelve `201 Created`.
+- `PUT /api/productos/:id`: Modifica un producto existente (requiere rol `admin`). Devuelve `200 OK`.
+- `DELETE /api/productos/:id`: Elimina un producto por ID (requiere rol `admin`). Devuelve `200 OK`.
 
-**Respuestas:** `200 OK` devuelve el listado de productos.
-
-### 3. Obtener un producto por ID
-
-**Método:** GET
-
-**Ruta:** `/api/productos/:id`
-
-**Body:** No requiere.
-
-**Respuestas:** `200 OK` producto encontrado; `400 Bad Request` ID inválido; `404 Not Found` producto inexistente.
-
-### 4. Actualizar un producto
-
-**Método:** PUT
-
-**Ruta:** `/api/productos/:id`
-
-**Body (JSON):**
-```json
-{
-  "nombre": "Mesa de centro actualizada",
-  "precio": 350000,
-  "stock": 8
-}
-```
-
-**Respuestas:** `200 OK` producto actualizado; `400 Bad Request` ID o datos inválidos; `404 Not Found` producto inexistente.
-
-### 5. Eliminar un producto
-
-**Método:** DELETE
-
-**Ruta:** `/api/productos/:id`
-
-**Body:** No requiere.
-
-**Respuestas:**
-- `200 OK`: producto eliminado correctamente.
-- `400 Bad Request`: ID de producto inválido.
-- `404 Not Found`: producto no encontrado.
+---
 
 ## Pruebas automatizadas
 
-Para ejecutar las pruebas del backend:
+El proyecto incluye suites completas de pruebas automáticas para verificar contratos y seguridad:
 
+### Pruebas de contrato de productos
 ```bash
-npm run test -w @muebleria/backend
+npm run test
 ```
 
-Se verifican los siguientes casos:
-- Eliminación de un producto existente: respuesta 200.
-- Segundo intento de eliminación: respuesta 404.
-- Envío de un ID inválido: respuesta 400.
+### Pruebas de contrato de autenticación y roles (12 de 12)
+Con el servidor backend iniciado en otra terminal:
+```bash
+npm run test:auth
+```
 
-## Carga de productos de prueba
+---
 
-Para cargar los productos de ejemplo en MongoDB:
+## Datos de prueba y Cuentas de Acceso
+
+Para poblar la base de datos con las categorías, el catálogo oficial de 11 muebles y los usuarios de prueba:
 
 ```bash
 npm run seed -w @muebleria/backend
 ```
 
-El proceso agrega los productos que todavía no existen, evitando duplicados.
+### Cuentas de prueba disponibles:
+
+| Rol | Correo electrónico | Contraseña | Permisos |
+|---|---|---|---|
+| **Administrador** | `admin@hermanosjota.com` | `Admin1234!` | Acceso completo (CRUD de productos, compras, perfil y pedidos). |
+| **Cliente** | `cliente@hermanosjota.com` | `Cliente1234!` | Acceso de cliente (navegación, carrito, checkout, perfil y mis pedidos). |
+
+---
+
+## Tecnologías utilizadas
+
+- **Base de datos:** MongoDB Atlas, Mongoose
+- **Backend:** Node.js, Express 4/5, JSON Web Token (jsonwebtoken), Bcrypt / Bcryptjs, CORS, Dotenv
+- **Frontend:** React 19, React Router 7, Vite
+- **Estilos:** CSS3 nativo con variables personalizadas y diseño responsive
+- **Testing:** Test Runner nativo de Node.js (`node:test`, `node:assert`)
+- **Despliegue:** Vercel (Frontend), Render (Backend)
+
+---
+
+## Integrantes del equipo
+
+1. **Fernanda Arenas**
+2. **Valentina Vargas**
+3. **Ezequiel Zalazar**
+4. **Santiago Bonanno**
+5. **Lucia Rivero**

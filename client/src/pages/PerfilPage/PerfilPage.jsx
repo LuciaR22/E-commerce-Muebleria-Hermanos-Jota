@@ -57,11 +57,6 @@ export default function PerfilPage() {
 
                 <dl className="perfil-data-list">
                     <div className="perfil-data-item">
-                        <dt>ID</dt>
-                        <dd>{perfil._id}</dd>
-                    </div>
-
-                    <div className="perfil-data-item">
                         <dt>Nombre</dt>
                         <dd>{perfil.nombre}</dd>
                     </div>
