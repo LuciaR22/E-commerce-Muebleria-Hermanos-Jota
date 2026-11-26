@@ -1,106 +1,86 @@
-const Order = require('../models/order');
-const product = require('../models/Product');
+import Order from "../models/order.js";
+import Product from "../models/Product.js";
 
+/**
+ * POST /api/pedidos
+ * Crea un pedido a nombre del usuario autenticado.
+ */
+export const crearPedido = async (req, res, next) => {
+    try {
+        const { items } = req.body ?? {};
+        const usuarioId = req.usuario.id;
 
-// POST /api/pedidos
-const crearPedido = async (req, res) => {
-  try {
-    // 1. Obtener los ítems enviados por el cliente y el ID del usuario autenticado
-    const { items } = req.body;
-    const usuarioId = req.user.id; // Asignado previamente por el middleware verificarToken
+        // validar que items sea un array no vacío
+        if (!Array.isArray(items) || items.length === 0) {
+            return res
+                .status(400)
+                .json({ error: "El carrito no puede estar vacío" });
+        }
 
-    // 2. Validación de entrada: verificar que items sea un array y no esté vacío
-    if (!items || !Array.isArray(items) || items.length === 0) {
-      return res.status(400).json({ 
-        mensaje: 'El carrito no puede estar vacío y debe contener un listado de ítems.' 
-      });
-    }
+        // validar que cada ítem tenga productoId y cantidad entera > 0
+        for (const item of items) {
+            if (
+                !item.productoId ||
+                !Number.isInteger(item.cantidad) ||
+                item.cantidad <= 0
+            ) {
+                return res.status(400).json({
+                    error: "Cada ítem debe incluir un productoId válido y una cantidad entera mayor a 0",
+                });
+            }
+        }
 
-    // 3. Validar las cantidades de cada ítem
-    for (const item of items) {
-      if (!item.productoId || !item.cantidad || !Number.isInteger(item.cantidad) || item.cantidad <= 0) {
-        return res.status(400).json({ 
-          mensaje: 'Cada ítem debe incluir un productoId válido y una cantidad entera mayor a 0.' 
+        // buscar productos en la BD, armar items con precios reales y calcular total
+        const itemsProcesados = [];
+        let total = 0;
+
+        for (const item of items) {
+            const productoBD = await Product.findById(item.productoId);
+
+            if (!productoBD) {
+                return res.status(400).json({
+                    error: `El producto con ID ${item.productoId} no existe`,
+                });
+            }
+
+            const subtotal = productoBD.precio * item.cantidad;
+            total += subtotal;
+
+            itemsProcesados.push({
+                producto: productoBD._id,
+                nombre: productoBD.nombre,
+                precio: productoBD.precio,
+                cantidad: item.cantidad,
+            });
+        }
+
+        // crear el pedido
+        const pedido = await Order.create({
+            usuario: usuarioId,
+            items: itemsProcesados,
+            total,
         });
-      }
+
+        return res.status(201).json({ pedido });
+    } catch (error) {
+        return next(error);
     }
-
-    // 4. Procesar los productos desde la Base de Datos para armar los ítems finales y calcular el total
-    const itemsProcesados = [];
-    let totalCalculado = 0;
-
-    for (const item of items) {
-      // Buscamos el producto real en la BD usando su ID
-      const productoBD = await Product.findById(item.productoId);
-
-      // Si algún producto enviado no existe en la BD, respondemos error 400
-      if (!productoBD) {
-        return res.status(400).json({ 
-          mensaje: `El producto con ID ${item.productoId} no existe en nuestro catálogo.` 
-        });
-      }
-
-      // Tomamos el precio real de la BD y calculamos el subtotal de este producto
-      const precioReal = productoBD.precio;
-      const subtotal = precioReal * item.cantidad;
-
-      // Sumamos al total general del backend
-      totalCalculado += subtotal;
-
-      // Guardamos la estructura final del ítem como la requiere nuestro modelo Order
-      itemsProcesados.push({
-        producto: productoBD._id,
-        nombre: productoBD.nombre,
-        precio: precioReal,
-        cantidad: item.cantidad
-      });
-    }
-
-    // 5. Crear la nueva orden en la base de datos
-    const nuevoPedido = new Order({
-      usuario: usuarioId,
-      items: itemsProcesados,
-      total: totalCalculado
-    });
-
-    // Guardar en MongoDB
-    await nuevoPedido.save();
-
-    // 6. Responder con status 201 Created y la orden generada
-    return res.status(201).json({
-      mensaje: 'Pedido creado exitosamente',
-      pedido: nuevoPedido
-    });
-
-  } catch (error) {
-    // Si ocurre un error de ID mal formado (ej. cadena no válida para ObjectId de Mongo)
-    if (error.name === 'CastError') {
-      return res.status(400).json({ mensaje: 'ID de producto con formato inválido.' });
-    }
-
-    return res.status(500).json({ 
-      mensaje: 'Error al procesar el pedido', 
-      error: error.message 
-    });
-  }
 };
-// GET /api/pedidos/mis-pedidos
-const obtenerMisPedidos = async (req, res) => {
-  try {
-    // 1. Obtener el ID del usuario autenticado (inyectado por verificarToken)
-    const usuarioId = req.user.id;
 
-    // 2. Buscar en la BD solo los pedidos creados por este usuario
-    // .sort({ createdAt: -1 }) ordena los pedidos desde el más reciente al más antiguo
-    const pedidos = await Order.find({ usuario: usuarioId }).sort({ createdAt: -1 });
+/**
+ * GET /api/pedidos/mis-pedidos
+ * Devuelve solo los pedidos del usuario autenticado, del más reciente al más antiguo.
+ */
+export const obtenerMisPedidos = async (req, res, next) => {
+    try {
+        const usuarioId = req.usuario.id;
 
-    // 3. Responder con status 200 OK y el listado de pedidos
-    return res.status(200).json(pedidos);
+        const pedidos = await Order.find({ usuario: usuarioId }).sort({
+            createdAt: -1,
+        });
 
-  } catch (error) {
-    return res.status(500).json({ 
-      mensaje: 'Error al obtener los pedidos del usuario', 
-      error: error.message 
-    });
-  }
+        return res.status(200).json(pedidos);
+    } catch (error) {
+        return next(error);
+    }
 };

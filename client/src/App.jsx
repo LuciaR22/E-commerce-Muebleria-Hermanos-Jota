@@ -15,6 +15,7 @@ import LoginPage from "./pages/LoginPage/LoginPage.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import PerfilPage from "./pages/PerfilPage/PerfilPage.jsx";
 import ProductsPage from "./pages/ProductsPage";
+import MisPedidos from "./pages/MisPedidos/MisPedidos.jsx";
 import Registro from "./pages/Registro.jsx";
 
 export default function App() {
@@ -50,6 +51,7 @@ export default function App() {
                         <Route path="/admin/crear-producto" element={<CrearProducto />} />
                         <Route path="/admin/editar-producto/:id" element={<EditarProducto />} />
                         <Route path="/perfil" element={<PerfilPage />} />
+                        <Route path="/mis-pedidos" element={<MisPedidos />} />
                     </Route>
 
                     <Route path="*" element={<NotFound />} />
