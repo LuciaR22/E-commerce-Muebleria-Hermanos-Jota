@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 import ApiState from "../components/ApiState";
 import ProductCard from "../components/ProductCard";
 import useApiResource from "../hooks/useApiResource";
@@ -6,6 +7,7 @@ import productosService from "../services/productosService";
 
 export default function HomePage() {
     const navegar = useNavigate();
+    const { isAdmin, usuario } = useAuth();
     const { data: productosData, status, error, retry } = useApiResource(() => productosService.getProductos(), []);
     const productos = Array.isArray(productosData) ? productosData : [];
     const destacados = productos.slice(0, 4);
