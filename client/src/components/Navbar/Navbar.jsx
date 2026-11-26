@@ -37,12 +37,22 @@ export default function Navbar({ cartCount: cartCountProp }) {
                 Productos
               </NavLink>
             </li>
+
+  
+          {!isAdmin && (
+  <li className="navbar__item">
+    <NavLink to="/contacto" className="navbar__link" activeClassName="navbar__link--active">
+      Contacto
+    </NavLink>
+  </li>
+)}
           </ul>
         </nav>
 
         {/* Right: user area & cart */}
         <div className="navbar__right">
-          {/* Auth links */}
+            
+
           {!isAuthenticated && (
             <ul className="navbar__auth-list">
               <li className="navbar__auth-item">
@@ -55,22 +65,22 @@ export default function Navbar({ cartCount: cartCountProp }) {
                   Registrarse
                 </NavLink>
               </li>
-            </ul>
+            
+          </ul>
           )}
 
-          {isAuthenticated && usuario && (
-            <div className="navbar__user">
-              <span className="navbar__greeting">Hola, {usuario.nombre}!</span>
-              {isAdmin && (
-                <Link to="/admin/crear-producto" className="navbar__admin-btn">
-                  + Nuevo producto
-                </Link>
-              )}
-              <button type="button" className="navbar__logout" onClick={handleLogout}>
-                Cerrar sesión
-              </button>
-            </div>
-          )}
+          {isAuthenticated && (
+              <div className="navbar__user">
+                {isAdmin && (
+                  <Link to="/admin/crear-producto" className="navbar__admin-btn">
+                    + Nuevo producto
+                  </Link>
+                )}
+                <button type="button" className="navbar__logout" onClick={handleLogout}>
+                  Cerrar sesión
+                </button>
+              </div>
+            )}
 
           {/* Cart button */}
           <Link

@@ -201,6 +201,16 @@
 }
 
 /* Adaptabilidad Mobile */
+
+/* Hero greeting styling */
+.hero__greeting {
+  margin-left: 0.5rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  font-size: 0.9rem;
+}
+
+/* Adaptabilidad Mobile */
 @media (max-width: 768px) {
   .navbar__center .navbar__list {
     display: none;
